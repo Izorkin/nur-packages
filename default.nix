@@ -1,9 +1,9 @@
 { pkgs ? import <nixpkgs> {} }:
 
 rec {
-  lib = import ./lib { inherit pkgs; };
-  modules = import ./modules;
-  overlays = import ./overlays;
+  lib              = import ./lib { inherit pkgs; };
+  modules          = import ./modules;
+  overlays         = import ./overlays;
 
   multichain       = pkgs.callPackage ./pkgs/apps/altcoins/multichain.nix { };
   omnicore         = pkgs.callPackage ./pkgs/apps/altcoins/omnicore.nix { };
@@ -12,5 +12,6 @@ rec {
   oh-my-zsh-custom = pkgs.callPackage ./pkgs/shells/oh-my-zsh-custom { };
   curl             = pkgs.callPackage ./pkgs/tools/curl { openssl = pkgs.libressl; inherit libssh2; brotliSupport = true; scpSupport = true; sslSupport = true; zlibSupport = true; };
   fail2ban         = pkgs.callPackage ./pkgs/tools/fail2ban { };
-}
 
+  inherit           (pkgs.callPackage ./pkgs/development/php { openssl = pkgs.libressl; inherit curl; config.php.ldap = false; config.php.postgresql = false; config.php.pdo_pgsql = false; config.php.mssql = false; config.php.zts = true; }) php56;
+}
