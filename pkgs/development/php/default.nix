@@ -229,4 +229,9 @@ in {
     version = "7.1.20";
     sha256 = "0i8xd6p4zdg8fl6f0j430raanlshsshr3s3jlm72b0gvi1n4f6rs";
   };
+
+  php72 = generic {
+    version = "7.2.8";
+    sha256 = "1rky321gcvjm0npbfd4bznh36an0y14viqcvn4yzy3x643sni00z";
+  };
 }
