@@ -224,4 +224,9 @@ in {
     version = "5.6.37";
     sha256 = "08wbg1qbbr80wcpv0l24vfyd9w8cxanils928gjs6knr0lyxcsl8";
   };
+
+  php71 = generic {
+    version = "7.1.20";
+    sha256 = "0i8xd6p4zdg8fl6f0j430raanlshsshr3s3jlm72b0gvi1n4f6rs";
+  };
 }
