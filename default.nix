@@ -10,6 +10,7 @@ rec {
   libssh2          = pkgs.callPackage ./pkgs/development/libssh2 { openssl = pkgs.libressl; };
   mariadb          = pkgs.callPackage ./pkgs/servers/mariadb { openssl = pkgs.libressl; asio = pkgs.asio_1_10; inherit (pkgs.darwin) cctools; inherit (pkgs.darwin.apple_sdk.frameworks) CoreServices; };
   oh-my-zsh-custom = pkgs.callPackage ./pkgs/shells/oh-my-zsh-custom { };
+  curl             = pkgs.callPackage ./pkgs/tools/curl { openssl = pkgs.libressl; inherit libssh2; brotliSupport = true; scpSupport = true; sslSupport = true; zlibSupport = true; };
   fail2ban         = pkgs.callPackage ./pkgs/tools/fail2ban { };
 }
 
