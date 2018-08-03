@@ -14,4 +14,6 @@ rec {
   fail2ban         = pkgs.callPackage ./pkgs/tools/fail2ban { };
 
   inherit           (pkgs.callPackage ./pkgs/development/php { openssl = pkgs.libressl; inherit curl; config.php.ldap = false; config.php.postgresql = false; config.php.pdo_pgsql = false; config.php.mssql = false; config.php.zts = true; }) php56 php71 php72;
+  php56Packages    = pkgs.recurseIntoAttrs (pkgs.callPackage ./pkgs/development/php/php56-packages.nix { php = php56; });
+
 }
