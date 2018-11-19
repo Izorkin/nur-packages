@@ -55,7 +55,7 @@ let
   };
 
   igbinary = buildPecl {
-    name = "igbinary-2.0.7";
+    name = "igbinary-2.0.8";
 
     configureFlags = [ "--enable-igbinary" ];
 
@@ -63,7 +63,7 @@ let
 
     outputs = [ "out" "dev" ];
 
-    sha256 = "00gq205g2yq4psisla5wg1l0igm5b28gkx88xzgmffhgpn8wxp8c";
+    sha256 = "105nyn703k9p9c7wwy6npq7xd9mczmmlhyn0gn2v2wz0f88spjxs";
   };
 
   imagick = buildPecl {
