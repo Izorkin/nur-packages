@@ -1,5 +1,5 @@
 # pcre functionality is tested in nixos/tests/php-pcre.nix
-{ lib, stdenv, fetchurl, flex, bison
+{ lib, stdenv, fetchurl, flex, bison, autoconf
 , mysql, libxml2, readline, zlib, curl, postgresql, gettext
 , openssl, pcre, pcre2, pkgconfig, sqlite, config, libjpeg, libpng, freetype
 , libxslt, libmcrypt, bzip2, icu, openldap, cyrus_sasl, libmhash, freetds
@@ -13,6 +13,7 @@ let
   generic =
   { version
   , sha256
+  , extraPatches ? []
   , withSystemd ? config.php.systemd or stdenv.isLinux
   , imapSupport ? config.php.imap or (!stdenv.isDarwin)
   , ldapSupport ? config.php.ldap or true
@@ -68,7 +69,7 @@ let
 
       enableParallelBuilding = true;
 
-      nativeBuildInputs = [ pkgconfig ];
+      nativeBuildInputs = [ pkgconfig autoconf ];
       buildInputs = [ flex bison ]
         ++ optional (versionOlder version "7.3") pcre
         ++ optional (versionAtLeast version "7.3") pcre2
@@ -103,7 +104,6 @@ let
         ++ optional libzipSupport libzip;
 
       CXXFLAGS = optional stdenv.cc.isClang "-std=c++11";
-
 
       configureFlags = [
         "--with-config-file-scan-dir=/etc/php.d"
@@ -189,6 +189,8 @@ let
 
         configureFlags+=(--with-config-file-path=$out/etc \
           --includedir=$dev/include)
+
+        ./buildconf --force
       '';
 
       postInstall = ''
@@ -217,7 +219,7 @@ let
         outputsToInstall = [ "out" "dev" ];
       };
 
-      patches = if !php7 then [ ./fix-paths.patch ] else [ ./fix-paths-php7.patch ];
+      patches = if !php7 then [ ./fix-paths-php5.patch ] else [ ./fix-paths-php7.patch ] ++ extraPatches;
 
       postPatch = optional stdenv.isDarwin ''
         substituteInPlace configure --replace "-lstdc++" "-lc++"
