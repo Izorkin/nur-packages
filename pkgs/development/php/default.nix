@@ -13,6 +13,7 @@ let
   generic =
   { version
   , sha256
+  , withSystemd ? config.php.systemd or stdenv.isLinux
   , imapSupport ? config.php.imap or (!stdenv.isDarwin)
   , ldapSupport ? config.php.ldap or true
   , mhashSupport ? config.php.mhash or true
@@ -71,7 +72,7 @@ let
       buildInputs = [ flex bison ]
         ++ optional (versionOlder version "7.3") pcre
         ++ optional (versionAtLeast version "7.3") pcre2
-        ++ optional stdenv.isLinux systemd
+        ++ optional withSystemd systemd
         ++ optionals imapSupport [ uwimap openssl pam ]
         ++ optionals curlSupport [ curl openssl ]
         ++ optionals ldapSupport [ openldap openssl ]
@@ -110,7 +111,7 @@ let
       ++ optional (versionOlder version "7.3") "--with-pcre-regex=${pcre.dev} PCRE_LIBDIR=${pcre}"
       ++ optional (versionAtLeast version "7.3") "--with-pcre-regex=${pcre2.dev} PCRE_LIBDIR=${pcre2}"
       ++ optional stdenv.isDarwin "--with-iconv=${libiconv}"
-      ++ optional stdenv.isLinux  "--with-fpm-systemd"
+      ++ optional withSystemd "--with-fpm-systemd"
       ++ optionals imapSupport [
         "--with-imap=${uwimap}"
         "--with-imap-ssl"
