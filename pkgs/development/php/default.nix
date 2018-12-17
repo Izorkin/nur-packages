@@ -56,6 +56,11 @@ let
   , tidySupport ? (config.php.tidy or false)
   , argon2Support ? (config.php.argon2 or true) && (versionAtLeast version "7.2")
   , libzipSupport ? (config.php.libzip or true) && (versionAtLeast version "7.3")
+  , phpdbgSupport ? config.php.phpdbg or true
+  , cgiSupport ? config.php.cgi or true
+  , cliSupport ? config.php.cli or true
+  , pharSupport ? config.php.phar or true
+  , xmlrpcSupport ? config.php.xmlrpc or false
   }:
 
     let
@@ -169,7 +174,13 @@ let
       ++ optional sodiumSupport "--with-sodium=${libsodium.dev}"
       ++ optional tidySupport "--with-tidy=${html-tidy}"
       ++ optional argon2Support "--with-password-argon2=${libargon2}"
-      ++ optional libzipSupport "--with-libzip=${libzip.dev}";
+      ++ optional libzipSupport "--with-libzip=${libzip.dev}"
+      ++ optional phpdbgSupport "--enable-phpdbg"
+      ++ optional (!phpdbgSupport) "--disable-phpdbg"
+      ++ optional (!cgiSupport) "--disable-cgi"
+      ++ optional (!cliSupport) "--disable-cli"
+      ++ optional (!pharSupport) "--disable-phar"
+      ++ optional xmlrpcSupport "--with-xmlrpc";
 
       hardeningDisable = [ "bindnow" ];
 
@@ -194,6 +205,7 @@ let
       '';
 
       postInstall = ''
+        test -d $out/etc || mkdir $out/etc
         cp php.ini-production $out/etc/php.ini
       '';
 
