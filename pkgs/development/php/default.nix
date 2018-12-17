@@ -28,7 +28,6 @@ let
   , bcmathSupport ? config.php.bcmath or true
   , socketsSupport ? config.php.sockets or true
   , curlSupport ? config.php.curl or true
-  , curlWrappersSupport ? (config.php.curlWrappers or true) && (!php7)
   , gettextSupport ? config.php.gettext or true
   , pcntlSupport ? config.php.pcntl or true
   , postgresqlSupport ? config.php.postgresql or true
@@ -132,7 +131,6 @@ let
       ++ optional embedSupport "--enable-embed"
       ++ optional mhashSupport "--with-mhash"
       ++ optional curlSupport "--with-curl=${curl.dev}"
-      ++ optional curlWrappersSupport "--with-curlwrappers"
       ++ optional zlibSupport "--with-zlib=${zlib.dev}"
       ++ optional libxml2Support "--with-libxml-dir=${libxml2.dev}"
       ++ optional pcntlSupport "--enable-pcntl"
