@@ -252,6 +252,9 @@ in {
   php71 = generic {
     version = "7.1.25";
     sha256 = "1b5az5vhap593ggjxirs1zdlg20hcv9h94iq5kgaxky71a4dqb00";
+
+    # https://bugs.php.net/bug.php?id=76826
+    extraPatches = optional stdenv.isDarwin ./php71-darwin-isfinite.patch;
   };
 
   php72 = generic {
@@ -259,7 +262,9 @@ in {
     sha256 = "0bg9nfc250p24hxn4bdjz7ngcw75h8rpf4qjxqzcs6s9fvxlcjjv";
 
     # https://bugs.php.net/bug.php?id=71041
-    extraPatches = [ ./fix-bug-71041.patch ];
+    # https://bugs.php.net/bug.php?id=76826
+    extraPatches = [ ./fix-bug-71041.patch ]
+      ++ optional stdenv.isDarwin ./php72-darwin-isfinite.patch;
   };
 
   php73 = generic {
@@ -267,6 +272,8 @@ in {
     sha256 = "0rvwx37dsmxivgrf4wfc1y778iln498c6a40biy9k6lnr6p7s9ks";
 
     # https://bugs.php.net/bug.php?id=71041
-    extraPatches = [ ./fix-bug-71041.patch ];
+    # https://bugs.php.net/bug.php?id=76826
+    extraPatches = [ ./fix-bug-71041.patch ]
+      ++ optional stdenv.isDarwin ./php73-darwin-isfinite.patch;
   };
 }
