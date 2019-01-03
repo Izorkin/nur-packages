@@ -1,7 +1,7 @@
 function vcs_info() {
-  test -d ".bzr" && bzr_prompt_info
-  test -d ".git" && git_prompt_info
-  test -d ".hg" && hg_prompt_info
+  test -d ".bzr" && which bzr >/dev/null 2>&1 && bzr_prompt_info
+  test -d ".git" && which git >/dev/null 2>&1 && git_prompt_info
+  test -d ".hg"  && which hg  >/dev/null 2>&1 && hg_prompt_info
 }
 
 function retcode() {
