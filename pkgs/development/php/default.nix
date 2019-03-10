@@ -2,8 +2,9 @@
 { lib, stdenv, fetchurl, flex, bison, autoconf
 , mysql, libxml2, readline, zlib, curl, postgresql, gettext
 , openssl, pcre, pcre2, pkgconfig, sqlite, config, libjpeg, libpng, freetype
-, libxslt, libmcrypt, bzip2, icu, openldap, cyrus_sasl, libmhash, freetds
-, uwimap, pam, gmp, apacheHttpd, libiconv, systemd, libsodium, html-tidy, libargon2, libzip
+, libxslt, libmcrypt, bzip2, icu, openldap, cyrus_sasl, libmhash, unixODBC, freetds
+, uwimap, pam, gmp, apacheHttpd, libiconv, systemd, libsodium, html-tidy, libargon2
+, libzip, re2c, valgrind
 }:
 
 with lib;
@@ -30,6 +31,7 @@ let
   , curlSupport ? config.php.curl or true
   , gettextSupport ? config.php.gettext or true
   , pcntlSupport ? config.php.pcntl or true
+  , pdo_odbcSupport ? config.php.pdo_odbc or true
   , postgresqlSupport ? config.php.postgresql or true
   , pdo_pgsqlSupport ? config.php.pdo_pgsql or true
   , readlineSupport ? config.php.readline or true
@@ -54,12 +56,16 @@ let
   , sodiumSupport ? (config.php.sodium or true) && (versionAtLeast version "7.2")
   , tidySupport ? (config.php.tidy or false)
   , argon2Support ? (config.php.argon2 or true) && (versionAtLeast version "7.2")
-  , libzipSupport ? (config.php.libzip or true) && (versionAtLeast version "7.3")
+  , libzipSupport ? (config.php.libzip or true) && (versionAtLeast version "7.2")
   , phpdbgSupport ? config.php.phpdbg or true
   , cgiSupport ? config.php.cgi or true
   , cliSupport ? config.php.cli or true
   , pharSupport ? config.php.phar or true
   , xmlrpcSupport ? (config.php.xmlrpc or false) && (libxml2Support)
+  , re2cSupport ? config.php.re2c or true
+  , cgotoSupport ? (config.php.cgoto or false) && (re2cSupport)
+  , valgrindSupport ? (config.php.valgrind or true) && (versionAtLeast version "7.2")
+  , valgrindPcreSupport ? (config.php.valgrindPcreSupport or false) && (valgrindSupport) && (versionAtLeast version "7.2")
   }:
 
     let
@@ -91,6 +97,7 @@ let
         ++ optional readlineSupport readline
         ++ optional sqliteSupport sqlite
         ++ optional postgresqlSupport postgresql
+        ++ optional pdo_odbcSupport unixODBC
         ++ optional pdo_pgsqlSupport postgresql
         ++ optional pdo_mysqlSupport mysqlBuildInputs
         ++ optional mysqlSupport mysqlBuildInputs
@@ -105,7 +112,9 @@ let
         ++ optional sodiumSupport libsodium
         ++ optional tidySupport html-tidy
         ++ optional argon2Support libargon2
-        ++ optional libzipSupport libzip;
+        ++ optional libzipSupport libzip
+        ++ optional re2cSupport re2c
+        ++ optional valgrindSupport valgrind;
 
       CXXFLAGS = optional stdenv.cc.isClang "-std=c++11";
 
@@ -146,6 +155,7 @@ let
       ++ optional readlineSupport "--with-readline=${readline.dev}"
       ++ optional sqliteSupport "--with-pdo-sqlite=${sqlite.dev}"
       ++ optional postgresqlSupport "--with-pgsql=${postgresql}"
+      ++ optional pdo_odbcSupport "--with-pdo-odbc=unixODBC,${unixODBC}"
       ++ optional pdo_pgsqlSupport "--with-pdo-pgsql=${postgresql}"
       ++ optional pdo_mysqlSupport "--with-pdo-mysql=${if mysqlndSupport then "mysqlnd" else mysql.connector-c}"
       ++ optional mysqlSupport "--with-mysql${if mysqlndSupport then "=mysqlnd" else ""}"
@@ -187,7 +197,10 @@ let
       ++ optional (!cgiSupport) "--disable-cgi"
       ++ optional (!cliSupport) "--disable-cli"
       ++ optional (!pharSupport) "--disable-phar"
-      ++ optional xmlrpcSupport "--with-xmlrpc";
+      ++ optional xmlrpcSupport "--with-xmlrpc"
+      ++ optional cgotoSupport "--enable-re2c-cgoto"
+      ++ optional valgrindSupport "--with-valgrind=${valgrind.dev}"
+      ++ optional valgrindPcreSupport "--with-pcre-valgrind";
 
       hardeningDisable = [ "bindnow" ];
 
