@@ -1,19 +1,14 @@
 self: super:
 
 let
-  filterSet =
-    (f: g: s: builtins.listToAttrs
-      (map
-        (n: { name = n; value = builtins.getAttr n s; })
-        (builtins.filter
-          (n: f n && g (builtins.getAttr n s))
-          (builtins.attrNames s)
-        )
-      )
-    );
-  isReserved = n: builtins.elem n ["lib" "overlays" "modules"];
-in filterSet
-     (n: !(isReserved n)) # filter out non-packages
-     (p: true) # all packages are ok
-     (import ./default.nix { pkgs = super; })
 
+  isReserved = n: n == "lib" || n == "overlays" || n == "modules";
+  nameValuePair = n: v: { name = n; value = v; };
+  nurAttrs = import ./default.nix { pkgs = super; };
+
+in
+
+  builtins.listToAttrs
+  (map (n: nameValuePair n nurAttrs.${n})
+  (builtins.filter (n: !isReserved n)
+  (builtins.attrNames nurAttrs)))
