@@ -126,9 +126,9 @@ let
   };
 
   yaml = buildPecl {
-    name = "yaml-1.3.1";
+    name = "yaml-1.3.2";
 
-    sha256 = "1fbmgsgnd6l0d4vbjaca0x9mrfgl99yix5yf0q0pfcqzfdg4bj8q";
+    sha256 = "16jr5v3pff3f1yd61hh4pb279ivb7np1kf8mhvfw16g0fsvx33js";
 
     configureFlags = [
       "--with-yaml=${pkgs.libyaml}"
