@@ -117,9 +117,9 @@ let
   };
 
   xdebug = buildPecl {
-    name = "xdebug-2.3.3";
+    name = "xdebug-2.5.5";
 
-    sha256 = "1qyz1imkr9k3sk4h4w2rslhsa4phk0y51x4lphnj8v8k4fdx0yxj";
+    sha256 = "197i1fcspbrdxki6rljvpjdxzhyaxl7nlihhiqcyfkjipkr8n43j";
 
     doCheck = true;
     checkTarget = "test";
