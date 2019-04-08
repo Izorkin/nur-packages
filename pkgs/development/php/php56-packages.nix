@@ -13,6 +13,61 @@ let
     buildInputs = [ pkgs.pcre ];
   };
 
+  box = pkgs.stdenv.mkDerivation rec {
+    name = "box-${version}";
+    version = "2.7.5";
+
+    src = pkgs.fetchurl {
+      url = "https://github.com/box-project/box2/releases/download/${version}/box-${version}.phar";
+      sha256 = "1zmxdadrv0i2l8cz7xb38gnfmfyljpsaz2nnkjzqzksdmncbgd18";
+    };
+
+    phases = [ "installPhase" ];
+    buildInputs = [ pkgs.makeWrapper ];
+
+    installPhase = ''
+      mkdir -p $out/bin
+      install -D $src $out/libexec/box/box.phar
+      makeWrapper ${php}/bin/php $out/bin/box \
+        --add-flags "-d phar.readonly=0 $out/libexec/box/box.phar"
+    '';
+
+    meta = with pkgs.lib; {
+      description = "An application for building and managing Phars";
+      license = licenses.mit;
+      homepage = https://box-project.github.io/box2/;
+      maintainers = with maintainers; [ jtojnar ];
+    };
+  };
+
+  composer = pkgs.stdenv.mkDerivation rec {
+    name = "composer-${version}";
+    version = "1.8.4";
+
+    src = pkgs.fetchurl {
+      url = "https://getcomposer.org/download/${version}/composer.phar";
+      sha256 = "12h5vqwhklxvwrplggzjl21n6kb972pwkj9ivmn2vbxyixn848hp";
+    };
+
+    unpackPhase = ":";
+
+    buildInputs = [ pkgs.makeWrapper ];
+
+    installPhase = ''
+      mkdir -p $out/bin
+      install -D $src $out/libexec/composer/composer.phar
+      makeWrapper ${php}/bin/php $out/bin/composer \
+        --add-flags "$out/libexec/composer/composer.phar"
+    '';
+
+    meta = with pkgs.lib; {
+      description = "Dependency Manager for PHP";
+      license = licenses.mit;
+      homepage = https://getcomposer.org/;
+      maintainers = with maintainers; [ globin offline ];
+    };
+  };
+
   couchbase = buildPecl rec {
     name = "couchbase-${version}";
     version = "2.6.0";
@@ -52,6 +107,15 @@ let
              AC_MSG_WARN([Cannot find igbinary.h])
       '')
     ];
+  };
+
+  geoip = buildPecl {
+    name = "geoip-1.1.1";
+    sha256 = "01hgijn91an7gf0fva5fk3paag6lvfh7ynlv4if16ilx041mrl5j";
+
+    configureFlags = [ "--with-geoip=${pkgs.geoip}" ];
+
+    buildInputs = [ pkgs.geoip ];
   };
 
   igbinary = buildPecl {
@@ -102,153 +166,6 @@ let
     name = "pcs-1.3.3";
 
     sha256 = "0d4p1gpl8gkzdiv860qzxfz250ryf0wmjgyc8qcaaqgkdyh5jy5p";
-  };
-
-  spidermonkey = buildPecl rec {
-    name = "spidermonkey-1.0.0";
-
-    sha256 = "1ywrsp90w6rlgq3v2vmvp2zvvykkgqqasab7h9bf3vgvgv3qasbg";
-
-    configureFlags = [
-      "--with-spidermonkey=${pkgs.spidermonkey_1_8_5}"
-    ];
-
-    buildInputs = [ pkgs.spidermonkey_1_8_5 ];
-  };
-
-  xdebug = buildPecl {
-    name = "xdebug-2.5.5";
-
-    sha256 = "197i1fcspbrdxki6rljvpjdxzhyaxl7nlihhiqcyfkjipkr8n43j";
-
-    doCheck = true;
-    checkTarget = "test";
-  };
-
-  yaml = buildPecl {
-    name = "yaml-1.3.2";
-
-    sha256 = "16jr5v3pff3f1yd61hh4pb279ivb7np1kf8mhvfw16g0fsvx33js";
-
-    configureFlags = [
-      "--with-yaml=${pkgs.libyaml}"
-    ];
-
-    nativeBuildInputs = [ pkgs.pkgconfig ];
-  };
-
-  zmq = buildPecl {
-    name = "zmq-1.1.3";
-
-    sha256 = "1kj487vllqj9720vlhfsmv32hs2dy2agp6176mav6ldx31c3g4n4";
-
-    configureFlags = [
-      "--with-zmq=${pkgs.zeromq}"
-    ];
-
-    nativeBuildInputs = [ pkgs.pkgconfig ];
-  };
-
-  xcache = buildPecl rec {
-    name = "xcache-${version}";
-
-    version = "3.2.0";
-
-    src = pkgs.fetchurl {
-      url = "http://xcache.lighttpd.net/pub/Releases/${version}/${name}.tar.bz2";
-      sha256 = "1gbcpw64da9ynjxv70jybwf9y88idm01kb16j87vfagpsp5s64kx";
-    };
-
-    doCheck = true;
-    checkTarget = "test";
-
-    configureFlags = [
-      "--enable-xcache"
-      "--enable-xcache-coverager"
-      "--enable-xcache-optimizer"
-      "--enable-xcache-assembler"
-      "--enable-xcache-encoder"
-      "--enable-xcache-decoder"
-    ];
-
-    buildInputs = [ pkgs.m4 ];
-  };
-
-  #pthreads requires a build of PHP with ZTS (Zend Thread Safety) enabled
-  #--enable-maintainer-zts or --enable-zts on Windows
-  pthreads = buildPecl {
-    name = "pthreads-2.0.10";
-    sha256 = "1xlcb1b1g10jd0xhm3c01a06yqpb5qln47pd1k522138324qvpwb";
-    buildInputs = [ pkgs.pcre.dev ];
-  };
-
-  geoip = buildPecl {
-    name = "geoip-1.1.1";
-    sha256 = "01hgijn91an7gf0fva5fk3paag6lvfh7ynlv4if16ilx041mrl5j";
-
-    configureFlags = [ "--with-geoip=${pkgs.geoip}" ];
-
-    buildInputs = [ pkgs.geoip ];
-  };
-
-  redis = buildPecl {
-    name = "redis-2.2.8";
-    sha256 = "1ddijx6r798hsxxqr5vskknv8nh1knx5rdh7axj8z132vr93flzw";
-  };
-
-  composer = pkgs.stdenv.mkDerivation rec {
-    name = "composer-${version}";
-    version = "1.8.4";
-
-    src = pkgs.fetchurl {
-      url = "https://getcomposer.org/download/${version}/composer.phar";
-      sha256 = "12h5vqwhklxvwrplggzjl21n6kb972pwkj9ivmn2vbxyixn848hp";
-    };
-
-    unpackPhase = ":";
-
-    buildInputs = [ pkgs.makeWrapper ];
-
-    installPhase = ''
-      mkdir -p $out/bin
-      install -D $src $out/libexec/composer/composer.phar
-      makeWrapper ${php}/bin/php $out/bin/composer \
-        --add-flags "$out/libexec/composer/composer.phar"
-    '';
-
-    meta = with pkgs.lib; {
-      description = "Dependency Manager for PHP";
-      license = licenses.mit;
-      homepage = https://getcomposer.org/;
-      maintainers = with maintainers; [ globin offline ];
-    };
-  };
-
-  box = pkgs.stdenv.mkDerivation rec {
-    name = "box-${version}";
-    version = "2.7.5";
-
-    src = pkgs.fetchurl {
-      url = "https://github.com/box-project/box2/releases/download/${version}/box-${version}.phar";
-      sha256 = "1zmxdadrv0i2l8cz7xb38gnfmfyljpsaz2nnkjzqzksdmncbgd18";
-    };
-
-    phases = [ "installPhase" ];
-    buildInputs = [ pkgs.makeWrapper ];
-
-    installPhase = ''
-      mkdir -p $out/bin
-      install -D $src $out/libexec/box/box.phar
-      makeWrapper ${php}/bin/php $out/bin/box \
-        --add-flags "-d phar.readonly=0 $out/libexec/box/box.phar"
-    '';
-
-    meta = with pkgs.lib; {
-      description = "An application for building and managing Phars";
-      license = licenses.mit;
-      homepage = https://box-project.github.io/box2/;
-      maintainers = with maintainers; [ jtojnar ];
-    };
   };
 
   php-cs-fixer = pkgs.stdenv.mkDerivation rec {
@@ -311,33 +228,6 @@ let
     };
   };
 
-  phpcs = pkgs.stdenv.mkDerivation rec {
-    name = "phpcs-${version}";
-    version = "3.4.1";
-
-    src = pkgs.fetchurl {
-      url = "https://github.com/squizlabs/PHP_CodeSniffer/releases/download/${version}/phpcs.phar";
-      sha256 = "07zwj8msy0awnrwmv3gcilbsj9jyrvxw0q523yf16ydv55422pl0";
-    };
-
-    phases = [ "installPhase" ];
-    buildInputs = [ pkgs.makeWrapper ];
-
-    installPhase = ''
-      mkdir -p $out/bin
-      install -D $src $out/libexec/phpcs/phpcs.phar
-      makeWrapper ${php}/bin/php $out/bin/phpcs \
-        --add-flags "$out/libexec/phpcs/phpcs.phar"
-    '';
-
-    meta = with pkgs.lib; {
-      description = "PHP coding standard tool";
-      license = licenses.bsd3;
-      homepage = https://squizlabs.github.io/PHP_CodeSniffer/;
-      maintainers = with maintainers; [ javaguirre etu ];
-    };
-  };
-
   phpcbf = pkgs.stdenv.mkDerivation rec {
     name = "phpcbf-${version}";
     version = "3.4.1";
@@ -365,6 +255,33 @@ let
     };
   };
 
+  phpcs = pkgs.stdenv.mkDerivation rec {
+    name = "phpcs-${version}";
+    version = "3.4.1";
+
+    src = pkgs.fetchurl {
+      url = "https://github.com/squizlabs/PHP_CodeSniffer/releases/download/${version}/phpcs.phar";
+      sha256 = "07zwj8msy0awnrwmv3gcilbsj9jyrvxw0q523yf16ydv55422pl0";
+    };
+
+    phases = [ "installPhase" ];
+    buildInputs = [ pkgs.makeWrapper ];
+
+    installPhase = ''
+      mkdir -p $out/bin
+      install -D $src $out/libexec/phpcs/phpcs.phar
+      makeWrapper ${php}/bin/php $out/bin/phpcs \
+        --add-flags "$out/libexec/phpcs/phpcs.phar"
+    '';
+
+    meta = with pkgs.lib; {
+      description = "PHP coding standard tool";
+      license = licenses.bsd3;
+      homepage = https://squizlabs.github.io/PHP_CodeSniffer/;
+      maintainers = with maintainers; [ javaguirre etu ];
+    };
+  };
+
   psysh = pkgs.stdenv.mkDerivation rec {
     name = "psysh-${version}";
     version = "0.9.8";
@@ -389,5 +306,88 @@ let
       homepage = https://psysh.org/;
       maintainers = with maintainers; [ caugner ];
     };
+  };
+
+  #pthreads requires a build of PHP with ZTS (Zend Thread Safety) enabled
+  #--enable-maintainer-zts or --enable-zts on Windows
+  pthreads = buildPecl {
+    name = "pthreads-2.0.10";
+    sha256 = "1xlcb1b1g10jd0xhm3c01a06yqpb5qln47pd1k522138324qvpwb";
+    buildInputs = [ pkgs.pcre.dev ];
+  };
+
+  redis = buildPecl {
+    name = "redis-2.2.8";
+    sha256 = "1ddijx6r798hsxxqr5vskknv8nh1knx5rdh7axj8z132vr93flzw";
+  };
+
+  spidermonkey = buildPecl rec {
+    name = "spidermonkey-1.0.0";
+
+    sha256 = "1ywrsp90w6rlgq3v2vmvp2zvvykkgqqasab7h9bf3vgvgv3qasbg";
+
+    configureFlags = [
+      "--with-spidermonkey=${pkgs.spidermonkey_1_8_5}"
+    ];
+
+    buildInputs = [ pkgs.spidermonkey_1_8_5 ];
+  };
+
+  xcache = buildPecl rec {
+    name = "xcache-${version}";
+
+    version = "3.2.0";
+
+    src = pkgs.fetchurl {
+      url = "http://xcache.lighttpd.net/pub/Releases/${version}/${name}.tar.bz2";
+      sha256 = "1gbcpw64da9ynjxv70jybwf9y88idm01kb16j87vfagpsp5s64kx";
+    };
+
+    doCheck = true;
+    checkTarget = "test";
+
+    configureFlags = [
+      "--enable-xcache"
+      "--enable-xcache-coverager"
+      "--enable-xcache-optimizer"
+      "--enable-xcache-assembler"
+      "--enable-xcache-encoder"
+      "--enable-xcache-decoder"
+    ];
+
+    buildInputs = [ pkgs.m4 ];
+  };
+
+  xdebug = buildPecl {
+    name = "xdebug-2.5.5";
+
+    sha256 = "197i1fcspbrdxki6rljvpjdxzhyaxl7nlihhiqcyfkjipkr8n43j";
+
+    doCheck = true;
+    checkTarget = "test";
+  };
+
+  yaml = buildPecl {
+    name = "yaml-1.3.2";
+
+    sha256 = "16jr5v3pff3f1yd61hh4pb279ivb7np1kf8mhvfw16g0fsvx33js";
+
+    configureFlags = [
+      "--with-yaml=${pkgs.libyaml}"
+    ];
+
+    nativeBuildInputs = [ pkgs.pkgconfig ];
+  };
+
+  zmq = buildPecl {
+    name = "zmq-1.1.3";
+
+    sha256 = "1kj487vllqj9720vlhfsmv32hs2dy2agp6176mav6ldx31c3g4n4";
+
+    configureFlags = [
+      "--with-zmq=${pkgs.zeromq}"
+    ];
+
+    nativeBuildInputs = [ pkgs.pkgconfig ];
   };
 }; in self
