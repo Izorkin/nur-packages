@@ -140,7 +140,7 @@ let
 
     sha256 = "0z2nc92xfc5axa9f2dy95rmsd2c81q8cs1pm4anh0a50x9g5ng0z";
 
-    configureFlags = "--with-imagick=${pkgs.imagemagick.dev}";
+    configureFlags = [ "--with-imagick=${pkgs.imagemagick.dev}" ];
     nativeBuildInputs = [ pkgs.pkgconfig ];
     buildInputs = [ pkgs.pcre ];
   };
