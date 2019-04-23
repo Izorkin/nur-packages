@@ -44,23 +44,24 @@ let
   };
 
   composer = pkgs.stdenv.mkDerivation rec {
-    version = "1.8.4";
+    version = "1.8.5";
     pname = "php-composer";
 
     src = pkgs.fetchurl {
       url = "https://getcomposer.org/download/${version}/composer.phar";
-      sha256 = "12h5vqwhklxvwrplggzjl21n6kb972pwkj9ivmn2vbxyixn848hp";
+      sha256 = "05qfgh2dz8pjf47ndyhkicqbnqzwypk90cczd4c6d8jl9gbiqk2f";
     };
 
     unpackPhase = ":";
 
-    buildInputs = [ pkgs.makeWrapper ];
+    nativeBuildInputs = [ pkgs.makeWrapper ];
 
     installPhase = ''
       mkdir -p $out/bin
       install -D $src $out/libexec/composer/composer.phar
       makeWrapper ${php}/bin/php $out/bin/composer \
-        --add-flags "$out/libexec/composer/composer.phar"
+        --add-flags "$out/libexec/composer/composer.phar" \
+        --prefix PATH : ${pkgs.lib.makeBinPath [ pkgs.unzip ]}
     '';
 
     meta = with pkgs.lib; {
