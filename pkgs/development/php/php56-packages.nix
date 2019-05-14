@@ -1,4 +1,4 @@
-{ pkgs, fetchgit, php }:
+{ pkgs, fetchgit, php, openssl, libevent }:
 
 let
   self = with self; {
@@ -127,6 +127,26 @@ let
 
     configureFlags = [ "--with-geoip=${pkgs.geoip}" ];
     buildInputs = [ pkgs.geoip ];
+  };
+
+  event = buildPecl rec {
+    version = "2.5.0";
+    pname = "event";
+
+    sha256 = "1igbxla4s784z7lw1jar6pjyfn596040a52kfmawwclqf9qcvx0v";
+
+    configureFlags = [ "--with-event-libevent-dir=${libevent.dev}" ];
+    nativeBuildInputs = [ pkgs.pkgconfig ];
+    buildInputs = [ openssl libevent ];
+
+    meta = with pkgs.lib; {
+      description = ''
+        This is an extension to efficiently schedule I/O, time and signal based
+        events using the best I/O notification mechanism available for specific platform.
+      '';
+      license = licenses.php301;
+      homepage = "https://bitbucket.org/osmanov/pecl-event/";
+     };
   };
 
   igbinary = buildPecl rec {
