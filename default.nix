@@ -27,6 +27,9 @@ rec {
 
   php56Packages       = pkgs.recurseIntoAttrs (pkgs.callPackage ./pkgs/development/php/php56-packages.nix { php = php56; openssl = pkgs.libressl; libevent = pkgs.libevent.override ({ openssl = pkgs.libressl; }); });
   php56Packages-unit  = pkgs.recurseIntoAttrs (pkgs.callPackage ./pkgs/development/php/php56-packages.nix { php = php56-unit; openssl = pkgs.libressl; libevent = pkgs.libevent.override ({ openssl = pkgs.libressl; }); });
+  php71Packages       = pkgs.php71Packages.override { php = php71; };
+  php72Packages       = pkgs.php72Packages.override { php = php72; };
+  php73Packages       = pkgs.php73Packages.override { php = php73; };
   php71Packages-unit  = pkgs.php71Packages.override { php = php71-unit; };
   php72Packages-unit  = pkgs.php72Packages.override { php = php72-unit; };
   php73Packages-unit  = pkgs.php73Packages.override { php = php73-unit; };
