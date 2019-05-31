@@ -319,12 +319,12 @@ let
   };
 
   phpstan = mkDerivation rec {
-    version = "0.11.5";
+    version = "0.11.8";
     pname = "phpstan";
 
     src = pkgs.fetchurl {
       url = "https://github.com/phpstan/phpstan/releases/download/${version}/phpstan.phar";
-      sha256 = "13akllfr5dav0y61i4ym5ww8z32ynwj5lpvsfiwx6z52avmcrc29";
+      sha256 = "0xdf0kq5jpbqs6dwyv2fggd3cxjjq16xk5nxz1hgh5d58x5yh14n";
     };
 
     phases = [ "installPhase" ];
