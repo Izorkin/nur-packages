@@ -51,7 +51,7 @@ let
   , fpmSupport ? config.php.fpm or true
   , gmpSupport ? config.php.gmp or true
   , mssqlSupport ? (config.php.mssql or (!stdenv.isDarwin)) && (!php7)
-  , ztsSupport ? config.php.zts or false
+  , ztsSupport ? (config.php.zts or false) || (apxs2Support)
   , calendarSupport ? config.php.calendar or true
   , sodiumSupport ? (config.php.sodium or true) && (versionAtLeast version "7.2")
   , tidySupport ? (config.php.tidy or false)
