@@ -2,7 +2,7 @@
 { lib, stdenv, fetchurl, autoconf, bison, libtool, pkgconfig, re2c
 , mysql, libxml2, readline, zlib, curl, postgresql, gettext
 , openssl, pcre, pcre2, sqlite, config, libjpeg, libpng, freetype
-, libxslt, libmcrypt, bzip2, icu, openldap, cyrus_sasl, libmhash, unixODBC, freetds
+, libxslt, libmcrypt, bzip2, icu, icu60, openldap, cyrus_sasl, libmhash, unixODBC, freetds
 , uwimap, pam, gmp, apacheHttpd, libiconv, systemd, libsodium, html-tidy, libargon2
 , libzip, valgrind
 }:
@@ -102,7 +102,8 @@ let
         ++ optional mysqliSupport mysqlBuildInputs
         ++ optional gmpSupport gmp
         ++ optional gettextSupport gettext
-        ++ optional intlSupport icu
+        ++ optional (intlSupport && (versionOlder version "7.0")) icu60
+        ++ optional (intlSupport && (versionAtLeast version "7.0")) icu
         ++ optional xslSupport libxslt
         ++ optional mcryptSupport libmcrypt'
         ++ optional bz2Support bzip2
