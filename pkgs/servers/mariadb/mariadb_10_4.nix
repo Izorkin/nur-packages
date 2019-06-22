@@ -10,9 +10,9 @@ let # in mariadb # spans the whole file
 
 libExt = stdenv.hostPlatform.extensions.sharedLibrary;
 
-mariadb = everything // {
+mariadb = server // {
   inherit client; # libmysqlclient.so in .out, necessary headers in .dev and utils in .bin
-  server = everything; # a full single-output build, including everything in `client` again
+  server = server; # MariaDB Server
 };
 
 common = rec { # attributes common to both builds
@@ -120,8 +120,8 @@ client = stdenv.mkDerivation (common // {
   enableParallelBuilding = true; # the client should be OK
 });
 
-everything = stdenv.mkDerivation (common // {
-  name = "mariadb-${common.version}";
+server = stdenv.mkDerivation (common // {
+  name = "mariadb-server-${common.version}";
 
   outputs = [ "out" "dev" "man" ];
 
@@ -131,6 +131,8 @@ everything = stdenv.mkDerivation (common // {
     xz lzo lz4 bzip2 snappy
     libxml2 boost judy libevent cracklib
   ] ++ optional (stdenv.isLinux && !stdenv.isAarch32) numactl;
+
+  patches = common.patches ++ [ ./cmake-without-client.patch ];
 
   cmakeFlags = common.cmakeFlags ++ [
     "-DMYSQL_DATADIR=/var/lib/mysql"
@@ -144,6 +146,7 @@ everything = stdenv.mkDerivation (common // {
     "-DWITH_INNODB_DISALLOW_WRITES=ON"
     "-DWITHOUT_EXAMPLE=1"
     "-DWITHOUT_FEDERATED=1"
+    "-DWITHOUT_CLIENT=ON"
   ] ++ stdenv.lib.optionals stdenv.isDarwin [
     "-DWITHOUT_OQGRAPH=1"
     "-DWITHOUT_TOKUDB=1"
@@ -158,14 +161,14 @@ everything = stdenv.mkDerivation (common // {
   postInstall = ''
     chmod +x "$out"/bin/wsrep_sst_common
     rm -r "$out"/data # Don't need testing data
-    rm "$out"/bin/{mysql_find_rows,mysql_waitpid,mysqlaccess,mysqladmin,mysqlbinlog,mysqlcheck}
-    rm "$out"/bin/{mysqldump,mysqlhotcopy,mysqlimport,mysqlshow,mysqlslap,mysqltest}
+    rm "$out"/bin/mysqltest
     ${ # We don't build with GSSAPI on Darwin
       optionalString (! stdenv.isDarwin) ''
         rm "$out"/lib/mysql/plugin/auth_gssapi_client.so
       ''
     }
     rm "$out"/lib/mysql/plugin/{client_ed25519.so,daemon_example.ini}
+    rm "$out"/lib/mysql/plugin/{daemon_example.ini,caching_sha2_password.so,client_ed25519.so,dialog.so,mysql_clear_password.so,sha256_password.so}
     rm "$out"/lib/{libmysqlclient${libExt},libmysqlclient_r${libExt}}
     mv "$out"/share/{groonga,groonga-normalizer-mysql} "$out"/share/doc/mysql
     mkdir -p "$dev"/lib && mv "$out"/lib/{libmariadbclient.a,libmysqlclient.a,libmysqlclient_r.a,libmysqlservices.a} "$dev"/lib
