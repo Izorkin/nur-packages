@@ -20,16 +20,20 @@ let
 
   apcu = if isPhp56 then apcu40 else apcu51;
 
-  apcu40 = assert isPhp56; buildPecl rec {
+  #apcu40 = assert isPhp56; buildPecl rec {
+  apcu40 = buildPecl rec {
     version = "4.0.11";
     pname = "apcu";
 
     sha256 = "002d1gklkf0z170wkbhmm2z1p9p5ghhq3q1r9k54fq1sq4p30ks5";
 
     buildInputs = [ pkgs.pcre ];
+
+    meta.broken = !isPhp56;
   };
 
-  apcu51 = assert !isPhp56; buildPecl rec {
+  #apcu51 = assert !isPhp56; buildPecl rec {
+  apcu51 = buildPecl rec {
     version = "5.1.17";
     pname = "apcu";
 
@@ -41,22 +45,30 @@ let
     checkFlagsArray = ["REPORT_EXIT_STATUS=1" "NO_INTERACTION=1"];
     makeFlags = [ "phpincludedir=$(dev)/include" ];
     outputs = [ "out" "dev" ];
+
+    meta.broken = isPhp56;
   };
 
-  apcu_bc = assert !isPhp56; buildPecl rec {
+  #apcu_bc = assert !isPhp56; buildPecl rec {
+  apcu_bc = buildPecl rec {
     version = "1.0.5";
     pname = "apcu_bc";
 
     sha256 = "0ma00syhk2ps9k9p02jz7rii6x3i2p986il23703zz5npd6y9n20";
 
     buildInputs = [ apcu (if isPhp73 then pkgs.pcre2 else pkgs.pcre) ];
+
+    meta.broken = isPhp56;
   };
 
-  ast = assert !isPhp56; buildPecl rec {
+  #ast = assert !isPhp56; buildPecl rec {
+  ast = buildPecl rec {
     version = "1.0.1";
     pname = "ast";
 
     sha256 = "0ja74k2lmxwhhvp9y9kc7khijd7s2dqma5x8ghbhx9ajkn0wg8iq";
+
+    meta.broken = isPhp56;
   };
 
   box = mkDerivation rec {
@@ -193,7 +205,8 @@ let
 
   igbinary = if isPhp56 then igbinary20 else igbinary30;
 
-  igbinary20 = assert isPhp56; buildPecl rec {
+  #igbinary20 = assert isPhp56; buildPecl rec {
+  igbinary20 = buildPecl rec {
     version = "2.0.8";
     pname = "igbinary";
 
@@ -202,9 +215,12 @@ let
     configureFlags = [ "--enable-igbinary" ];
     makeFlags = [ "phpincludedir=$(dev)/include" ];
     outputs = [ "out" "dev" ];
+
+    meta.broken = !isPhp56;
   };
 
-  igbinary30 = assert !isPhp56; buildPecl rec {
+  #igbinary30 = assert !isPhp56; buildPecl rec {
+  igbinary30 = buildPecl rec {
     version = "3.0.1";
     pname = "igbinary";
 
@@ -213,6 +229,8 @@ let
     configureFlags = [ "--enable-igbinary" ];
     makeFlags = [ "phpincludedir=$(dev)/include" ];
     outputs = [ "out" "dev" ];
+
+    meta.broken = isPhp56;
   };
 
   imagick = buildPecl rec {
@@ -223,17 +241,21 @@ let
 
     configureFlags = [ "--with-imagick=${pkgs.imagemagick.dev}" ];
     nativeBuildInputs = [ pkgs.pkgconfig ];
-    buildInputs = [ pkgs.pcre ];
+    buildInputs = [ (if isPhp73 then pkgs.pcre2 else pkgs.pcre) ];
   };
 
-  mailparse = assert !isPhp56; assert !isPhp73; buildPecl rec {
+  #mailparse = assert !isPhp56; assert !isPhp73; buildPecl rec {
+  mailparse = buildPecl rec {
     version = "3.0.2";
     pname = "mailparse";
 
     sha256 = "0fw447ralqihsjnn0fm2hkaj8343cvb90v0d1wfclgz49256y6nq";
+
+    meta.broken = (isPhp56 || isPhp73);
   };
 
-  memcache = assert isPhp56; buildPecl rec {
+  #memcache = assert isPhp56; buildPecl rec {
+  memcache = buildPecl rec {
     version = "3.0.8";
     pname = "memcache";
 
@@ -242,11 +264,14 @@ let
     configureFlags = "--with-zlib-dir=${pkgs.zlib.dev}";
 
     makeFlags = [ "CFLAGS=-fgnu89-inline" ];
+
+    meta.broken = !isPhp56;
   };
 
   memcached = if isPhp56 then memcached22 else memcached31;
 
-  memcached22 = assert isPhp56; buildPecl rec {
+  #memcached22 = assert isPhp56; buildPecl rec {
+  memcached22 = buildPecl rec {
     version = "2.2.0";
     pname = "memcached";
 
@@ -259,9 +284,12 @@ let
 
     nativeBuildInputs = [ pkgs.pkgconfig ];
     buildInputs = with pkgs; [ cyrus_sasl zlib ];
+
+    meta.broken = !isPhp56;
   };
 
-  memcached31 = assert !isPhp56; buildPecl rec {
+  #memcached31 = assert !isPhp56; buildPecl rec {
+  memcached31 = buildPecl rec {
     version = "3.1.3";
     pname = "memcached";
 
@@ -278,16 +306,8 @@ let
 
     nativeBuildInputs = [ pkgs.pkgconfig ];
     buildInputs = with pkgs; [ cyrus_sasl zlib ];
-  };
 
-  oci8 = assert !isPhp56; buildPecl rec {
-    version = "2.2.0";
-    pname = "oci8";
-
-    sha256 = "0jhivxj1nkkza4h23z33y7xhffii60d7dr51h1czjk10qywl7pyd";
-
-    buildInputs = [ pkgs.oracle-instantclient ];
-    configureFlags = [ "--with-oci8=shared,instantclient,${pkgs.oracle-instantclient}/lib" ];
+    meta.broken = isPhp56;
   };
 
   pcs = buildPecl rec {
@@ -297,13 +317,16 @@ let
     sha256 = "0d4p1gpl8gkzdiv860qzxfz250ryf0wmjgyc8qcaaqgkdyh5jy5p";
   };
 
-  pdo_sqlsrv = assert !isPhp56; buildPecl rec {
+  #pdo_sqlsrv = assert !isPhp56; buildPecl rec {
+  pdo_sqlsrv = buildPecl rec {
     version = "5.6.1";
     pname = "pdo_sqlsrv";
 
     sha256 = "02ill1iqffa5fha9iz4y91823scml24ikfk8pn90jyycfwv07x6a";
 
     buildInputs = [ pkgs.unixODBC ];
+
+    meta.broken = isPhp56;
   };
 
   php-cs-fixer = mkDerivation rec {
@@ -454,9 +477,33 @@ let
     };
   };
 
-  pinba = if isPhp73 then pinba112 else pinba111;
+  pinba = if isPhp56 then pinba110 else (if isPhp73 then pinba112 else pinba111 );
 
-  pinba111 = assert !isPhp56; assert !isPhp73; buildPecl rec {
+  pinba110 = buildPecl rec {
+    version = "1.1.0";
+    pname = "pinba";
+
+    src = pkgs.fetchFromGitHub {
+      owner = "tony2001";
+      repo = "pinba_extension";
+      rev = "7e7cd25ebcd74234f058bfe350128238383c6b96";
+      sha256 = "1866c82ypijcm44sbfygfzs0d3klj7xsyc40imzac7s9x1x4fp81";
+    };
+
+    meta = with pkgs.lib; {
+      description = "PHP extension for Pinba";
+      longDescription = ''
+        Pinba is a MySQL storage engine that acts as a realtime monitoring and
+        statistics server for PHP using MySQL as a read-only interface.
+      '';
+      homepage = "http://pinba.org/";
+
+      broken = !isPhp56;
+    };
+  };
+
+  #pinba111 = assert !isPhp56; assert !isPhp73; buildPecl rec {
+  pinba111 = buildPecl rec {
     version = "1.1.1";
     pname = "pinba";
 
@@ -474,10 +521,13 @@ let
         statistics server for PHP using MySQL as a read-only interface.
       '';
       homepage = "http://pinba.org/";
+
+      broken = (isPhp56 || isPhp73);
     };
   };
 
-  pinba112 = assert !isPhp56; assert isPhp73; buildPecl rec {
+  #pinba112 = assert !isPhp56; assert isPhp73; buildPecl rec {
+  pinba112 = buildPecl rec {
     version = "1.1.2-dev";
     pname = "pinba";
 
@@ -495,6 +545,8 @@ let
         statistics server for PHP using MySQL as a read-only interface.
       '';
       homepage = "http://pinba.org/";
+
+      broken = (isPhp56 || !isPhp73);
     };
   };
 
@@ -504,7 +556,7 @@ let
 
     sha256 = "09zs7w9iv6432i0js44ihxymbd4pcxlprlzqkcjsxjpbprs4qpv2";
 
-    buildInputs = with pkgs; [ pcre ];
+    buildInputs = with pkgs; [ (if isPhp73 then pkgs.pcre2 else pkgs.pcre) ];
 
     meta = with pkgs.lib; {
       description = ''
@@ -544,16 +596,20 @@ let
 
   pthreads = if isPhp56 then pthreads20 else (if isPhp73 then pthreads32-dev else (if isPhp72 then pthreads32 else pthreads31));
 
-  pthreads20 = assert isPhp56; buildPecl rec {
+  #pthreads20 = assert isPhp56; buildPecl rec {
+  pthreads20 = buildPecl rec {
     version = "2.0.10";
     pname = "pthreads";
 
     sha256 = "1xlcb1b1g10jd0xhm3c01a06yqpb5qln47pd1k522138324qvpwb";
 
     buildInputs = [ pkgs.pcre.dev ];
+
+    meta.broken = !isPhp56;
   };
 
-  pthreads31 = assert isPhp71; assert !isPhp72; buildPecl rec {
+  #pthreads31 = assert isPhp71; assert !isPhp72; buildPecl rec {
+  pthreads31 = buildPecl rec {
     version = "3.1.6-dev";
     pname = "pthreads";
 
@@ -565,9 +621,12 @@ let
     };
 
     buildInputs = [ pkgs.pcre.dev ];
+
+    meta.broken = (!isPhp71 || isPhp72 || isPhp73);
   };
 
-  pthreads32 = assert isPhp72; assert !isPhp73; buildPecl rec {
+  #pthreads32 = assert isPhp72; assert !isPhp73; buildPecl rec {
+  pthreads32 = buildPecl rec {
     version = "3.2.0";
     pname = "pthreads";
 
@@ -579,9 +638,12 @@ let
     };
 
     buildInputs = [ pkgs.pcre.dev ];
+
+    meta.broken = (!isPhp72 || isPhp73);
   };
 
-  pthreads32-dev = assert isPhp73; buildPecl rec {
+  #pthreads32-dev = assert isPhp73; buildPecl rec {
+  pthreads32-dev = buildPecl rec {
     version = "3.2.0-dev";
     pname = "pthreads";
 
@@ -593,6 +655,8 @@ let
     };
 
     buildInputs = [ pkgs.pcre2.dev ];
+
+    meta.broken = !isPhp73;
   };
 
   redis = buildPecl rec {
@@ -602,16 +666,20 @@ let
     sha256 = "18hvll173mlp6dk6xvgajkjf4min8f5gn809nr1ahq4r6kn4rw60";
   };
 
-  sqlsrv = assert !isPhp56; buildPecl rec {
+  #sqlsrv = assert !isPhp56; buildPecl rec {
+  sqlsrv = buildPecl rec {
     version = "5.6.1";
     pname = "sqlsrv";
 
     sha256 = "0ial621zxn9zvjh7k1h755sm2lc9aafc389yxksqcxcmm7kqmd0a";
 
     buildInputs = [ pkgs.unixODBC ];
+
+    meta.broken = isPhp56;
   };
 
-  spidermonkey = assert isPhp56; buildPecl rec {
+  #spidermonkey = assert isPhp56; buildPecl rec {
+  spidermonkey = buildPecl rec {
     version = "1.0.0";
     pname = "spidermonkey";
 
@@ -622,9 +690,12 @@ let
     ];
 
     buildInputs = [ pkgs.spidermonkey_1_8_5 ];
+
+    meta.broken = !isPhp56;
   };
 
-  xcache = assert isPhp56; buildPecl rec {
+  #xcache = assert isPhp56; buildPecl rec {
+  xcache = buildPecl rec {
     version = "3.2.0";
     pname = "xcache";
 
@@ -646,11 +717,14 @@ let
     ];
 
     buildInputs = [ pkgs.m4 ];
+
+    meta.broken = !isPhp56;
   };
 
   xdebug = if isPhp56 then xdebug25 else xdebug27;
 
-  xdebug25 = assert isPhp56; buildPecl rec {
+  #xdebug25 = assert isPhp56; buildPecl rec {
+  xdebug25 = buildPecl rec {
     version = "2.5.5";
     pname = "xdebug";
 
@@ -658,9 +732,12 @@ let
 
     doCheck = true;
     checkTarget = "test";
+
+    meta.broken = !isPhp56;
   };
 
-  xdebug27 = assert !isPhp56; buildPecl rec {
+  #xdebug27 = assert !isPhp56; buildPecl rec {
+  xdebug27 = buildPecl rec {
     version = "2.7.2";
     pname = "xdebug";
 
@@ -668,11 +745,14 @@ let
 
     doCheck = true;
     checkTarget = "test";
+
+    meta.broken = isPhp56;
   };
 
   yaml = if isPhp56 then yaml13 else yaml20;
 
-  yaml13 = assert isPhp56; buildPecl rec {
+  #yaml13 = assert isPhp56; buildPecl rec {
+  yaml13 = buildPecl rec {
     version = "1.3.2";
     pname = "yaml";
 
@@ -683,9 +763,12 @@ let
     ];
 
     nativeBuildInputs = [ pkgs.pkgconfig ];
+
+    meta.broken = !isPhp56;
   };
 
-  yaml20 = assert !isPhp56; buildPecl rec {
+  #yaml20 = assert !isPhp56; buildPecl rec {
+  yaml20 = buildPecl rec {
     version = "2.0.4";
     pname = "yaml";
 
@@ -696,9 +779,12 @@ let
     ];
 
     nativeBuildInputs = [ pkgs.pkgconfig ];
+
+    meta.broken = isPhp56;
   };
 
-  zmq = assert !isPhp73; buildPecl rec {
+  #zmq = assert !isPhp73; buildPecl rec {
+  zmq = buildPecl rec {
     version = "1.1.3";
     pname = "zmq";
 
@@ -709,5 +795,7 @@ let
     ];
 
     nativeBuildInputs = [ pkgs.pkgconfig ];
+
+    meta.broken = isPhp73;
   };
 }; in self
