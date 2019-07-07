@@ -27,7 +27,7 @@ let
 
     sha256 = "002d1gklkf0z170wkbhmm2z1p9p5ghhq3q1r9k54fq1sq4p30ks5";
 
-    buildInputs = [ pkgs.pcre ];
+    buildInputs = with pkgs; [ pcre.dev ];
 
     meta.broken = !isPhp56;
   };
@@ -39,7 +39,7 @@ let
 
     sha256 = "14y7alvj5q17q1b544bxidavkn6i40cjbq2nv1m0k70ai5vv84bb";
 
-    buildInputs = [ (if isPhp73 then pkgs.pcre2 else pkgs.pcre) ];
+    buildInputs = with pkgs; [ (if isPhp73 then pcre2.dev else pcre.dev) ];
     doCheck = true;
     checkTarget = "test";
     checkFlagsArray = ["REPORT_EXIT_STATUS=1" "NO_INTERACTION=1"];
@@ -56,7 +56,7 @@ let
 
     sha256 = "0ma00syhk2ps9k9p02jz7rii6x3i2p986il23703zz5npd6y9n20";
 
-    buildInputs = [ apcu (if isPhp73 then pkgs.pcre2 else pkgs.pcre) ];
+    buildInputs = with pkgs; [ apcu (if isPhp73 then pcre2.dev else pcre.dev) ];
 
     meta.broken = isPhp56;
   };
@@ -81,7 +81,7 @@ let
     };
 
     phases = [ "installPhase" ];
-    buildInputs = [ pkgs.makeWrapper ];
+    buildInputs = with pkgs; [ makeWrapper ];
 
     installPhase = ''
       mkdir -p $out/bin
@@ -109,7 +109,7 @@ let
 
     unpackPhase = ":";
 
-    nativeBuildInputs = [ pkgs.makeWrapper ];
+    nativeBuildInputs = with pkgs; [ makeWrapper ];
 
     installPhase = ''
       mkdir -p $out/bin
@@ -131,7 +131,7 @@ let
     version = "2.6.1";
     pname = "couchbase";
 
-    buildInputs = [ libcouchbase pkgs.zlib igbinary pcs ];
+    buildInputs = with pkgs; [ libcouchbase zlib igbinary pcs ];
 
     src = pkgs.fetchFromGitHub {
       owner = "couchbase";
@@ -174,8 +174,11 @@ let
 
     sha256 = "01hgijn91an7gf0fva5fk3paag6lvfh7ynlv4if16ilx041mrl5j";
 
-    configureFlags = [ "--with-geoip=${pkgs.geoip}" ];
-    buildInputs = [ pkgs.geoip ];
+    configureFlags = with pkgs; [
+      "--with-geoip=${geoip}"
+    ];
+
+    buildInputs = with pkgs; [ geoip ];
   };
 
   event = buildPecl rec {
@@ -184,14 +187,15 @@ let
 
     sha256 = "12liry5ldvgwp1v1a6zgfq8w6iyyxmsdj4c71bp157nnf58cb8hb";
 
-    configureFlags = [
+    configureFlags = with pkgs; [
       "--with-event-libevent-dir=${libevent.dev}"
       "--with-event-core"
       "--with-event-extra"
       "--with-event-pthreads"
     ];
-    nativeBuildInputs = [ pkgs.pkgconfig ];
-    buildInputs = [ openssl libevent ];
+
+    nativeBuildInputs = with pkgs; [ pkgconfig ];
+    buildInputs = with pkgs; [ openssl libevent ];
 
     meta = with pkgs.lib; {
       description = ''
@@ -212,7 +216,10 @@ let
 
     sha256 = "105nyn703k9p9c7wwy6npq7xd9mczmmlhyn0gn2v2wz0f88spjxs";
 
-    configureFlags = [ "--enable-igbinary" ];
+    configureFlags = [
+      "--enable-igbinary"
+    ];
+
     makeFlags = [ "phpincludedir=$(dev)/include" ];
     outputs = [ "out" "dev" ];
 
@@ -226,7 +233,10 @@ let
 
     sha256 = "1w8jmf1qpggdvq0ndfi86n7i7cqgh1s8q6hys2lijvi37rzn0nar";
 
-    configureFlags = [ "--enable-igbinary" ];
+    configureFlags = [
+      "--enable-igbinary"
+    ];
+
     makeFlags = [ "phpincludedir=$(dev)/include" ];
     outputs = [ "out" "dev" ];
 
@@ -239,9 +249,12 @@ let
 
     sha256 = "0xvhaqny1v796ywx83w7jyjyd0nrxkxf34w9zi8qc8aw8qbammcd";
 
-    configureFlags = [ "--with-imagick=${pkgs.imagemagick.dev}" ];
-    nativeBuildInputs = [ pkgs.pkgconfig ];
-    buildInputs = [ (if isPhp73 then pkgs.pcre2 else pkgs.pcre) ];
+    configureFlags = with pkgs; [
+      "--with-imagick=${imagemagick.dev}"
+    ];
+
+    nativeBuildInputs = with pkgs; [ pkgconfig ];
+    buildInputs = with pkgs; [ (if isPhp73 then pcre2.dev else pcre.dev) ];
   };
 
   #mailparse = assert !isPhp56; assert !isPhp73; buildPecl rec {
@@ -261,7 +274,9 @@ let
 
     sha256 = "04c35rj0cvq5ygn2jgmyvqcb0k8d03v4k642b6i37zgv7x15pbic";
 
-    configureFlags = "--with-zlib-dir=${pkgs.zlib.dev}";
+    configureFlags = with pkgs; [
+      "--with-zlib-dir=${zlib.dev}"
+    ];
 
     makeFlags = [ "CFLAGS=-fgnu89-inline" ];
 
@@ -277,12 +292,12 @@ let
 
     sha256 = "0n4z2mp4rvrbmxq079zdsrhjxjkmhz6mzi7mlcipz02cdl7n1f8p";
 
-    configureFlags = [
-      "--with-zlib-dir=${pkgs.zlib.dev}"
-      "--with-libmemcached-dir=${pkgs.libmemcached}"
+    configureFlags = with pkgs; [
+      "--with-zlib-dir=${zlib.dev}"
+      "--with-libmemcached-dir=${libmemcached}"
     ];
 
-    nativeBuildInputs = [ pkgs.pkgconfig ];
+    nativeBuildInputs = with pkgs; [ pkgconfig ];
     buildInputs = with pkgs; [ cyrus_sasl zlib ];
 
     meta.broken = !isPhp56;
@@ -299,12 +314,12 @@ let
       sha256 = "1w9g8k7bmq3nbzskskpsr5632gh9q75nqy7nkjdzgs17klq9khjk";
     };
 
-    configureFlags = [
-      "--with-zlib-dir=${pkgs.zlib.dev}"
-      "--with-libmemcached-dir=${pkgs.libmemcached}"
+    configureFlags = with pkgs; [
+      "--with-zlib-dir=${zlib.dev}"
+      "--with-libmemcached-dir=${libmemcached}"
     ];
 
-    nativeBuildInputs = [ pkgs.pkgconfig ];
+    nativeBuildInputs = with pkgs; [ pkgconfig ];
     buildInputs = with pkgs; [ cyrus_sasl zlib ];
 
     meta.broken = isPhp56;
@@ -324,7 +339,7 @@ let
 
     sha256 = "02ill1iqffa5fha9iz4y91823scml24ikfk8pn90jyycfwv07x6a";
 
-    buildInputs = [ pkgs.unixODBC ];
+    buildInputs = with pkgs; [ unixODBC ];
 
     meta.broken = isPhp56;
   };
@@ -339,7 +354,7 @@ let
     };
 
     phases = [ "installPhase" ];
-    buildInputs = [ pkgs.makeWrapper ];
+    buildInputs = with pkgs; [ makeWrapper ];
 
     installPhase = ''
       mkdir -p $out/bin
@@ -367,7 +382,7 @@ let
       sha256 = "16nv8yyk2z3l213dg067l6di4pigg5rd8yswr5xgd18jwbys2vnw";
     };
 
-    buildInputs = [ pkgs.makeWrapper composer box ];
+    buildInputs = with pkgs; [ makeWrapper composer box ];
 
     buildPhase = ''
       composer dump-autoload
@@ -399,7 +414,7 @@ let
     };
 
     phases = [ "installPhase" ];
-    nativeBuildInputs = [ pkgs.makeWrapper ];
+    nativeBuildInputs = with pkgs; [ makeWrapper ];
 
     installPhase = ''
       mkdir -p $out/bin
@@ -426,7 +441,7 @@ let
     };
 
     phases = [ "installPhase" ];
-    buildInputs = [ pkgs.makeWrapper ];
+    buildInputs = with pkgs; [ makeWrapper ];
 
     installPhase = ''
       mkdir -p $out/bin
@@ -453,7 +468,7 @@ let
     };
 
     phases = [ "installPhase" ];
-    nativeBuildInputs = [ pkgs.makeWrapper ];
+    nativeBuildInputs = with pkgs; [ makeWrapper ];
 
     installPhase = ''
       mkdir -p $out/bin
@@ -556,7 +571,7 @@ let
 
     sha256 = "09zs7w9iv6432i0js44ihxymbd4pcxlprlzqkcjsxjpbprs4qpv2";
 
-    buildInputs = with pkgs; [ (if isPhp73 then pkgs.pcre2 else pkgs.pcre) ];
+    buildInputs = with pkgs; [ (if isPhp73 then pcre2.dev else pcre.dev) ];
 
     meta = with pkgs.lib; {
       description = ''
@@ -577,7 +592,7 @@ let
     };
 
     phases = [ "installPhase" ];
-    nativeBuildInputs = [ pkgs.makeWrapper ];
+    nativeBuildInputs = with pkgs; [ makeWrapper ];
 
     installPhase = ''
       mkdir -p $out/bin
@@ -603,7 +618,7 @@ let
 
     sha256 = "1xlcb1b1g10jd0xhm3c01a06yqpb5qln47pd1k522138324qvpwb";
 
-    buildInputs = [ pkgs.pcre.dev ];
+    buildInputs = with pkgs; [ pcre.dev ];
 
     meta.broken = !isPhp56;
   };
@@ -620,7 +635,7 @@ let
       sha256 = "0p2kkngmnw4lk2lshgq7hx91wqn21yjxzqlx90xcv94ysvffspl5";
     };
 
-    buildInputs = [ pkgs.pcre.dev ];
+    buildInputs = with pkgs; [ pcre.dev ];
 
     meta.broken = (!isPhp71 || isPhp72 || isPhp73);
   };
@@ -637,7 +652,7 @@ let
       sha256 = "17hypm75d4w7lvz96jb7s0s87018yzmmap0l125d5fd7abnhzfvv";
     };
 
-    buildInputs = [ pkgs.pcre.dev ];
+    buildInputs = with pkgs; [ pcre.dev ];
 
     meta.broken = (!isPhp72 || isPhp73);
   };
@@ -654,7 +669,7 @@ let
       sha256 = "07kdxypy0bgggrfav2h1ccbv67lllbvpa3s3zsaqci0gq4fyi830";
     };
 
-    buildInputs = [ pkgs.pcre2.dev ];
+    buildInputs = with pkgs; [ pcre2.dev ];
 
     meta.broken = !isPhp73;
   };
@@ -673,7 +688,7 @@ let
 
     sha256 = "0ial621zxn9zvjh7k1h755sm2lc9aafc389yxksqcxcmm7kqmd0a";
 
-    buildInputs = [ pkgs.unixODBC ];
+    buildInputs = with pkgs; [ unixODBC ];
 
     meta.broken = isPhp56;
   };
@@ -685,11 +700,11 @@ let
 
     sha256 = "1ywrsp90w6rlgq3v2vmvp2zvvykkgqqasab7h9bf3vgvgv3qasbg";
 
-    configureFlags = [
-      "--with-spidermonkey=${pkgs.spidermonkey_1_8_5}"
+    configureFlags = with pkgs; [
+      "--with-spidermonkey=${spidermonkey_1_8_5}"
     ];
 
-    buildInputs = [ pkgs.spidermonkey_1_8_5 ];
+    buildInputs = with pkgs; [ spidermonkey_1_8_5 ];
 
     meta.broken = !isPhp56;
   };
@@ -716,7 +731,7 @@ let
       "--enable-xcache-decoder"
     ];
 
-    buildInputs = [ pkgs.m4 ];
+    buildInputs = with pkgs; [ m4 ];
 
     meta.broken = !isPhp56;
   };
@@ -758,11 +773,11 @@ let
 
     sha256 = "16jr5v3pff3f1yd61hh4pb279ivb7np1kf8mhvfw16g0fsvx33js";
 
-    configureFlags = [
-      "--with-yaml=${pkgs.libyaml}"
+    configureFlags = with pkgs; [
+      "--with-yaml=${libyaml}"
     ];
 
-    nativeBuildInputs = [ pkgs.pkgconfig ];
+    nativeBuildInputs = with pkgs; [ pkgconfig ];
 
     meta.broken = !isPhp56;
   };
@@ -774,11 +789,11 @@ let
 
     sha256 = "1036zhc5yskdfymyk8jhwc34kvkvsn5kaf50336153v4dqwb11lp";
 
-    configureFlags = [
-      "--with-yaml=${pkgs.libyaml}"
+    configureFlags = with pkgs; [
+      "--with-yaml=${libyaml}"
     ];
 
-    nativeBuildInputs = [ pkgs.pkgconfig ];
+    nativeBuildInputs = with pkgs; [ pkgconfig ];
 
     meta.broken = isPhp56;
   };
@@ -794,7 +809,7 @@ let
       "--with-zmq=${pkgs.zeromq}"
     ];
 
-    nativeBuildInputs = [ pkgs.pkgconfig ];
+    nativeBuildInputs = with pkgs; [ pkgconfig ];
 
     meta.broken = isPhp73;
   };
