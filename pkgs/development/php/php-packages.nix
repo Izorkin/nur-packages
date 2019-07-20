@@ -675,11 +675,26 @@ let
     meta.broken = !isPhp73;
   };
 
-  redis = buildPecl rec {
+  redis = if isPhp56 then redis43 else redis50;
+
+  #redis43 = assert isPhp56; buildPecl rec {
+  redis43 = buildPecl rec {
     version = "4.3.0";
     pname = "redis";
 
     sha256 = "18hvll173mlp6dk6xvgajkjf4min8f5gn809nr1ahq4r6kn4rw60";
+
+    meta.broken = !isPhp56;
+  };
+
+  #redis50 = assert !isPhp56; buildPecl rec {
+  redis50 = buildPecl rec {
+    version = "5.0.1";
+    pname = "redis";
+
+    sha256 = "0py6lgf8vlhd6bpa4xr8y5hwn0xr0q4imjdc5f127qr92r3dc8b9";
+
+    meta.broken = isPhp56;
   };
 
   #sqlsrv = assert !isPhp56; buildPecl rec {
