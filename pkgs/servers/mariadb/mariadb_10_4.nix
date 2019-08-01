@@ -16,14 +16,14 @@ mariadb = everything // {
 };
 
 common = rec { # attributes common to both builds
-  version = "10.4.6";
+  version = "10.4.7";
 
   src = fetchurl {
     urls = [
       "https://downloads.mariadb.org/f/mariadb-${version}/source/mariadb-${version}.tar.gz"
       "https://downloads.mariadb.com/MariaDB/mariadb-${version}/source/mariadb-${version}.tar.gz"
     ];
-    sha256 = "0w4fcyacnbnrpqpw03qsiv21in2lr7i5v55wrgrgdam1d5hzww52";
+    sha256 = "05yqfh9i7pwf1kkzwgi8qn1s7kry59l28pb7xlbc88jgpg8adrn8";
     name   = "mariadb-${version}.tar.gz";
   };
 
@@ -92,7 +92,7 @@ common = rec { # attributes common to both builds
 };
 
 client = stdenv.mkDerivation (common // {
-  name = "mariadb-client-${common.version}";
+  pname = "mariadb-client";
 
   outputs = [ "out" "dev" "man" ];
 
@@ -121,7 +121,7 @@ client = stdenv.mkDerivation (common // {
 });
 
 everything = stdenv.mkDerivation (common // {
-  name = "mariadb-${common.version}";
+  pname = "mariadb";
 
   outputs = [ "out" "dev" "man" ];
 
