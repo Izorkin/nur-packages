@@ -1,7 +1,8 @@
-{ stdenv, fetchurl, fetchFromGitHub, cmake, pkgconfig, ncurses, zlib, xz, lzo, lz4, bzip2, snappy
+{ stdenv, fetchurl, fetchFromGitHub, cmake, pkgconfig, makeWrapper, ncurses, zlib, xz, lzo, lz4, bzip2, snappy
 , libiconv, openssl, pcre, boost, judy, bison, libxml2, libkrb5
 , libaio, libevent, jemalloc, cracklib, systemd, numactl, perl
 , fixDarwinDylibNames, cctools, CoreServices
+, less
 , withoutClient ? false
 }:
 
@@ -10,6 +11,8 @@ with stdenv.lib;
 let # in mariadb # spans the whole file
 
 libExt = stdenv.hostPlatform.extensions.sharedLibrary;
+
+mytopEnv = perl.withPackages (p: with p; [ DataDumper DBDmysql DBI TermReadKey ]);
 
 mariadb = server // {
   inherit client; # MariaDB Client
@@ -140,12 +143,13 @@ server = stdenv.mkDerivation (common // {
 
   outputs = [ "out" "dev" "man" ];
 
-  nativeBuildInputs = common.nativeBuildInputs ++ [ bison ];
+  nativeBuildInputs = common.nativeBuildInputs ++ [ bison ] ++ optional (!stdenv.isDarwin) makeWrapper;
 
   buildInputs = common.buildInputs ++ [
     xz lzo lz4 bzip2 snappy
     libxml2 boost judy libevent cracklib
-  ] ++ optional (stdenv.isLinux && !stdenv.isAarch32) numactl;
+  ] ++ optional (stdenv.isLinux && !stdenv.isAarch32) numactl
+    ++ optional (!stdenv.isDarwin) mytopEnv;
 
   patches = common.patches ++ [
     ./cmake-without-client.patch
@@ -175,6 +179,8 @@ server = stdenv.mkDerivation (common // {
       -DCMAKE_INSTALL_PREFIX_DEV=$dev
       -DINSTALL_SHAREDIR=$dev/share/mysql
       -DINSTALL_SUPPORTFILESDIR=$dev/share/mysql"
+  '' + optionalString (!stdenv.isDarwin) ''
+    patchShebangs scripts/mytop.sh
   '';
 
   postInstall = common.postInstall + ''
@@ -192,6 +198,11 @@ server = stdenv.mkDerivation (common // {
     rm "$out"/lib/mysql/plugin/client_ed25519.so
   '' + optionalString (!stdenv.isDarwin) ''
     sed -i 's/-mariadb/-mysql/' "$out"/bin/galera_new_cluster
+  '';
+
+  # perlPackages.DBDmysql is broken on darwin
+  postFixup = optionalString (!stdenv.isDarwin) ''
+    wrapProgram $out/bin/mytop --set PATH ${less}/bin/less
   '';
 
   CXXFLAGS = optionalString stdenv.isi686 "-fpermissive";
