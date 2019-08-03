@@ -12,7 +12,7 @@ let # in mariadb # spans the whole file
 libExt = stdenv.hostPlatform.extensions.sharedLibrary;
 
 mariadb = server // {
-  inherit client; # libmysqlclient.so in .out, necessary headers in .dev and utils in .bin
+  inherit client; # MariaDB Client
   server = server; # MariaDB Server
 };
 
@@ -109,11 +109,14 @@ client = stdenv.mkDerivation (common // {
 
   propagatedBuildInputs = [ openssl zlib ]; # required from mariadb.pc
 
-  patches = [ ./cmake-plugin-includedir.patch ];
+  patches = common.patches ++ [
+    ./cmake-plugin-includedir.patch
+  ];
 
   cmakeFlags = common.cmakeFlags ++ [
     "-DWITHOUT_SERVER=ON"
     "-DWITH_WSREP=OFF"
+    "-DINSTALL_MYSQLSHAREDIR=share/mysql-client"
   ];
 
   preConfigure = ''
@@ -122,9 +125,8 @@ client = stdenv.mkDerivation (common // {
   '';
 
   postInstall = common.postInstall + ''
-    rm -r "$out"/share/mysql
     rm -r "$out"/share/doc
-    rm "$out"/bin/{msql2mysql,mysql_plugin,mytop,wsrep_sst_rsync_wan}
+    rm "$out"/bin/{mytop,wsrep_sst_rsync_wan}
     rm "$out"/lib/mysql/plugin/daemon_example.ini
     libmysqlclient_path=$(readlink -f $out/lib/mysql/libmysqlclient${libExt})
     rm "$out"/lib/mysql/{libmariadb${libExt},libmysqlclient${libExt},libmysqlclient_r${libExt}}
