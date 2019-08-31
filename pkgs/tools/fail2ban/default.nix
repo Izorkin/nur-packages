@@ -1,14 +1,14 @@
 { stdenv, fetchFromGitHub, python, pythonPackages, gamin }:
 
 pythonPackages.buildPythonApplication {
-  version = "0.11.dev3-2019-07-29";
+  version = "0.11.dev3-2019-08-22";
   pname = "fail2ban";
 
   src = fetchFromGitHub {
     owner  = "fail2ban";
     repo   = "fail2ban";
-    rev    = "15734a923b226cac53e9a9fd606efa58a7be009c";
-    sha256 = "1m01k8b3arn41nls7acb839k8nymwa3r2q1smvh81d2152d93k0p";
+    rev    = "822f8adb6a59c37698232580cb66236b51c2721f";
+    sha256 = "13j13kwrdnd5jqlx927chcm3wv4fgy1ax22zh3llyjkqsinhcbsz";
   };
 
   propagatedBuildInputs = [ gamin ]
