@@ -1,5 +1,5 @@
 { stdenv, fetchurl, fetchFromGitHub, cmake, pkgconfig, makeWrapper, ncurses, zlib, xz, lzo, lz4, bzip2, snappy
-, libiconv, openssl, pcre, boost, judy, bison, libxml2, libkrb5
+, libiconv, openssl, pcre, boost, judy, bison, libxml2, libkrb5, linux-pam, curl
 , libaio, libevent, jemalloc, cracklib, systemd, numactl, perl
 , fixDarwinDylibNames, cctools, CoreServices
 , less
@@ -20,21 +20,21 @@ mariadb = server // {
 };
 
 common = rec { # attributes common to both builds
-  version = "10.4.7";
+  version = "10.4.8";
 
   src = fetchurl {
     urls = [
       "https://downloads.mariadb.org/f/mariadb-${version}/source/mariadb-${version}.tar.gz"
       "https://downloads.mariadb.com/MariaDB/mariadb-${version}/source/mariadb-${version}.tar.gz"
     ];
-    sha256 = "05yqfh9i7pwf1kkzwgi8qn1s7kry59l28pb7xlbc88jgpg8adrn8";
+    sha256 = "16yazw7y186jfbaafvcjhln2id6qc34cdqyidyf3qwvnvcxjrk0h";
     name   = "mariadb-${version}.tar.gz";
   };
 
   nativeBuildInputs = [ cmake pkgconfig ];
 
   buildInputs = [
-    ncurses openssl zlib pcre jemalloc libiconv
+    ncurses openssl zlib pcre jemalloc libiconv curl
   ] ++ optionals stdenv.isLinux [ libaio systemd libkrb5 ]
     ++ optionals stdenv.isDarwin [ perl fixDarwinDylibNames cctools CoreServices ];
 
@@ -45,7 +45,6 @@ common = rec { # attributes common to both builds
   patches = [
     ./cmake-includedir.patch
     ./cmake-libmariadb-includedir.patch
-    ./cmake-fix-crypt-libs.patch
   ];
 
   cmakeFlags = [
@@ -115,6 +114,7 @@ client = stdenv.mkDerivation (common // {
 
   patches = common.patches ++ [
     ./cmake-plugin-includedir.patch
+    ./cmake-without-plugin-auth-pam.patch
   ];
 
   cmakeFlags = common.cmakeFlags ++ [
@@ -149,10 +149,14 @@ server = stdenv.mkDerivation (common // {
     xz lzo lz4 bzip2 snappy
     libxml2 boost judy libevent cracklib
   ] ++ optional (stdenv.isLinux && !stdenv.isAarch32) numactl
+    ++ optional stdenv.isLinux linux-pam
     ++ optional (!stdenv.isDarwin) mytopEnv;
 
   patches = common.patches ++ [
     ./cmake-without-client.patch
+    ./cmake-disable-auth-pam-testing.patch
+  ] ++ optional stdenv.isDarwin [
+    ./cmake-without-plugin-auth-pam.patch
   ];
 
   cmakeFlags = common.cmakeFlags ++ [
@@ -166,9 +170,9 @@ server = stdenv.mkDerivation (common // {
     "-DWITH_INNODB_DISALLOW_WRITES=ON"
     "-DWITHOUT_EXAMPLE=1"
     "-DWITHOUT_FEDERATED=1"
-  ] ++ stdenv.lib.optionals withoutClient [
+  ] ++ optionals withoutClient [
     "-DWITHOUT_CLIENT=ON"
-  ] ++ stdenv.lib.optionals stdenv.isDarwin [
+  ] ++ optionals stdenv.isDarwin [
     "-DWITHOUT_OQGRAPH=1"
     "-DWITHOUT_TOKUDB=1"
   ];
