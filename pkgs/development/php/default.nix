@@ -248,7 +248,7 @@ let
         outputsToInstall = [ "out" "dev" ];
       };
 
-      patches = if !php7 then [ ./fix-paths-php5.patch ] else [ ./fix-paths-php7.patch ] ++ extraPatches;
+      patches = if !php7 then [ ./patch/fix-paths-php5.patch ] else [ ./patch/fix-paths-php7.patch ] ++ extraPatches;
 
       postPatch = optional stdenv.isDarwin ''
         substituteInPlace configure --replace "-lstdc++" "-lc++"
@@ -271,7 +271,7 @@ in {
     sha256 = "0jsgiwawlais8s1l38lz51h1x2ci5ildk0ksfdmkg6xpwbrfb9cm";
 
     # https://bugs.php.net/bug.php?id=76826
-    extraPatches = optional stdenv.isDarwin ./php71-darwin-isfinite.patch;
+    extraPatches = optional stdenv.isDarwin ./patch/php71-darwin-isfinite.patch;
   };
 
   php72 = generic {
@@ -279,7 +279,7 @@ in {
     sha256 = "00znhjcn6k4mbxz6jqlqf6bzr4cqdf8pnbmxkg6bns1hnr6r6yd0";
 
     # https://bugs.php.net/bug.php?id=76826
-    extraPatches = optional stdenv.isDarwin ./php72-darwin-isfinite.patch;
+    extraPatches = optional stdenv.isDarwin ./patch/php72-darwin-isfinite.patch;
   };
 
   php73 = generic {
@@ -287,6 +287,6 @@ in {
     sha256 = "1rxm256vhnvyabfwmyv51sqrkjlid1g8lczcy4skc2f72d5zzlcj";
 
     # https://bugs.php.net/bug.php?id=76826
-    extraPatches = optional stdenv.isDarwin ./php73-darwin-isfinite.patch;
+    extraPatches = optional stdenv.isDarwin ./patch/php73-darwin-isfinite.patch;
   };
 }
