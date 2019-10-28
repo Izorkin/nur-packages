@@ -264,6 +264,27 @@ in {
   php56 = generic {
     version = "5.6.40";
     sha256 = "005s7w167dypl41wlrf51niryvwy1hfv53zxyyr3lm938v9jbl7z";
+
+    extraPatches = [
+      # Added sqlite3.defensive INI directive
+      ./patch/php56/php5640-sqlite3-defensive.patch
+      # Backport security bug patches
+      ./patch/php56/php5640-75457.patch
+      ./patch/php56/php5640-76846.patch
+      ./patch/php56/php5640-77540.patch
+      ./patch/php56/php5640-77563.patch
+      ./patch/php56/php5640-77630.patch
+      ./patch/php56/php5640-77753.patch
+      ./patch/php56/php5640-77831.patch
+      ./patch/php56/php5640-77919.patch
+      ./patch/php56/php5640-77950.patch
+      ./patch/php56/php5640-77967.patch
+      ./patch/php56/php5640-77988.patch
+      ./patch/php56/php5640-78069.patch
+      ./patch/php56/php5640-78222.patch
+      ./patch/php56/php5640-78256.patch
+      ./patch/php56/php5640-78380.patch
+    ];
   };
 
   php71 = generic {
