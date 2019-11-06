@@ -325,6 +325,18 @@ let
     meta.broken = isPhp56;
   };
 
+  #pcov = assert !isPhp56; buildPecl {
+  pcov = buildPecl {
+    version = "1.0.6";
+    pname = "pcov";
+
+    sha256 = "1psfwscrc025z8mziq69pcx60k4fbkqa5g2ia8lplb94mmarj0v1";
+
+    buildInputs = with pkgs; [ (if isPhp73 then pcre2.dev else pcre.dev) ];
+
+    meta.broken = isPhp56;
+  };
+
   pcs = buildPecl rec {
     version = "1.3.3";
     pname = "pcs";
