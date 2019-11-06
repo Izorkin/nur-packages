@@ -99,24 +99,24 @@ let
   };
 
   composer = mkDerivation rec {
-    version = "1.9.0";
+    version = "1.9.1";
     pname = "composer";
 
     src = pkgs.fetchurl {
       url = "https://getcomposer.org/download/${version}/composer.phar";
-      sha256 = "0x88bin1c749ajymz2cqjx8660a3wxvndpv4xr6w3pib16fzdpy9";
+      sha256 = "04a1fqxhxrckgxw9xbx7mplkzw808k2dz4jqsxq2dy7w6y80n88z";
     };
 
     unpackPhase = ":";
 
     nativeBuildInputs = with pkgs; [ makeWrapper ];
 
-    installPhase = ''
+    installPhase = with pkgs; ''
       mkdir -p $out/bin
       install -D $src $out/libexec/composer/composer.phar
       makeWrapper ${php}/bin/php $out/bin/composer \
         --add-flags "$out/libexec/composer/composer.phar" \
-        --prefix PATH : ${pkgs.lib.makeBinPath [ pkgs.unzip ]}
+        --prefix PATH : ${lib.makeBinPath [ unzip ]}
     '';
 
     meta = with pkgs.lib; {
