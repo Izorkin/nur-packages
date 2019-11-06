@@ -595,6 +595,32 @@ let
     };
   };
 
+  psalm = mkDerivation rec {
+    version = "3.6.4";
+    pname = "psalm";
+
+    src = pkgs.fetchurl {
+      url = "https://github.com/vimeo/psalm/releases/download/${version}/psalm.phar";
+      sha256 = "1p6vcasifl3zpyzzyz54nx5xyqvwi3hpabiw6vc1xs6cimb8k32a";
+    };
+
+    phases = [ "installPhase" ];
+    nativeBuildInputs = with pkgs; [ makeWrapper ];
+
+    installPhase = ''
+      mkdir -p $out/bin
+      install -D $src $out/libexec/psalm/psalm.phar
+      makeWrapper ${php}/bin/php $out/bin/psalm \
+        --add-flags "$out/libexec/psalm/psalm.phar"
+    '';
+
+    meta = with pkgs.lib; {
+      description = "A static analysis tool for finding errors in PHP applications";
+      license = licenses.mit;
+      homepage = https://github.com/vimeo/psalm;
+    };
+  };
+
   psysh = mkDerivation rec {
     version = "0.9.9";
     pname = "psysh";
