@@ -325,6 +325,23 @@ let
     meta.broken = isPhp56;
   };
 
+  mongodb = buildPecl {
+    pname = "mongodb";
+    version = "1.6.0";
+
+    sha256 = "0bybfjs61v66bynajbd8dwjlwbz6p2gck49r3zqbxa3ja6d671l6";
+
+    nativeBuildInputs = with pkgs; [ pkgconfig ];
+    buildInputs = with pkgs; [
+      cyrus_sasl
+      icu
+      openssl
+      snappy
+      zlib
+      (if isPhp73 then pcre2.dev else pcre.dev)
+    ] ++ lib.optional (stdenv.isDarwin) darwin.apple_sdk.frameworks.Security;
+  };
+
   #pcov = assert !isPhp56; buildPecl {
   pcov = buildPecl {
     version = "1.0.6";
