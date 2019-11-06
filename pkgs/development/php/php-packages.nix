@@ -34,10 +34,10 @@ let
 
   #apcu51 = assert !isPhp56; buildPecl rec {
   apcu51 = buildPecl rec {
-    version = "5.1.17";
+    version = "5.1.18";
     pname = "apcu";
 
-    sha256 = "14y7alvj5q17q1b544bxidavkn6i40cjbq2nv1m0k70ai5vv84bb";
+    sha256 = "0ayykd4hfvdzk7qnr5k6yq5scwf6rb2i05xscfv76q5dmkkynvfl";
 
     buildInputs = with pkgs; [ (if isPhp73 then pcre2.dev else pcre.dev) ];
     doCheck = true;
