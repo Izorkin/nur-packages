@@ -1,6 +1,6 @@
 # pcre functionality is tested in nixos/tests/php-pcre.nix
 { lib, stdenv, fetchurl, autoconf, bison, libtool, pkgconfig, re2c
-, mysql, libxml2, readline, zlib, curl, postgresql, gettext
+, libmysqlclient, libxml2, readline, zlib, curl, postgresql, gettext
 , openssl, pcre, pcre2, sqlite, config, libjpeg, libpng, freetype
 , libxslt, libmcrypt, bzip2, icu, icu60, openldap, cyrus_sasl, libmhash, unixODBC, freetds
 , uwimap, pam, gmp, apacheHttpd, libiconv, systemd, libsodium, html-tidy, libargon2
@@ -67,7 +67,7 @@ let
   }:
 
     let
-      mysqlBuildInputs = optional (!mysqlndSupport) mysql.connector-c;
+      mysqlBuildInputs = optional (!mysqlndSupport) libmysqlclient;
       libmcrypt' = libmcrypt.override { disablePosixThreads = true; };
     in stdenv.mkDerivation {
 
@@ -155,10 +155,10 @@ let
       ++ optional postgresqlSupport "--with-pgsql=${postgresql}"
       ++ optional pdo_odbcSupport "--with-pdo-odbc=unixODBC,${unixODBC}"
       ++ optional pdo_pgsqlSupport "--with-pdo-pgsql=${postgresql}"
-      ++ optional pdo_mysqlSupport "--with-pdo-mysql=${if mysqlndSupport then "mysqlnd" else mysql.connector-c}"
+      ++ optional pdo_mysqlSupport "--with-pdo-mysql=${if mysqlndSupport then "mysqlnd" else libmysqlclient}"
       ++ optional mysqlSupport "--with-mysql${if mysqlndSupport then "=mysqlnd" else ""}"
       ++ optionals mysqliSupport [
-        "--with-mysqli=${if mysqlndSupport then "mysqlnd" else "${mysql.connector-c}/bin/mysql_config"}"
+        "--with-mysqli=${if mysqlndSupport then "mysqlnd" else "${libmysqlclient}/bin/mysql_config"}"
       ]
       ++ optional ( pdo_mysqlSupport || mysqlSupport || mysqliSupport ) "--with-mysql-sock=/run/mysqld/mysqld.sock"
       ++ optional bcmathSupport "--enable-bcmath"
