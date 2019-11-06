@@ -20,8 +20,8 @@ let
 
   apcu = if isPhp56 then apcu40 else apcu51;
 
-  #apcu40 = assert isPhp56; buildPecl rec {
-  apcu40 = buildPecl rec {
+  #apcu40 = assert isPhp56; buildPecl {
+  apcu40 = buildPecl {
     version = "4.0.11";
     pname = "apcu";
 
@@ -32,8 +32,8 @@ let
     meta.broken = !isPhp56;
   };
 
-  #apcu51 = assert !isPhp56; buildPecl rec {
-  apcu51 = buildPecl rec {
+  #apcu51 = assert !isPhp56; buildPecl {
+  apcu51 = buildPecl {
     version = "5.1.18";
     pname = "apcu";
 
@@ -49,8 +49,8 @@ let
     meta.broken = isPhp56;
   };
 
-  #apcu_bc = assert !isPhp56; buildPecl rec {
-  apcu_bc = buildPecl rec {
+  #apcu_bc = assert !isPhp56; buildPecl {
+  apcu_bc = buildPecl {
     version = "1.0.5";
     pname = "apcu_bc";
 
@@ -61,8 +61,8 @@ let
     meta.broken = isPhp56;
   };
 
-  #ast = assert !isPhp56; buildPecl rec {
-  ast = buildPecl rec {
+  #ast = assert !isPhp56; buildPecl {
+  ast = buildPecl {
     version = "1.0.3";
     pname = "ast";
 
@@ -168,7 +168,7 @@ let
     ];
   };
 
-  geoip = buildPecl rec {
+  geoip = buildPecl {
     version = "1.1.1";
     pname = "geoip";
 
@@ -181,7 +181,7 @@ let
     buildInputs = with pkgs; [ geoip ];
   };
 
-  event = buildPecl rec {
+  event = buildPecl {
     version = "2.5.3";
     pname = "event";
 
@@ -209,8 +209,8 @@ let
 
   igbinary = if isPhp56 then igbinary20 else igbinary30;
 
-  #igbinary20 = assert isPhp56; buildPecl rec {
-  igbinary20 = buildPecl rec {
+  #igbinary20 = assert isPhp56; buildPecl {
+  igbinary20 = buildPecl {
     version = "2.0.8";
     pname = "igbinary";
 
@@ -226,8 +226,8 @@ let
     meta.broken = !isPhp56;
   };
 
-  #igbinary30 = assert !isPhp56; buildPecl rec {
-  igbinary30 = buildPecl rec {
+  #igbinary30 = assert !isPhp56; buildPecl {
+  igbinary30 = buildPecl {
     version = "3.0.1";
     pname = "igbinary";
 
@@ -243,7 +243,7 @@ let
     meta.broken = isPhp56;
   };
 
-  imagick = buildPecl rec {
+  imagick = buildPecl {
     version = "3.4.4";
     pname = "imagick";
 
@@ -257,8 +257,8 @@ let
     buildInputs = with pkgs; [ (if isPhp73 then pcre2.dev else pcre.dev) ];
   };
 
-  #mailparse = assert !isPhp56; assert !isPhp73; buildPecl rec {
-  mailparse = buildPecl rec {
+  #mailparse = assert !isPhp56; assert !isPhp73; buildPecl {
+  mailparse = buildPecl {
     version = "3.0.3";
     pname = "mailparse";
 
@@ -267,8 +267,8 @@ let
     meta.broken = isPhp56;
   };
 
-  #memcache = assert isPhp56; buildPecl rec {
-  memcache = buildPecl rec {
+  #memcache = assert isPhp56; buildPecl {
+  memcache = buildPecl {
     version = "3.0.8";
     pname = "memcache";
 
@@ -285,8 +285,8 @@ let
 
   memcached = if isPhp56 then memcached22 else memcached31;
 
-  #memcached22 = assert isPhp56; buildPecl rec {
-  memcached22 = buildPecl rec {
+  #memcached22 = assert isPhp56; buildPecl {
+  memcached22 = buildPecl {
     version = "2.2.0";
     pname = "memcached";
 
@@ -354,15 +354,15 @@ let
     meta.broken = isPhp56;
   };
 
-  pcs = buildPecl rec {
+  pcs = buildPecl {
     version = "1.3.3";
     pname = "pcs";
 
     sha256 = "0d4p1gpl8gkzdiv860qzxfz250ryf0wmjgyc8qcaaqgkdyh5jy5p";
   };
 
-  #pdo_sqlsrv = assert !isPhp56; buildPecl rec {
-  pdo_sqlsrv = buildPecl rec {
+  #pdo_sqlsrv = assert !isPhp56; buildPecl {
+  pdo_sqlsrv = buildPecl {
     version = "5.6.1";
     pname = "pdo_sqlsrv";
 
@@ -524,7 +524,7 @@ let
 
   pinba = if isPhp56 then pinba110 else (if isPhp73 then pinba112 else pinba111 );
 
-  pinba110 = buildPecl rec {
+  pinba110 = buildPecl {
     version = "1.1.0";
     pname = "pinba";
 
@@ -547,8 +547,8 @@ let
     };
   };
 
-  #pinba111 = assert !isPhp56; assert !isPhp73; buildPecl rec {
-  pinba111 = buildPecl rec {
+  #pinba111 = assert !isPhp56; assert !isPhp73; buildPecl {
+  pinba111 = buildPecl {
     version = "1.1.1";
     pname = "pinba";
 
@@ -571,8 +571,8 @@ let
     };
   };
 
-  #pinba112 = assert !isPhp56; assert isPhp73; buildPecl rec {
-  pinba112 = buildPecl rec {
+  #pinba112 = assert !isPhp56; assert isPhp73; buildPecl {
+  pinba112 = buildPecl {
     version = "1.1.2-dev";
     pname = "pinba";
 
@@ -595,7 +595,7 @@ let
     };
   };
 
-  protobuf = buildPecl rec {
+  protobuf = buildPecl {
     version = "3.10.0";
     pname = "protobuf";
 
@@ -667,8 +667,8 @@ let
 
   pthreads = if isPhp56 then pthreads20 else (if isPhp73 then pthreads32-dev else (if isPhp72 then pthreads32 else pthreads31));
 
-  #pthreads20 = assert isPhp56; buildPecl rec {
-  pthreads20 = buildPecl rec {
+  #pthreads20 = assert isPhp56; buildPecl {
+  pthreads20 = buildPecl {
     version = "2.0.10";
     pname = "pthreads";
 
@@ -679,8 +679,8 @@ let
     meta.broken = !isPhp56;
   };
 
-  #pthreads31 = assert isPhp71; assert !isPhp72; buildPecl rec {
-  pthreads31 = buildPecl rec {
+  #pthreads31 = assert isPhp71; assert !isPhp72; buildPecl {
+  pthreads31 = buildPecl {
     version = "3.1.6-dev";
     pname = "pthreads";
 
@@ -713,8 +713,8 @@ let
     meta.broken = (!isPhp72 || isPhp73);
   };
 
-  #pthreads32-dev = assert isPhp73; buildPecl rec {
-  pthreads32-dev = buildPecl rec {
+  #pthreads32-dev = assert isPhp73; buildPecl {
+  pthreads32-dev = buildPecl {
     version = "3.2.0-dev";
     pname = "pthreads";
 
@@ -732,8 +732,8 @@ let
 
   redis = if isPhp56 then redis43 else redis50;
 
-  #redis43 = assert isPhp56; buildPecl rec {
-  redis43 = buildPecl rec {
+  #redis43 = assert isPhp56; buildPecl {
+  redis43 = buildPecl {
     version = "4.3.0";
     pname = "redis";
 
@@ -742,8 +742,8 @@ let
     meta.broken = !isPhp56;
   };
 
-  #redis50 = assert !isPhp56; buildPecl rec {
-  redis50 = buildPecl rec {
+  #redis50 = assert !isPhp56; buildPecl {
+  redis50 = buildPecl {
     version = "5.1.0";
     pname = "redis";
 
@@ -752,8 +752,8 @@ let
     meta.broken = isPhp56;
   };
 
-  #sqlsrv = assert !isPhp56; buildPecl rec {
-  sqlsrv = buildPecl rec {
+  #sqlsrv = assert !isPhp56; buildPecl {
+  sqlsrv = buildPecl {
     version = "5.6.1";
     pname = "sqlsrv";
 
@@ -764,8 +764,8 @@ let
     meta.broken = isPhp56;
   };
 
-  #spidermonkey = assert isPhp56; buildPecl rec {
-  spidermonkey = buildPecl rec {
+  #spidermonkey = assert isPhp56; buildPecl {
+  spidermonkey = buildPecl {
     version = "1.0.0";
     pname = "spidermonkey";
 
@@ -809,8 +809,8 @@ let
 
   xdebug = if isPhp56 then xdebug25 else xdebug28;
 
-  #xdebug25 = assert isPhp56; buildPecl rec {
-  xdebug25 = buildPecl rec {
+  #xdebug25 = assert isPhp56; buildPecl {
+  xdebug25 = buildPecl {
     version = "2.5.5";
     pname = "xdebug";
 
@@ -822,8 +822,8 @@ let
     meta.broken = !isPhp56;
   };
 
-  #xdebug28 = assert !isPhp56; buildPecl rec {
-  xdebug28 = buildPecl rec {
+  #xdebug28 = assert !isPhp56; buildPecl {
+  xdebug28 = buildPecl {
     version = "2.8.0";
     pname = "xdebug";
 
@@ -837,8 +837,8 @@ let
 
   yaml = if isPhp56 then yaml13 else yaml20;
 
-  #yaml13 = assert isPhp56; buildPecl rec {
-  yaml13 = buildPecl rec {
+  #yaml13 = assert isPhp56; buildPecl {
+  yaml13 = buildPecl {
     version = "1.3.2";
     pname = "yaml";
 
@@ -853,8 +853,8 @@ let
     meta.broken = !isPhp56;
   };
 
-  #yaml20 = assert !isPhp56; buildPecl rec {
-  yaml20 = buildPecl rec {
+  #yaml20 = assert !isPhp56; buildPecl {
+  yaml20 = buildPecl {
     version = "2.0.4";
     pname = "yaml";
 
@@ -869,8 +869,8 @@ let
     meta.broken = isPhp56;
   };
 
-  #zmq = assert !isPhp73; buildPecl rec {
-  zmq = buildPecl rec {
+  #zmq = assert !isPhp73; buildPecl {
+  zmq = buildPecl {
     version = "1.1.3";
     pname = "zmq";
 
