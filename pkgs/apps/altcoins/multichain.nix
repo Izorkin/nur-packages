@@ -25,7 +25,7 @@ stdenv.mkDerivation rec {
 
   meta = {
     description = "Open platform for blockchain applications";
-    homepage = https://http://www.multichain.com/;
+    homepage = https://www.multichain.com/;
     platforms = platforms.linux;
   };
 }

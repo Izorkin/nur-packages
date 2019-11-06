@@ -366,7 +366,7 @@ let
     meta = with pkgs.lib; {
       description = "A tool to automatically fix PHP coding standards issues";
       license = licenses.mit;
-      homepage = http://cs.sensiolabs.org/;
+      homepage = https://cs.sensiolabs.org/;
       maintainers = with maintainers; [ jtojnar ];
     };
   };
@@ -731,7 +731,7 @@ let
     pname = "xcache";
 
     src = pkgs.fetchurl {
-      url = "http://xcache.lighttpd.net/pub/Releases/${version}/${pname}.tar.bz2";
+      url = "https://xcache.lighttpd.net/pub/Releases/${version}/${pname}.tar.bz2";
       sha256 = "1gbcpw64da9ynjxv70jybwf9y88idm01kb16j87vfagpsp5s64kx";
     };
 
