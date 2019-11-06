@@ -305,13 +305,13 @@ let
 
   #memcached31 = assert !isPhp56; buildPecl rec {
   memcached31 = buildPecl rec {
-    version = "3.1.3";
+    version = "3.1.4";
     pname = "memcached";
 
     src = fetchgit {
       url = "https://github.com/php-memcached-dev/php-memcached";
       rev = "v${version}";
-      sha256 = "1w9g8k7bmq3nbzskskpsr5632gh9q75nqy7nkjdzgs17klq9khjk";
+      sha256 = "043x964gvmm38l3lyifsv48jc6bvhz7drr2gal630b9h8rgwxsri";
     };
 
     configureFlags = with pkgs; [
