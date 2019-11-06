@@ -752,7 +752,7 @@ let
     meta.broken = !isPhp56;
   };
 
-  xdebug = if isPhp56 then xdebug25 else xdebug27;
+  xdebug = if isPhp56 then xdebug25 else xdebug28;
 
   #xdebug25 = assert isPhp56; buildPecl rec {
   xdebug25 = buildPecl rec {
@@ -767,12 +767,12 @@ let
     meta.broken = !isPhp56;
   };
 
-  #xdebug27 = assert !isPhp56; buildPecl rec {
-  xdebug27 = buildPecl rec {
-    version = "2.7.2";
+  #xdebug28 = assert !isPhp56; buildPecl rec {
+  xdebug28 = buildPecl rec {
+    version = "2.8.0";
     pname = "xdebug";
 
-    sha256 = "19m40n5h339yk0g458zpbsck1lslhnjsmhrp076kzhl5l4x2iwxh";
+    sha256 = "0r62501fdp63zz81scz2x1pq3qzpjafya96g12j0jx7crdz127fb";
 
     doCheck = true;
     checkTarget = "test";
