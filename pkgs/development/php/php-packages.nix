@@ -63,10 +63,10 @@ let
 
   #ast = assert !isPhp56; buildPecl {
   ast = buildPecl {
-    version = "1.0.3";
+    version = "1.0.4";
     pname = "ast";
 
-    sha256 = "1sk9bkyw3ck9jgvlazxx8zl2nv6lc0gq66v1rfcby9v0zyydb7xr";
+    sha256 = "1dspqjp1wxi48qbf698x653fhlvz8l07gy1hdj0h100d7s3qmsj7";
 
     meta.broken = isPhp56;
   };
