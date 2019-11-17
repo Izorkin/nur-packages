@@ -9,6 +9,7 @@
 , gssSupport ? !stdenv.hostPlatform.isWindows, libkrb5 ? null
 , c-aresSupport ? false, c-ares ? null
 , brotliSupport ? false, brotli ? null
+, ipv6Support ? true
 }:
 
 assert http2Support -> nghttp2 != null;
@@ -85,7 +86,8 @@ stdenv.mkDerivation rec {
     ++ stdenv.lib.optionals stdenv.hostPlatform.isWindows [
       "--disable-shared"
       "--enable-static"
-    ];
+    ]
+    ++ stdenv.lib.optional (!ipv6Support) "--disable-ipv6";
 
   CXX = "${stdenv.cc.targetPrefix}c++";
   CXXCPP = "${stdenv.cc.targetPrefix}c++ -E";
