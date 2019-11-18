@@ -73,7 +73,7 @@ let
 
       inherit version;
 
-      name = "php-${version}";
+      pname = "php";
 
       enableParallelBuilding = true;
 

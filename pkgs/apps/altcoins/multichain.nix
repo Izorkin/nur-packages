@@ -6,7 +6,7 @@
 with stdenv.lib;
 stdenv.mkDerivation rec {
 
-  name = "multichain-${version}";
+  pname = "multichain";
   version = "2018-06-13";
 
   src = fetchFromGitHub {

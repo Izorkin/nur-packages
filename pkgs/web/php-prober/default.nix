@@ -2,7 +2,7 @@
 
 stdenv.mkDerivation rec {
   version = "2.3.1";
-  name = "php-x-prober-${version}";
+  pname = "php-x-prober";
 
   src = fetchFromGitHub {
     owner = "kmvan";
