@@ -17,6 +17,7 @@ let
     isPhp71 = pkgs.lib.versionAtLeast php.version "7.1";
     isPhp72 = pkgs.lib.versionAtLeast php.version "7.2";
     isPhp73 = pkgs.lib.versionAtLeast php.version "7.3";
+    isPhp74 = pkgs.lib.versionAtLeast php.version "7.4";
 
   apcu = if isPhp56 then apcu40 else apcu51;
 
@@ -127,6 +128,7 @@ let
     };
   };
 
+  #couchbase = assert !isPhp74; buildPecl rec {
   couchbase = buildPecl rec {
     version = "2.6.1";
     pname = "couchbase";
@@ -166,6 +168,8 @@ let
              AC_MSG_WARN([Cannot find igbinary.h])
       '')
     ];
+
+    meta.broken = isPhp74;
   };
 
   geoip = buildPecl {
@@ -354,14 +358,17 @@ let
     meta.broken = isPhp56;
   };
 
+  #pcs = assert !isPhp74; buildPecl {
   pcs = buildPecl {
     version = "1.3.3";
     pname = "pcs";
 
     sha256 = "0d4p1gpl8gkzdiv860qzxfz250ryf0wmjgyc8qcaaqgkdyh5jy5p";
+
+    meta.broken = isPhp74;
   };
 
-  #pdo_sqlsrv = assert !isPhp56; buildPecl {
+  #pdo_sqlsrv = assert !isPhp56; assert isPhp74; buildPecl {
   pdo_sqlsrv = buildPecl {
     version = "5.6.1";
     pname = "pdo_sqlsrv";
@@ -370,7 +377,7 @@ let
 
     buildInputs = with pkgs; [ unixODBC ];
 
-    meta.broken = isPhp56;
+    meta.broken = (isPhp56 || isPhp74);
   };
 
   php-cs-fixer = mkDerivation rec {
@@ -595,6 +602,7 @@ let
     };
   };
 
+  #protobuf = assert isPhp74; buildPecl {
   protobuf = buildPecl {
     version = "3.10.0";
     pname = "protobuf";
@@ -609,6 +617,8 @@ let
       '';
       license = licenses.bsd3;
       homepage = "https://developers.google.com/protocol-buffers/";
+
+      broken = isPhp74;
     };
   };
 
@@ -713,7 +723,7 @@ let
     meta.broken = (!isPhp72 || isPhp73);
   };
 
-  #pthreads32-dev = assert isPhp73; buildPecl {
+  #pthreads32-dev = assert isPhp73; assert !isPhp74; buildPecl {
   pthreads32-dev = buildPecl {
     version = "3.2.0-dev";
     pname = "pthreads";
@@ -727,7 +737,7 @@ let
 
     buildInputs = with pkgs; [ pcre2.dev ];
 
-    meta.broken = !isPhp73;
+    meta.broken = (!isPhp73 || isPhp74);
   };
 
   redis = if isPhp56 then redis43 else redis50;
@@ -752,7 +762,7 @@ let
     meta.broken = isPhp56;
   };
 
-  #sqlsrv = assert !isPhp56; buildPecl {
+  #sqlsrv = assert !isPhp56; assert !isPhp74; buildPecl {
   sqlsrv = buildPecl {
     version = "5.6.1";
     pname = "sqlsrv";
@@ -761,7 +771,7 @@ let
 
     buildInputs = with pkgs; [ unixODBC ];
 
-    meta.broken = isPhp56;
+    meta.broken = (isPhp56 || isPhp74);
   };
 
   #spidermonkey = assert isPhp56; buildPecl {
