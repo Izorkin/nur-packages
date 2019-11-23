@@ -1,10 +1,10 @@
 # pcre functionality is tested in nixos/tests/php-pcre.nix
-{ lib, stdenv, fetchurl, autoconf, bison, libtool, pkgconfig, re2c
+{ config, lib, stdenv, fetchurl, autoconf, bison, libtool, pkgconfig, re2c
 , libxml2, readline, zlib, curl, postgresql, gettext
-, openssl, pcre, pcre2, sqlite, config, libjpeg, libpng, freetype
+, openssl, pcre, pcre2, sqlite, libjpeg, libpng, freetype
 , libxslt, libmcrypt, bzip2, icu, icu60, openldap, cyrus_sasl, libmhash, unixODBC, freetds
 , uwimap, pam, gmp, apacheHttpd, libiconv, systemd, libsodium, html-tidy, libargon2
-, libzip, valgrind
+, libzip, valgrind, oniguruma
 }:
 
 with lib;
@@ -81,6 +81,7 @@ let
       buildInputs = [ ]
         ++ optional (versionOlder version "7.3") pcre
         ++ optional (versionAtLeast version "7.3") pcre2
+        ++ optional (versionAtLeast version "7.4") oniguruma
         ++ optional withSystemd systemd
         ++ optionals imapSupport [ uwimap openssl pam ]
         ++ optionals curlSupport [ curl openssl ]
@@ -117,7 +118,8 @@ let
         "--with-config-file-scan-dir=/etc/php.d"
       ]
       ++ optional (versionOlder version "7.3") "--with-pcre-regex=${pcre.dev} PCRE_LIBDIR=${pcre}"
-      ++ optional (versionAtLeast version "7.3") "--with-pcre-regex=${pcre2.dev} PCRE_LIBDIR=${pcre2}"
+      ++ optional (versions.majorMinor version == "7.3") "--with-pcre-regex=${pcre2.dev} PCRE_LIBDIR=${pcre2}"
+      ++ optional (versionAtLeast version "7.4") "--with-external-pcre=${pcre2.dev} PCRE_LIBDIR=${pcre2}"
       ++ optional stdenv.isDarwin "--with-iconv=${libiconv}"
       ++ optional withSystemd "--with-fpm-systemd"
       ++ optionals imapSupport [
@@ -136,10 +138,10 @@ let
       ++ optional mhashSupport "--with-mhash"
       ++ optional curlSupport "--with-curl=${curl.dev}"
       ++ optional zlibSupport "--with-zlib=${zlib.dev}"
-      ++ optional libxml2Support "--with-libxml-dir=${libxml2.dev}"
+      ++ optional (libxml2Support && (versionOlder version "7.4")) "--with-libxml-dir=${libxml2.dev}"
       ++ optional (!libxml2Support) [
         "--disable-dom"
-        "--disable-libxml"
+        (if (versionOlder version "7.4") then "--disable-libxml" else "--without-libxml")
         "--disable-simplexml"
         "--disable-xml"
         "--disable-xmlreader"
@@ -158,7 +160,7 @@ let
       ++ optional bcmathSupport "--enable-bcmath"
       # FIXME: Our own gd package doesn't work, see https://bugs.php.net/bug.php?id=60108.
       ++ optionals gdSupport [
-        "--with-gd"
+        ( if (versionOlder version "7.4") then "--with-gd" else "--enable-gd" )
         "--with-freetype-dir=${freetype.dev}"
         "--with-png-dir=${libpng.dev}"
         "--with-jpeg-dir=${libjpeg.dev}"
@@ -174,7 +176,7 @@ let
       ++ optional xslSupport "--with-xsl=${libxslt.dev}"
       ++ optional mcryptSupport "--with-mcrypt=${libmcrypt'}"
       ++ optional bz2Support "--with-bz2=${bzip2.dev}"
-      ++ optional zipSupport "--enable-zip"
+      ++ optional (zipSupport && (versionOlder version "7.4")) "--enable-zip"
       ++ optional ftpSupport "--enable-ftp"
       ++ optional fpmSupport "--enable-fpm"
       ++ optional (mssqlSupport && !stdenv.isDarwin) "--with-mssql=${freetds}"
@@ -183,7 +185,7 @@ let
       ++ optional sodiumSupport "--with-sodium=${libsodium.dev}"
       ++ optional tidySupport "--with-tidy=${html-tidy}"
       ++ optional argon2Support "--with-password-argon2=${libargon2}"
-      ++ optional libzipSupport "--with-libzip=${libzip.dev}"
+      ++ optional (libzipSupport && (versionOlder version "7.4")) "--with-libzip=${libzip.dev}"
       ++ optional phpdbgSupport "--enable-phpdbg"
       ++ optional (!phpdbgSupport) "--disable-phpdbg"
       ++ optional (!cgiSupport) "--disable-cgi"
@@ -303,4 +305,16 @@ in {
     # https://bugs.php.net/bug.php?id=76826
     extraPatches = optional stdenv.isDarwin ./patch/php73-darwin-isfinite.patch;
   };
+
+  php74 = let
+    version = "7.4.0RC6";
+    sha256 = "1q20ax5mphypq7dwxd509lzca6m0rcxkzmcbkc6kg4bw6gvnjkyv";
+  in (generic {
+    inherit version sha256;
+  }).overrideAttrs(oa: {
+    src = fetchurl {
+      url = "https://downloads.php.net/~derick/php-${version}.tar.bz2";
+      inherit sha256;
+    };
+  });
 }
