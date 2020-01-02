@@ -1,4 +1,4 @@
-{ stdenv, fetchFromGitHub, python, pythonPackages, gamin }:
+{ stdenv, fetchFromGitHub, python3 }:
 
 pythonPackages.buildPythonApplication {
   version = "0.11.dev3-2019-11-25";
@@ -11,8 +11,10 @@ pythonPackages.buildPythonApplication {
     sha256 = "0ny4j5mqa01lkhmkb4ynwf99ygp6cm2hxwvw5jnngj2x859qpkhq";
   };
 
-  propagatedBuildInputs = [ gamin ]
-    ++ (stdenv.lib.optional stdenv.isLinux pythonPackages.systemd);
+  pythonPath = with python3.pkgs;
+    stdenv.lib.optionals stdenv.isLinux [
+      systemd
+  ];
 
   preConfigure = ''
     for i in config/action.d/sendmail*.conf; do
@@ -31,11 +33,15 @@ pythonPackages.buildPythonApplication {
     substituteInPlace setup.py --replace /usr/share/doc/ share/doc/
   
     # see https://github.com/NixOS/nixpkgs/issues/4968
-    ${python}/bin/${python.executable} setup.py install_data --install-dir=$out --root=$out
+    ${python3.interpreter} setup.py install_data --install-dir=$out --root=$out
+  '';
+
+  postPatch = ''
+    ${stdenv.shell} ./fail2ban-2to3
   '';
 
   postInstall = let
-    sitePackages = "$out/lib/${python.libPrefix}/site-packages";
+    sitePackages = "$out/${python3.sitePackages}";
   in ''
     # see https://github.com/NixOS/nixpkgs/issues/4968
     rm -rf ${sitePackages}/etc ${sitePackages}/usr ${sitePackages}/var;
