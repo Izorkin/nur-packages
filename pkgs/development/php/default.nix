@@ -327,7 +327,7 @@ in {
   };
 
   php74 = generic {
-    version = "7.4.2";
-    sha256 = "05p8z0ld058yjanxaphy3ka20hn7x7d6nak5sm782w4wprs9k402";
+    version = "7.4.3";
+    sha256 = "053d9hxpvk442nc3kiks99y51z6lfvf3wfn7ck62vyvqjnj7nlf1";
   };
 }
