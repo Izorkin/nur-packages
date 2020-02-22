@@ -202,7 +202,7 @@ server = stdenv.mkDerivation (common // {
 
   # perlPackages.DBDmysql is broken on darwin
   postFixup = optionalString (!stdenv.hostPlatform.isDarwin) ''
-    wrapProgram $out/bin/mytop --set PATH ${less}/bin/less
+    wrapProgram $out/bin/mytop --set PATH ${makeBinPath [ less ncurses ]}
   '';
 
   CXXFLAGS = optionalString stdenv.hostPlatform.isi686 "-fpermissive";
