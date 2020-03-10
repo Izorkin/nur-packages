@@ -769,10 +769,10 @@ let
 
   #redis50 = assert !isPhp56; buildPecl {
   redis50 = buildPecl {
-    version = "5.1.1";
+    version = "5.2.0";
     pname = "redis";
 
-    sha256 = "1041zv91fkda73w4c3pj6zdvwjgb3q7mxg6mwnq9gisl80mrs732";
+    sha256 = "1fzi0h2lrw661nl2p2nzq5afn2ds4857pl18m3cnf6idpyr9d42f";
 
     meta.broken = isPhp56;
   };
