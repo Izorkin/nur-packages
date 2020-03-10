@@ -232,10 +232,10 @@ let
 
   #igbinary30 = assert !isPhp56; buildPecl {
   igbinary30 = buildPecl {
-    version = "3.1.0";
+    version = "3.1.2";
     pname = "igbinary";
 
-    sha256 = "0m3dkp5hf2a6x19wxqqc6ml70hwm2pj87wqcsnvizjg763k9bj3f";
+    sha256 = "02x93x0iqsfbcaavbf2aqb1yikfxgq0zximhyx1fv5skmmyk52z7";
 
     configureFlags = [
       "--enable-igbinary"
