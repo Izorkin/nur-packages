@@ -271,8 +271,10 @@ let
     meta.broken = isPhp56;
   };
 
+  memcache = if isPhp56 then memcache30 else memcache40;
+
   #memcache = assert isPhp56; buildPecl {
-  memcache = buildPecl {
+  memcache30 = buildPecl {
     version = "3.0.8";
     pname = "memcache";
 
@@ -285,6 +287,21 @@ let
     makeFlags = [ "CFLAGS=-fgnu89-inline" ];
 
     meta.broken = !isPhp56;
+  };
+
+  memcache40 = buildPecl {
+    version = "4.0.5.2";
+    pname = "memcache";
+
+    sha256 = "0qzdm71800rsdkivfjpam0sz4gz4974bwjqp3xkh785f7f0nfxkv";
+
+    configureFlags = with pkgs; [
+      "--with-zlib-dir=${zlib.dev}"
+    ];
+
+    buildInputs = with pkgs; [ zlib ];
+
+    meta.broken = isPhp56;
   };
 
   memcached = if isPhp56 then memcached22 else memcached31;
