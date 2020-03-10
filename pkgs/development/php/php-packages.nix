@@ -387,14 +387,14 @@ let
 
   #pdo_sqlsrv = assert !isPhp56; assert isPhp74; buildPecl {
   pdo_sqlsrv = buildPecl {
-    version = "5.6.1";
+    version = "5.8.0";
     pname = "pdo_sqlsrv";
 
-    sha256 = "02ill1iqffa5fha9iz4y91823scml24ikfk8pn90jyycfwv07x6a";
+    sha256 = "0z4vbyd851b4jr6p69l2ylk91iihndsm2qjb429pxcv8g6dqzqll";
 
     buildInputs = with pkgs; [ unixODBC ];
 
-    meta.broken = (isPhp56 || isPhp74);
+    meta.broken = isPhp56;
   };
 
   php-cs-fixer = mkDerivation rec {
