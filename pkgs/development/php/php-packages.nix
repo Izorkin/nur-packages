@@ -779,14 +779,14 @@ let
 
   #sqlsrv = assert !isPhp56; assert !isPhp74; buildPecl {
   sqlsrv = buildPecl {
-    version = "5.6.1";
+    version = "5.8.0";
     pname = "sqlsrv";
 
-    sha256 = "0ial621zxn9zvjh7k1h755sm2lc9aafc389yxksqcxcmm7kqmd0a";
+    sha256 = "1kv4krk1w4hri99b0sdgwgy9c4y0yh217wx2y3irhkfi46kdrjnw";
 
     buildInputs = with pkgs; [ unixODBC ];
 
-    meta.broken = (isPhp56 || isPhp74);
+    meta.broken = isPhp56;
   };
 
   #spidermonkey = assert isPhp56; buildPecl {
