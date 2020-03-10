@@ -283,6 +283,8 @@ in {
     extraPatches = [
       # Added sqlite3.defensive INI directive
       ./patch/php56/php5640-sqlite3-defensive.patch
+      # Openssl cert updates
+      ./patch/php56/php5640-php-openssl-cert.patch
       # Backport security bug patches
       ./patch/php56/php5640-75457.patch
       ./patch/php56/php5640-76846.patch
@@ -299,6 +301,16 @@ in {
       ./patch/php56/php5640-78222.patch
       ./patch/php56/php5640-78256.patch
       ./patch/php56/php5640-78380.patch
+      ./patch/php56/php5640-78599.patch
+      ./patch/php56/php5640-78793.patch
+      ./patch/php56/php5640-78862.patch
+      ./patch/php56/php5640-78863.patch
+      ./patch/php56/php5640-78878.patch
+      ./patch/php56/php5640-78910.patch
+      ./patch/php56/php5640-79037.patch
+      ./patch/php56/php5640-79082.patch
+      ./patch/php56/php5640-79099.patch
+      ./patch/php56/php5640-79221.patch
     ];
   };
 
