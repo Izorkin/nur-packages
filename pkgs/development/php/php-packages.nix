@@ -849,10 +849,10 @@ let
 
   #xdebug29 = assert !isPhp56; buildPecl {
   xdebug29 = buildPecl {
-    version = "2.9.0";
+    version = "2.9.2";
     pname = "xdebug";
 
-    sha256 = "0hsrrapd2gfcybp7arbdpvpq5sw027d2a67wrs6ffjjxh1kzilcd";
+    sha256 = "0sfcxsrri41hb9lx18s1q81lpg9wjf0dlyi2063i44a4yigwx30m";
 
     doCheck = true;
     checkTarget = "test";
