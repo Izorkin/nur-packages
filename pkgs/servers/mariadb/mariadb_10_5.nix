@@ -34,9 +34,10 @@ common = rec { # attributes common to both builds
   nativeBuildInputs = [ cmake pkgconfig ];
 
   buildInputs = [
-    ncurses openssl zlib pcre2 jemalloc libiconv curl
+    ncurses openssl zlib pcre2 libiconv curl
   ] ++ optionals stdenv.hostPlatform.isLinux [ libaio systemd libkrb5 ]
-    ++ optionals stdenv.hostPlatform.isDarwin [ perl fixDarwinDylibNames cctools CoreServices ];
+    ++ optionals stdenv.hostPlatform.isDarwin [ perl fixDarwinDylibNames cctools CoreServices ]
+    ++ optional (!stdenv.hostPlatform.isDarwin) [ jemalloc ];
 
   prePatch = ''
     sed -i 's,[^"]*/var/log,/var/log,g' storage/mroonga/vendor/groonga/CMakeLists.txt
@@ -80,8 +81,6 @@ common = rec { # attributes common to both builds
     # to pass in java explicitly.
     "-DCONNECT_WITH_JDBC=OFF"
     "-DCURSES_LIBRARY=${ncurses.out}/lib/libncurses.dylib"
-  ] ++ optionals stdenv.hostPlatform.isMusl [
-    "-DWITHOUT_TOKUDB=1" # mariadb docs say disable this for musl
   ];
 
   postInstall = ''
@@ -168,10 +167,13 @@ server = stdenv.mkDerivation (common // {
   ] ++ optional (stdenv.hostPlatform.isLinux && !stdenv.hostPlatform.isAarch32) [
     "-DWITH_NUMA=ON"
   ] ++ optional (!withStorageMroonga) [
-    "-DWITHOUT_MROONGA=ON"
-  ] ++ optionals stdenv.hostPlatform.isDarwin [
-    "-DWITHOUT_OQGRAPH=1"
+    "-DWITHOUT_MROONGA=1"
+  ] ++ optional (stdenv.hostPlatform.isDarwin || stdenv.hostPlatform.isMusl) [
     "-DWITHOUT_TOKUDB=1"
+  ] ++ optional (!stdenv.hostPlatform.isDarwin) [
+    "-DWITH_JEMALLOC=yes"
+  ] ++ optional stdenv.hostPlatform.isDarwin [
+    "-DWITHOUT_OQGRAPH=1"
   ];
 
   preConfigure = optionalString (!stdenv.hostPlatform.isDarwin) ''
