@@ -4,6 +4,7 @@
 , fixDarwinDylibNames, cctools, CoreServices, less
 , numactl # NUMA Support
 , withStorageMroonga ? true, kytea, msgpack, zeromq
+, withStorageRocks ? true
 }:
 
 with stdenv.lib;
@@ -168,6 +169,10 @@ server = stdenv.mkDerivation (common // {
     "-DWITH_NUMA=ON"
   ] ++ optional (!withStorageMroonga) [
     "-DWITHOUT_MROONGA=1"
+  ] ++ optional (!withStorageRocks) [
+    "-DWITHOUT_ROCKSDB=1"
+  ] ++ optional (!stdenv.hostPlatform.isDarwin && withStorageRocks) [
+    "-DWITH_ROCKSDB_JEMALLOC=ON"
   ] ++ optional (stdenv.hostPlatform.isDarwin || stdenv.hostPlatform.isMusl) [
     "-DWITHOUT_TOKUDB=1"
   ] ++ optional (!stdenv.hostPlatform.isDarwin) [
