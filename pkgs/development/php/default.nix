@@ -331,8 +331,8 @@ in {
   };
 
   php73 = generic {
-    version = "7.3.16";
-    sha256 = "0bh499v9dfgh9k51w4rird1slb9rh9whp5h37fb84c98d992s1xq";
+    version = "7.3.17";
+    sha256 = "02cplaja13l9j2abfsn6cxd2kryhw7a2wwrkk4h9z6ac0bcr0gnq";
 
     # https://bugs.php.net/bug.php?id=76826
     extraPatches = optional stdenv.isDarwin ./patch/php73-darwin-isfinite.patch;
