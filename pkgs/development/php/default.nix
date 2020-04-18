@@ -321,7 +321,26 @@ in {
     sha256 = "0jsgiwawlais8s1l38lz51h1x2ci5ildk0ksfdmkg6xpwbrfb9cm";
 
     # https://bugs.php.net/bug.php?id=76826
-    extraPatches = optional stdenv.isDarwin ./patch/php71-darwin-isfinite.patch;
+    extraPatches = [
+      # Openssl cert updates
+      ./patch/php71/php7133-php-openssl-cert.patch
+      # Backport security bug patches
+      ./patch/php71/php7133-77569.patch
+      ./patch/php71/php7133-78793.patch
+      ./patch/php71/php7133-78862.patch
+      ./patch/php71/php7133-78863.patch
+      ./patch/php71/php7133-78878.patch
+      ./patch/php71/php7133-78910.patch
+      ./patch/php71/php7133-79037.patch
+      ./patch/php71/php7133-79082.patch
+      ./patch/php71/php7133-79091.patch
+      ./patch/php71/php7133-79099.patch
+      ./patch/php71/php7133-79221.patch
+      ./patch/php71/php7133-79282.patch
+      ./patch/php71/php7133-79329.patch
+    ] 
+      # https://bugs.php.net/bug.php?id=76826
+      ++ optional stdenv.isDarwin ./patch/php71-darwin-isfinite.patch;
   };
 
   php72 = generic {
