@@ -387,10 +387,10 @@ let
 
   #pdo_sqlsrv = assert !isPhp56; assert isPhp74; buildPecl {
   pdo_sqlsrv = buildPecl {
-    version = "5.8.0";
+    version = "5.8.1";
     pname = "pdo_sqlsrv";
 
-    sha256 = "0z4vbyd851b4jr6p69l2ylk91iihndsm2qjb429pxcv8g6dqzqll";
+    sha256 = "06ba4x34fgs092qq9w62y2afsm1nyasqiprirk4951ax9v5vcir0";
 
     buildInputs = with pkgs; [ unixODBC ];
 
