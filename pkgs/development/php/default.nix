@@ -311,6 +311,8 @@ in {
       ./patch/php56/php5640-79082.patch
       ./patch/php56/php5640-79099.patch
       ./patch/php56/php5640-79221.patch
+      ./patch/php56/php5640-79282.patch
+      ./patch/php56/php5640-79329.patch
     ];
   };
 
