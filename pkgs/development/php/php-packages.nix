@@ -880,10 +880,10 @@ let
 
   #yaml20 = assert !isPhp56; buildPecl {
   yaml20 = buildPecl {
-    version = "2.0.4";
+    version = "2.1.0";
     pname = "yaml";
 
-    sha256 = "1036zhc5yskdfymyk8jhwc34kvkvsn5kaf50336153v4dqwb11lp";
+    sha256 = "0rmn2irzny24ivzc09ss46s2s48i0zy2cww7ikphljqbfx6zdjss";
 
     configureFlags = with pkgs; [
       "--with-yaml=${libyaml}"
