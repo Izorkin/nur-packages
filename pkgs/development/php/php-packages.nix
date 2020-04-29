@@ -263,10 +263,10 @@ let
 
   #mailparse = assert !isPhp56; assert !isPhp73; buildPecl {
   mailparse = buildPecl {
-    version = "3.0.4";
+    version = "3.1.0";
     pname = "mailparse";
 
-    sha256 = "0fsngm3ixdiwcpvz3kq7c0q5p67c301pz1pvzijq4grj2l7sp84x";
+    sha256 = "168wrg99y4ggq04kpryaka2x3zr6vn39979kyna4s6zrgdpcckvd";
 
     meta.broken = isPhp56;
   };
