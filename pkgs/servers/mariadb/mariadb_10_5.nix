@@ -151,9 +151,7 @@ server = stdenv.mkDerivation (common // {
     ++ optional stdenv.hostPlatform.isLinux linux-pam
     ++ optional (!stdenv.hostPlatform.isDarwin) mytopEnv;
 
-  patches = common.patches ++ [
-    ./cmake-disable-auth-pam-testing.patch
-  ] ++ optionals stdenv.hostPlatform.isDarwin [
+  patches = common.patches ++ optionals stdenv.hostPlatform.isDarwin [
     ./cmake-without-plugin-auth-pam.patch
   ];
 
@@ -191,6 +189,9 @@ server = stdenv.mkDerivation (common // {
   postInstall = common.postInstall + ''
     chmod +x "$out"/bin/wsrep_sst_common
     rm "$out"/bin/{mariadb-client-test,mariadb-test,mysql_client_test,mysqltest}
+    mv "$out"/OFF/suite/plugins/pam/pam_mariadb_mtr.so "$out"/share/pam/lib/security
+    mv "$out"/OFF/suite/plugins/pam/mariadb_mtr "$out"/share/pam/etc/security
+    rm -r "$out"/OFF
   '' + optionalString withStorageMroonga ''
     mv "$out"/share/{groonga,groonga-normalizer-mysql} "$out"/share/doc/mysql
   '' + optionalString (!stdenv.hostPlatform.isDarwin) ''
