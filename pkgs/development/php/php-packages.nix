@@ -186,10 +186,10 @@ let
   };
 
   event = buildPecl {
-    version = "2.5.4";
+    version = "2.5.5";
     pname = "event";
 
-    sha256 = "1vnfxnh33p3d5ih2n1syp7ylgzj15i8sdcd64idd342anla1zs02";
+    sha256 = "0cwx2d0kq7cnl2lh3jfz0jw4024szqb4vm0v8b0r35gz571j7dsr";
 
     configureFlags = with pkgs; [
       "--with-event-libevent-dir=${libevent.dev}"
