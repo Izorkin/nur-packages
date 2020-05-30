@@ -20,14 +20,14 @@
 with stdenv.lib;
 
 stdenv.mkDerivation rec {
-  version = "1.17.0";
+  version = "1.18.0";
   pname = "unit";
 
   src = fetchFromGitHub {
     owner = "nginx";
     repo = "unit";
     rev = "${version}";
-    sha256 = "1q3659vw8rxv4fk7ljkjav8ga72sb3arljfxcqw8b080f9hvi7hh";
+    sha256 = "0r2l3ra63qjjbpjzrmx75jp9fvz83yis4j3qxqdnmxm77psykwy8";
   };
 
   nativeBuildInputs = [ which ];
@@ -58,8 +58,8 @@ stdenv.mkDerivation rec {
     ++ optional withDebug   [ "--debug" ];
 
   postConfigure = ''
-    ${optionalString withPython2    "./configure python --module=python2  --config=${python2}/bin/python2-config  --lib-path=${python2}/lib"}
-    ${optionalString withPython3    "./configure python --module=python3  --config=${python3}/bin/python3-config  --lib-path=${python3}/lib"}
+    ${optionalString withPython2    "./configure python --module=python2  --config=python2-config  --lib-path=${python2}/lib"}
+    ${optionalString withPython3    "./configure python --module=python3  --config=python3-config  --lib-path=${python3}/lib"}
     ${optionalString withPHP56      "./configure php    --module=php56    --config=${php56.dev}/bin/php-config    --lib-path=${php56}/lib"}
     ${optionalString withPHP71      "./configure php    --module=php71    --config=${php71.dev}/bin/php-config    --lib-path=${php71}/lib"}
     ${optionalString withPHP72      "./configure php    --module=php72    --config=${php72.dev}/bin/php-config    --lib-path=${php72}/lib"}
