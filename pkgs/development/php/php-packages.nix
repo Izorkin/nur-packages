@@ -621,10 +621,10 @@ let
 
   #protobuf = assert isPhp74; buildPecl {
   protobuf = buildPecl {
-    version = "3.12.1";
+    version = "3.12.2";
     pname = "protobuf";
 
-    sha256 = "1x53nwzkmvb66f06wlnj7i9rwgvckdrz3q5n6n0kmhvd40nh6xsq";
+    sha256 = "1jqi9pxm895s74w9zv1qyv0f11vh3skha3zf48vfxsvv00kljk0z";
 
     buildInputs = with pkgs; [ (if isPhp73 then pcre2.dev else pcre.dev) ];
 
