@@ -1,5 +1,5 @@
 # pcre functionality is tested in nixos/tests/php-pcre.nix
-{ config, lib, stdenv, fetchurl
+{ config, lib, stdenv, fetchFromGitHub
 , autoconf, automake, bison, file, flex, libtool, pkgconfig, re2c
 , libxml2, readline, zlib, curl, postgresql, gettext
 , openssl, pcre, pcre2, sqlite
@@ -242,7 +242,7 @@ let
       '';
 
       preInstall = lib.optionalString pearSupport ''
-        cp -f ${php-pearweb-phars}/install-pear-nozlib.phar $TMPDIR/php-${version}/pear/install-pear-nozlib.phar
+        cp ${php-pearweb-phars}/install-pear-nozlib.phar $TMPDIR/php-src-${version}/pear/install-pear-nozlib.phar
       '';
 
       postInstall = ''
@@ -258,8 +258,11 @@ let
            $dev/share/man/man1/
       '';
 
-      src = fetchurl {
-        url = "https://www.php.net/distributions/php-${version}.tar.bz2";
+      src = fetchFromGitHub {
+        name = "php-src-${version}";
+        owner = "php";
+        repo = "php-src";
+        rev = "php-${version}";
         inherit sha256;
       };
 
@@ -283,7 +286,7 @@ let
 in {
   php56 = generic {
     version = "5.6.40";
-    sha256 = "005s7w167dypl41wlrf51niryvwy1hfv53zxyyr3lm938v9jbl7z";
+    sha256 = "0svjffwnwvvvsg5ja24v4kpfyycs5f8zqnc2bbmgm968a0vdixn2";
 
     extraPatches = [
       # Added sqlite3.defensive INI directive
@@ -323,7 +326,7 @@ in {
 
   php71 = generic {
     version = "7.1.33";
-    sha256 = "0jsgiwawlais8s1l38lz51h1x2ci5ildk0ksfdmkg6xpwbrfb9cm";
+    sha256 = "1lz90pyvqxwmi7z2pgr8zc05hss11m61xaqy4d86wh80yra3m5rg";
 
     # https://bugs.php.net/bug.php?id=76826
     extraPatches = [
@@ -350,7 +353,7 @@ in {
 
   php72 = generic {
     version = "7.2.31";
-    sha256 = "0057x1s43f9jidmrl8daka6wpxclxc1b1pm5cjbz616p8nbmb9qv";
+    sha256 = "1z7h3j343x0k2y5ji7vv6rmim98kgz950mvd6nys5rvcq2a89pj5";
 
     # https://bugs.php.net/bug.php?id=76826
     extraPatches = optional stdenv.isDarwin ./patch/php72-darwin-isfinite.patch;
@@ -358,7 +361,7 @@ in {
 
   php73 = generic {
     version = "7.3.18";
-    sha256 = "19787fjz3p195dhq0bk7dcn76m6vyl2ng12zawxiamzbbpv237bl";
+    sha256 = "1v1avh41kj6rami0l53cfx34lgykx3kg889q9pvfdsrx0w0cdq94";
 
     # https://bugs.php.net/bug.php?id=76826
     extraPatches = optional stdenv.isDarwin ./patch/php73-darwin-isfinite.patch;
@@ -366,6 +369,6 @@ in {
 
   php74 = generic {
     version = "7.4.6";
-    sha256 = "0j133pfwa823d4jhx2hkrrzjl4hswvz00b1z58r5c82xd5sr9vd6";
+    sha256 = "1hbyfv8b8wc3xf5w7rggrk45pv9ssjnblfjf43lp9qh23m3ym8h4";
   };
 }
