@@ -8,6 +8,7 @@
 , gd, freetype, libXpm, libjpeg, libpng, libwebp
 , libzip, valgrind, oniguruma
 , bison2, freetds, icu60
+, php-pearweb-phars
 }:
 
 with lib;
@@ -238,6 +239,10 @@ let
         fi
       '' + optionalString stdenv.isDarwin ''
         substituteInPlace configure --replace "-lstdc++" "-lc++"
+      '';
+
+      preInstall = lib.optionalString pearSupport ''
+        cp -f ${php-pearweb-phars}/install-pear-nozlib.phar $TMPDIR/php-${version}/pear/install-pear-nozlib.phar
       '';
 
       postInstall = ''
