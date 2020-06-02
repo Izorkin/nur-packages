@@ -237,12 +237,12 @@ let
 
       preConfigure = ''
         export EXTENSION_DIR=$out/lib/php/extensions
-
+      '' + optionalString (versionOlder version "7.4") ''
         ./buildconf --copy --force
-
-        if test -f $src/genfiles; then
-          ./genfiles
-        fi
+        ./genfiles
+      '' + optionalString (versionAtLeast version "7.4") ''
+        ./buildconf --force
+        ./scripts/dev/genfiles
       '';
 
       preInstall = lib.optionalString pearSupport ''
