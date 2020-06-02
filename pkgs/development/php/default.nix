@@ -218,14 +218,8 @@ let
 
       hardeningDisable = [ "bindnow" ];
 
-      postPatch = lib.optionalString (lib.versionOlder php.version "7.4") ''
-        # https://bugs.php.net/bug.php?id=79159
-        substituteInPlace ./acinclude.m4 --replace "AC_PROG_YACC" "AC_CHECK_PROG(YACC, bison, bison)"
-      '';
-
-      preConfigure = ''
-        # Don't record the configure flags since this causes unnecessary
-        # runtime dependencies
+      postPatch = ''
+        # Don't record the configure flags since this causes unnecessary runtime dependencies
         for i in main/build-defs.h.in scripts/php-config.in; do
           substituteInPlace $i \
             --replace '@CONFIGURE_COMMAND@' '(omitted)' \
@@ -233,8 +227,15 @@ let
             --replace '@PHP_LDFLAGS@' ""
         done
 
-        substituteInPlace ./build/libtool.m4 --replace /usr/bin/file ${file}/bin/file
+        substituteInPlace ./build/libtool.m4 --replace "/usr/bin/file" "${file}/bin/file"
+      '' + optionalString (versionOlder version "7.4") ''
+        # https://bugs.php.net/bug.php?id=79159
+        substituteInPlace ./acinclude.m4 --replace "AC_PROG_YACC" "AC_CHECK_PROG(YACC, bison, bison)"
+      '' + optionalString stdenv.isDarwin ''
+        substituteInPlace ./configure --replace "-lstdc++" "-lc++"
+      '';
 
+      preConfigure = ''
         export EXTENSION_DIR=$out/lib/php/extensions
 
         ./buildconf --copy --force
@@ -242,8 +243,6 @@ let
         if test -f $src/genfiles; then
           ./genfiles
         fi
-      '' + optionalString stdenv.isDarwin ''
-        substituteInPlace configure --replace "-lstdc++" "-lc++"
       '';
 
       preInstall = lib.optionalString pearSupport ''
