@@ -41,7 +41,7 @@ let
 
   # Extension flags in 5.6 and higher
   , bcmathSupport ? config.php.bcmath or true
-  , bz2Support ? config.php.bz2 or false
+  , bz2Support ? config.php.bz2 or true
   , calendarSupport ? config.php.calendar or true
   , curlSupport ? config.php.curl or true
   , exifSupport ? config.php.exif or true
