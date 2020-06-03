@@ -17,6 +17,7 @@ let
   generic =
   { version
   , sha256
+  , rev ? null
   , extraPatches ? []
 
   # Sapi flags
@@ -50,7 +51,7 @@ let
   , gettextSupport ? config.php.gettext or true
   , gmpSupport ? config.php.gmp or true
   , mhashSupport ? config.php.mhash or true
-  , iconvSupport ? config.php.iconv or true
+  , iconvSupport ? (config.php.iconv or true) && (versionOlder version "8.0")
   , imapSupport ? config.php.imap or (!stdenv.isDarwin)
   , intlSupport ? config.php.intl or true
   , ldapSupport ? config.php.ldap or true
@@ -172,7 +173,8 @@ let
       ++ optional (pearSupport && libxml2Support) "--with-pear=$(out)/lib/php/pear"
       ++ optional systemdSupport "--with-fpm-systemd"
       ++ optional valgrindSupport "--with-valgrind=${valgrind.dev}"
-      ++ optional ztsSupport "--enable-maintainer-zts"
+      ++ optional (ztsSupport && (versionOlder version "8.0")) "--enable-maintainer-zts"
+      ++ optional (ztsSupport && (versionAtLeast version "8.0")) "--enable-zts"
 
       # Enable extensions only in 5.6
       ++ optional (mssqlSupport && !stdenv.isDarwin) "--with-mssql=${freetds}"
@@ -253,7 +255,10 @@ let
       ++ optional zlibSupport "--with-zlib=${zlib.dev}"
 
       # Enable extensions in 7.2 and higher
-      ++ optional sodiumSupport "--with-sodium=${libsodium.dev}";
+      ++ optional sodiumSupport "--with-sodium=${libsodium.dev}"
+
+      # Disable extensions in 8.0
+      ++ optional (versionAtLeast version "8.0") "--without-iconv";
 
       hardeningDisable = [ "bindnow" ];
 
@@ -301,7 +306,7 @@ let
         name = "php-src-${version}";
         owner = "php";
         repo = "php-src";
-        rev = "php-${version}";
+        rev = (if (versionAtLeast version "8.0") then "${rev}" else "php-${version}");
         inherit sha256;
       };
 
@@ -408,5 +413,11 @@ in {
   php74 = generic {
     version = "7.4.6";
     sha256 = "1hbyfv8b8wc3xf5w7rggrk45pv9ssjnblfjf43lp9qh23m3ym8h4";
+  };
+
+  php80 = generic {
+    version = "8.0.0-dev-2020.06.03";
+    rev = "698bd59fb53ac5132600f9df242c715d01002033";
+    sha256 = "15a8favlhzvr51pa0h94flnnw5rwiz82j0q027yaczdp69a1p95i";
   };
 }
