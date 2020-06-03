@@ -33,8 +33,8 @@ let
   , cgotoSupport ? config.php.cgoto or false
   , ipv6Support ? config.php.ipv6 or true
   , pearSupport ? (config.php.pear or true) && (libxml2Support)
+  , systemdSupport ? config.php.systemd or stdenv.isLinux
   , valgrindSupport ? (config.php.valgrind or true) && (versionAtLeast version "7.2")
-  , withSystemd ? config.php.systemd or stdenv.isLinux
   , ztsSupport ? (config.php.zts or false) || (apxs2Support)
 
   # Extension flags only in 5.6
@@ -102,8 +102,8 @@ let
 
         # Misc flags
         ++ optional argon2Support libargon2
+        ++ optional systemdSupport systemd
         ++ optional valgrindSupport valgrind
-        ++ optional withSystemd systemd
 
         # Extension flags only in 5.6
         ++ optional (mssqlSupport && !stdenv.isDarwin) freetds
@@ -166,8 +166,8 @@ let
       ++ optional cgotoSupport "--enable-re2c-cgoto"
       ++ optional (!ipv6Support) "--disable-ipv6"
       ++ optional (pearSupport && libxml2Support) "--with-pear=$(out)/lib/php/pear"
+      ++ optional systemdSupport "--with-fpm-systemd"
       ++ optional valgrindSupport "--with-valgrind=${valgrind.dev}"
-      ++ optional withSystemd "--with-fpm-systemd"
       ++ optional ztsSupport "--enable-maintainer-zts"
       ++ optional stdenv.isDarwin "--with-iconv=${libiconv}"
 
