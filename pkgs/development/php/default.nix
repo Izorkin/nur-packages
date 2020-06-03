@@ -65,7 +65,7 @@ let
   , pdo_odbcSupport ? config.php.pdo_odbc or true
   , pdo_pgsqlSupport ? config.php.pdo_pgsql or true
   , sqliteSupport ? config.php.sqlite or true
-  , postgresqlSupport ? config.php.postgresql or true
+  , pgsqlSupport ? config.php.pgsql or true
   , pharSupport ? config.php.phar or true
   , readlineSupport ? config.php.readline or true
   , soapSupport ? (config.php.soap or true) && (libxml2Support)
@@ -128,7 +128,7 @@ let
         ++ optional pdo_odbcSupport unixODBC
         ++ optional pdo_pgsqlSupport postgresql
         ++ optional sqliteSupport sqlite
-        ++ optional postgresqlSupport postgresql
+        ++ optional pgsqlSupport postgresql
         ++ optional readlineSupport readline
         ++ optional tidySupport html-tidy
         ++ optional xslSupport libxslt
@@ -234,7 +234,7 @@ let
       ++ optional pdo_odbcSupport "--with-pdo-odbc=unixODBC,${unixODBC}"
       ++ optional pdo_pgsqlSupport "--with-pdo-pgsql=${postgresql}"
       ++ optional sqliteSupport "--with-pdo-sqlite=${sqlite.dev}"
-      ++ optional postgresqlSupport "--with-pgsql=${postgresql}"
+      ++ optional pgsqlSupport "--with-pgsql=${postgresql}"
       ++ optional (!pharSupport) "--disable-phar"
       ++ optional readlineSupport "--with-readline=${readline.dev}"
       ++ optional soapSupport "--enable-soap"
