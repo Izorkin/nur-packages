@@ -1,10 +1,10 @@
 { config, lib, stdenv, fetchFromGitHub
 , autoconf, automake, file, flex, libtool, pkgconfig, re2c
-, bison2, bison, libiconv, php-pearweb-phars
+, bison2, bison, php-pearweb-phars
 , apacheHttpd, libargon2, systemd, valgrind
 , freetds, bzip2, curl, openssl
 , gd, freetype, libXpm, libjpeg, libpng, libwebp
-, gettext, gmp, libmhash, uwimap, pam, icu60, icu
+, gettext, gmp, libmhash, libiconv, uwimap, pam, icu60, icu
 , openldap, cyrus_sasl, libxml2, libmcrypt, pcre, pcre2
 , unixODBC, postgresql, sqlite, readline, html-tidy
 , libxslt, zlib, libzip, libsodium, oniguruma
@@ -50,6 +50,7 @@ let
   , gettextSupport ? config.php.gettext or true
   , gmpSupport ? config.php.gmp or true
   , mhashSupport ? (config.php.mhash or true) && (versionOlder version "7.0")
+  , iconvSupport ? config.php.iconv or true
   , imapSupport ? config.php.imap or (!stdenv.isDarwin)
   , intlSupport ? config.php.intl or true
   , ldapSupport ? config.php.ldap or true
@@ -120,6 +121,7 @@ let
         ++ optional gettextSupport gettext
         ++ optional gmpSupport gmp
         ++ optional mhashSupport libmhash
+        ++ optional iconvSupport libiconv
         ++ optionals imapSupport [ uwimap openssl pam ]
         ++ optional intlSupport icu'
         ++ optionals ldapSupport [ openldap openssl ]
@@ -172,7 +174,6 @@ let
       ++ optional systemdSupport "--with-fpm-systemd"
       ++ optional valgrindSupport "--with-valgrind=${valgrind.dev}"
       ++ optional ztsSupport "--enable-maintainer-zts"
-      ++ optional stdenv.isDarwin "--with-iconv=${libiconv}"
 
       # Enable extensions only in 5.6
       ++ optional (mssqlSupport && !stdenv.isDarwin) "--with-mssql=${freetds}"
@@ -205,6 +206,8 @@ let
       ++ optional gettextSupport "--with-gettext=${gettext}"
       ++ optional gmpSupport "--with-gmp=${gmp.dev}"
       ++ optional mhashSupport "--with-mhash"
+      ++ optional (iconvSupport && stdenv.isDarwin) "--with-iconv=${libiconv}"
+      ++ optional (!iconvSupport) "--without-iconv"
       ++ optionals imapSupport [
         "--with-imap=${uwimap}"
         "--with-imap-ssl"
