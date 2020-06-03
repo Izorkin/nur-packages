@@ -1,14 +1,13 @@
-# pcre functionality is tested in nixos/tests/php-pcre.nix
 { config, lib, stdenv, fetchFromGitHub
-, autoconf, automake, bison, file, flex, libtool, pkgconfig, re2c
-, libxml2, readline, zlib, curl, postgresql, gettext
-, openssl, pcre, pcre2, sqlite
-, libxslt, libmcrypt, bzip2, icu, openldap, cyrus_sasl, libmhash, unixODBC
-, uwimap, pam, gmp, apacheHttpd, libiconv, systemd, libsodium, html-tidy, libargon2
+, autoconf, automake, file, flex, libtool, pkgconfig, re2c
+, bison2, bison, libiconv, php-pearweb-phars
+, apacheHttpd, libargon2, systemd, valgrind
+, freetds, bzip2, curl, openssl
 , gd, freetype, libXpm, libjpeg, libpng, libwebp
-, libzip, valgrind, oniguruma
-, bison2, freetds, icu60
-, php-pearweb-phars
+, gettext, gmp, libmhash, uwimap, pam, icu60, icu
+, openldap, cyrus_sasl, libxml2, libmcrypt, pcre, pcre2
+, unixODBC, postgresql, sqlite, readline, html-tidy
+, libxslt, zlib, libzip, libsodium, oniguruma
 }:
 
 with lib;
@@ -83,6 +82,9 @@ let
 
     let
       libmcrypt' = libmcrypt.override { disablePosixThreads = true; };
+      pcre' = if (versionAtLeast version "7.3") then pcre2 else pcre;
+      icu' = if (versionAtLeast version "7.0") then icu else icu60;
+
     in stdenv.mkDerivation {
 
       inherit version;
@@ -96,7 +98,10 @@ let
       ] ++ optional (versionOlder version "7.0") bison2
         ++ optional (versionAtLeast version "7.0") bison;
 
-      buildInputs = [ ]
+      buildInputs =
+        # PCRE extension
+        [ pcre' ]
+
         # Sapi flags
         ++ optional apxs2Support apacheHttpd
 
@@ -116,15 +121,12 @@ let
         ++ optional gmpSupport gmp
         ++ optional mhashSupport libmhash
         ++ optionals imapSupport [ uwimap openssl pam ]
-        ++ optional (intlSupport && (versionOlder version "7.0")) icu60
-        ++ optional (intlSupport && (versionAtLeast version "7.0")) icu
+        ++ optional intlSupport icu'
         ++ optionals ldapSupport [ openldap openssl ]
         ++ optional (ldapSupport && stdenv.isLinux) cyrus_sasl
         ++ optional libxml2Support libxml2
         ++ optional mcryptSupport libmcrypt'
         ++ optionals opensslSupport [ openssl openssl.dev ]
-        ++ optional (versionOlder version "7.3") pcre
-        ++ optional (versionAtLeast version "7.3") pcre2
         ++ optional pdo_odbcSupport unixODBC
         ++ optional pdo_pgsqlSupport postgresql
         ++ optional sqliteSupport sqlite
@@ -148,9 +150,10 @@ let
       ]
 
       # PCRE
-      ++ optionals (versionOlder version "7.3") [ "--with-pcre-regex=${pcre.dev}" "PCRE_LIBDIR=${pcre}" ]
-      ++ optionals (versions.majorMinor version == "7.3") [ "--with-pcre-regex=${pcre2.dev}" "PCRE_LIBDIR=${pcre2}" ]
-      ++ optionals (versionAtLeast version "7.4") [ "--with-external-pcre=${pcre2.dev}" "PCRE_LIBDIR=${pcre2}" ]
+      ++ optionals (versionOlder version "7.3") [ "--with-pcre-regex=${pcre'.dev}" ]
+      ++ optionals (versions.majorMinor version == "7.3") [ "--with-pcre-regex=${pcre'.dev}" ]
+      ++ optionals (versionAtLeast version "7.4") [ "--with-external-pcre=${pcre'.dev}" ]
+      ++ [ "PCRE_LIBDIR=${pcre'}" ]
 
       # Enable sapis
       ++ optional apxs2Support "--with-apxs2=${apacheHttpd.dev}/bin/apxs"
@@ -300,6 +303,12 @@ let
         inherit sha256;
       };
 
+      patches = if !php7 then [ ./patch/fix-paths-php5.patch ] else [ ./patch/fix-paths-php7.patch ] ++ extraPatches;
+
+      separateDebugInfo = true;
+
+      outputs = [ "out" "dev" ];
+
       meta = with stdenv.lib; {
         description = "An HTML-embedded scripting language";
         homepage = https://www.php.net/;
@@ -308,13 +317,6 @@ let
         platforms = platforms.all;
         outputsToInstall = [ "out" "dev" ];
       };
-
-      patches = if !php7 then [ ./patch/fix-paths-php5.patch ] else [ ./patch/fix-paths-php7.patch ] ++ extraPatches;
-
-      stripDebugList = "bin sbin lib modules";
-
-      outputs = [ "out" "dev" ];
-
     };
 
 in {
