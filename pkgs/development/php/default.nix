@@ -49,7 +49,7 @@ let
   , gdSupport ? config.php.gd or true
   , gettextSupport ? config.php.gettext or true
   , gmpSupport ? config.php.gmp or true
-  , mhashSupport ? (config.php.mhash or true) && (versionOlder version "7.0")
+  , mhashSupport ? config.php.mhash or true
   , iconvSupport ? config.php.iconv or true
   , imapSupport ? config.php.imap or (!stdenv.isDarwin)
   , intlSupport ? config.php.intl or true
