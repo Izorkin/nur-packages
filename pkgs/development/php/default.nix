@@ -4,7 +4,7 @@
 , apacheHttpd, libargon2, systemd, valgrind
 , freetds, bzip2, curl, openssl
 , gd, freetype, libXpm, libjpeg, libpng, libwebp
-, gettext, gmp, libmhash, libiconv, uwimap, pam, icu60, icu
+, gettext, gmp, libiconv, uwimap, pam, icu60, icu
 , openldap, cyrus_sasl, libxml2, libmcrypt, pcre, pcre2
 , unixODBC, postgresql, sqlite, readline, html-tidy
 , libxslt, zlib, libzip, libsodium, oniguruma
@@ -120,7 +120,6 @@ let
         ++ optionals gdSupport [ gd freetype libXpm libjpeg libpng libwebp ]
         ++ optional gettextSupport gettext
         ++ optional gmpSupport gmp
-        ++ optional mhashSupport libmhash
         ++ optional iconvSupport libiconv
         ++ optionals imapSupport [ uwimap openssl pam ]
         ++ optional intlSupport icu'
