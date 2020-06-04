@@ -97,15 +97,15 @@ let
   };
 
   composer = mkDerivation rec {
-    version = "1.10.6";
+    version = "1.10.7";
     pname = "composer";
 
     src = pkgs.fetchurl {
       url = "https://getcomposer.org/download/${version}/composer.phar";
-      sha256 = "0yzfzgg9qlc388g91bdg7y7rp1q8vqb5hkwykwmr1n1lv8dsrg99";
+      sha256 = "0adffldp4fxlbkjc126s1m426aldb3zicbznzfsyb3b654kqfjxr";
     };
 
-    unpackPhase = ":";
+    dontUnpack = true;
 
     nativeBuildInputs = with pkgs; [ makeWrapper ];
 
