@@ -18,6 +18,7 @@ let
     isPhp72 = pkgs.lib.versionAtLeast php.version "7.2";
     isPhp73 = pkgs.lib.versionAtLeast php.version "7.3";
     isPhp74 = pkgs.lib.versionAtLeast php.version "7.4";
+    isPhp80 = pkgs.lib.versionAtLeast php.version "8.0";
 
   apcu = if isPhp56 then apcu40 else apcu51;
 
@@ -47,7 +48,7 @@ let
     makeFlags = [ "phpincludedir=$(dev)/include" ];
     outputs = [ "out" "dev" ];
 
-    meta.broken = isPhp56;
+    meta.broken = (isPhp56 || isPhp80);
   };
 
   #apcu_bc = assert !isPhp56; buildPecl {
@@ -59,7 +60,7 @@ let
 
     buildInputs = with pkgs; [ apcu (if isPhp73 then pcre2.dev else pcre.dev) ];
 
-    meta.broken = isPhp56;
+    meta.broken = (isPhp56 || isPhp80);
   };
 
   #ast = assert !isPhp56; buildPecl {
@@ -183,6 +184,8 @@ let
     ];
 
     buildInputs = with pkgs; [ geoip ];
+
+    meta.broken = isPhp80;
   };
 
   event = buildPecl {
@@ -208,6 +211,8 @@ let
       '';
       license = licenses.php301;
       homepage = "https://bitbucket.org/osmanov/pecl-event/";
+
+      broken = isPhp80;
     };
   };
 
@@ -259,6 +264,8 @@ let
 
     nativeBuildInputs = with pkgs; [ pkgconfig ];
     buildInputs = with pkgs; [ (if isPhp73 then pcre2.dev else pcre.dev) ];
+
+    meta.broken = isPhp80;
   };
 
   #mailparse = assert !isPhp56; assert !isPhp73; buildPecl {
@@ -301,7 +308,7 @@ let
 
     buildInputs = with pkgs; [ zlib ];
 
-    meta.broken = isPhp56;
+    meta.broken = (isPhp56 || isPhp80);
   };
 
   memcached = if isPhp56 then memcached22 else memcached31;
@@ -361,6 +368,8 @@ let
       zlib
       (if isPhp73 then pcre2.dev else pcre.dev)
     ] ++ lib.optional (stdenv.isDarwin) darwin.apple_sdk.frameworks.Security;
+
+    meta.broken = isPhp80;
   };
 
   #pcov = assert !isPhp56; buildPecl {
@@ -394,7 +403,7 @@ let
 
     buildInputs = with pkgs; [ unixODBC ];
 
-    meta.broken = isPhp56;
+    meta.broken = (isPhp56 || isPhp80);
   };
 
   php-cs-fixer = mkDerivation rec {
@@ -634,6 +643,8 @@ let
       '';
       license = licenses.bsd3;
       homepage = "https://developers.google.com/protocol-buffers/";
+
+      broken = isPhp80;
     };
   };
 
@@ -774,7 +785,7 @@ let
 
     sha256 = "04dadrzdrsl2wnbsyn5qn9wpagh5sxqbfhz9fcc7cj6sr2g2crcr";
 
-    meta.broken = isPhp56;
+    meta.broken = (isPhp56 || isPhp80);
   };
 
   #sqlsrv = assert !isPhp56; assert !isPhp74; buildPecl {
@@ -786,7 +797,7 @@ let
 
     buildInputs = with pkgs; [ unixODBC ];
 
-    meta.broken = isPhp56;
+    meta.broken = (isPhp56 || isPhp80);
   };
 
   #spidermonkey = assert isPhp56; buildPecl {
@@ -857,7 +868,7 @@ let
     doCheck = true;
     checkTarget = "test";
 
-    meta.broken = isPhp56;
+    meta.broken = (isPhp56 || isPhp80);
   };
 
   yaml = if isPhp56 then yaml13 else yaml20;
