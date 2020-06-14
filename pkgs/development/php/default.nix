@@ -414,8 +414,12 @@ in {
     version = "7.3.19";
     sha256 = "1vcx5as2wl1wz5hg1fg78l4ixfwhsf7znr7vrs0avljcibv843vc";
 
-    # https://bugs.php.net/bug.php?id=76826
-    extraPatches = optional stdenv.isDarwin ./patch/php73-darwin-isfinite.patch;
+    extraPatches = [
+      # PKG_CONFIG need not be a relative path
+      ./patch/fix-paths-pkgconfig-php73.patch
+    ]
+      # https://bugs.php.net/bug.php?id=76826
+      ++ optional stdenv.isDarwin ./patch/php73-darwin-isfinite.patch;
   };
 
   php74 = generic {
