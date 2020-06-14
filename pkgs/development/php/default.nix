@@ -332,6 +332,8 @@ in {
     sha256 = "0svjffwnwvvvsg5ja24v4kpfyycs5f8zqnc2bbmgm968a0vdixn2";
 
     extraPatches = [
+      # PKG_CONFIG need not be a relative path
+      ./patch/fix-paths-pkgconfig-php56.patch
       # Added sqlite3.defensive INI directive
       ./patch/php56/php5640-sqlite3-defensive.patch
       # Openssl cert updates
