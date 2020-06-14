@@ -402,8 +402,12 @@ in {
     version = "7.2.31";
     sha256 = "1z7h3j343x0k2y5ji7vv6rmim98kgz950mvd6nys5rvcq2a89pj5";
 
-    # https://bugs.php.net/bug.php?id=76826
-    extraPatches = optional stdenv.isDarwin ./patch/php72-darwin-isfinite.patch;
+    extraPatches = [
+      # PKG_CONFIG need not be a relative path
+      ./patch/fix-paths-pkgconfig-php72.patch
+    ]
+      # https://bugs.php.net/bug.php?id=76826
+      ++ optional stdenv.isDarwin ./patch/php72-darwin-isfinite.patch;
   };
 
   php73 = generic {
