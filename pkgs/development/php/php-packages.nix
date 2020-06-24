@@ -791,6 +791,22 @@ let
     meta.broken = (isPhp56 || isPhp80);
   };
 
+  snuffleupagus = buildPecl rec {
+    version = "0.5.1";
+    pname = "snuffleupagus";
+
+    src = pkgs.fetchurl {
+      url = "https://github.com/jvoisin/snuffleupagus/archive/v${version}.tar.gz";
+      sha256 = "0bzkzhw2cc55l8l05bx2n7hizr5v4dig63ywckiriivdi2a2jsbl";
+    };
+
+    sourceRoot = "snuffleupagus-${version}/src";
+
+    buildInputs = with pkgs; [ pcre.dev pcre2.dev ];
+
+    meta.broken = (isPhp56 || isPhp80);
+  };
+
   spidermonkey = buildPecl {
     version = "1.0.0";
     pname = "spidermonkey";
