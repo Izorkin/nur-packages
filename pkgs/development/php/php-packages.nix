@@ -388,10 +388,10 @@ let
   };
 
   pcs = buildPecl {
-    version = "1.3.5";
+    version = "1.3.7";
     pname = "pcs";
 
-    sha256 = "11vp2jc37awspnp76mdli48y0igwbynspxsqfm4nm835z1r40ssf";
+    sha256 = "097676akx2p6wvc58py2fjc3bv2x760z1g6mv0kh4wx5wr4n9zdx";
 
     meta.broken = isPhp80;
   };
