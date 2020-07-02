@@ -429,7 +429,7 @@ let
     meta = with pkgs.lib; {
       description = "A tool to automatically fix PHP coding standards issues";
       license = licenses.mit;
-      homepage = "https://cs.sensiolabs.org/";
+      homepage = "https://cs.symfony.com/";
       maintainers = with maintainers; [ jtojnar ];
     };
   };
@@ -490,7 +490,7 @@ let
     meta = with pkgs.lib; {
       description = "PHP coding standard beautifier and fixer";
       license = licenses.bsd3;
-      homepage = "https://squizlabs.github.io/PHP_CodeSniffer/";
+      homepage = "https://github.com/squizlabs/PHP_CodeSniffer";
       maintainers = with maintainers; [ cmcdragonkai etu ];
     };
   };
@@ -517,7 +517,7 @@ let
     meta = with pkgs.lib; {
       description = "PHP coding standard tool";
       license = licenses.bsd3;
-      homepage = "https://squizlabs.github.io/PHP_CodeSniffer/";
+      homepage = "https://github.com/squizlabs/PHP_CodeSniffer";
       maintainers = with maintainers; [ javaguirre etu ];
     };
   };
