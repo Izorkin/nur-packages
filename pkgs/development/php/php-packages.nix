@@ -772,12 +772,12 @@ let
   };
 
   redis50 = buildPecl {
-    version = "5.3.0";
+    version = "5.3.1";
     pname = "redis";
 
-    sha256 = "19ahsi13jkscsx9w9dzzva7lz2qb1j4k4fc29mc0xzkm16g2slyd";
+    sha256 = "17c0m3fq2qmhlmicz3viwnarivfkqkx482y0rk658sxwbjff8abw";
 
-    meta.broken = isPhp56;
+    meta.broken = (isPhp56 || isPhp80);
   };
 
   sqlsrv = buildPecl {
