@@ -628,10 +628,10 @@ let
   };
 
   protobuf = buildPecl {
-    version = "3.12.3";
+    version = "3.12.4";
     pname = "protobuf";
 
-    sha256 = "182pfmfv16hcp14npxj7v2fi4fbh6nr7jxrxzvwanrrhx9fq2sq5";
+    sha256 = "109nyjym1c9x5f462wr1ilzv37bs57vridn9plq0vzam0drnp0mq";
 
     buildInputs = with pkgs; [ (if isPhp73 then pcre2.dev else pcre.dev) ];
 
