@@ -358,6 +358,7 @@ in {
       ./patch/php56/php5640-78793.patch
       ./patch/php56/php5640-78862.patch
       ./patch/php56/php5640-78863.patch
+      ./patch/php56/php5640-78875.patch
       ./patch/php56/php5640-78878.patch
       ./patch/php56/php5640-78910.patch
       ./patch/php56/php5640-79037.patch
@@ -366,6 +367,10 @@ in {
       ./patch/php56/php5640-79221.patch
       ./patch/php56/php5640-79282.patch
       ./patch/php56/php5640-79329.patch
+      ./patch/php56/php5640-79330.patch
+      ./patch/php56/php5640-79465.patch
+      ./patch/php56/php5640-79797.patch
+      ./patch/php56/php5640-79877.patch
     ];
   };
 
