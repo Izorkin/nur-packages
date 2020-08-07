@@ -389,6 +389,8 @@ in {
       ./patch/php71/php7133-78793.patch
       ./patch/php71/php7133-78862.patch
       ./patch/php71/php7133-78863.patch
+      ./patch/php71/php7133-78875.patch
+      ./patch/php71/php7133-78876.patch
       ./patch/php71/php7133-78878.patch
       ./patch/php71/php7133-78910.patch
       ./patch/php71/php7133-79037.patch
@@ -398,6 +400,10 @@ in {
       ./patch/php71/php7133-79221.patch
       ./patch/php71/php7133-79282.patch
       ./patch/php71/php7133-79329.patch
+      ./patch/php71/php7133-79330.patch
+      ./patch/php71/php7133-79465.patch
+      ./patch/php71/php7133-79797.patch
+      ./patch/php71/php7133-79877.patch
     ] 
       # https://bugs.php.net/bug.php?id=76826
       ++ optional stdenv.isDarwin ./patch/php71-darwin-isfinite.patch;
