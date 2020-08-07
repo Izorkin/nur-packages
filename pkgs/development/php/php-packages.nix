@@ -357,7 +357,9 @@ let
     meta.broken = isPhp56;
   };
 
-  mongodb = buildPecl {
+  mongodb = if isPhp56 then mongodb17 else mongodb18;
+
+  mongodb17 = buildPecl {
     pname = "mongodb";
     version = "1.7.5";
 
@@ -373,7 +375,26 @@ let
       (if isPhp73 then pcre2.dev else pcre.dev)
     ] ++ lib.optional (stdenv.isDarwin) darwin.apple_sdk.frameworks.Security;
 
-    meta.broken = isPhp80;
+    meta.broken = isPhp71;
+  };
+
+  mongodb18 = buildPecl {
+    pname = "mongodb";
+    version = "1.8.0";
+
+    sha256 = "1c93k8a8ydnx5yn9kbssm341f19ywn9wvd69pf6i1izi83r04vq9";
+
+    nativeBuildInputs = with pkgs; [ pkgconfig ];
+    buildInputs = with pkgs; [
+      cyrus_sasl
+      icu
+      openssl
+      snappy
+      zlib
+      (if isPhp73 then pcre2.dev else pcre.dev)
+    ] ++ lib.optional (stdenv.isDarwin) darwin.apple_sdk.frameworks.Security;
+
+    meta.broken = (isPhp56 || isPhp80);
   };
 
   pcov = buildPecl {
