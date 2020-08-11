@@ -22,14 +22,14 @@ mariadb = server // {
 };
 
 common = rec { # attributes common to both builds
-  version = "10.5.4";
+  version = "10.5.5";
 
   src = fetchurl {
     urls = [
       "https://downloads.mariadb.org/f/mariadb-${version}/source/mariadb-${version}.tar.gz"
       "https://downloads.mariadb.com/MariaDB/mariadb-${version}/source/mariadb-${version}.tar.gz"
     ];
-    sha256 = "0wjc2lvqpxplb41i3kzr4675cx5a5syr0cz7ljcpxhyfr7n2pnr6";
+    sha256 = "1948j0bqlqqhp0hw7f69jy10jbdz27hrmci03nxpph2l2w32qsyg";
     name   = "mariadb-${version}.tar.gz";
   };
 
@@ -117,10 +117,10 @@ client = stdenv.mkDerivation (common // {
 
   patches = common.patches ++ [
     ./cmake-plugin-includedir.patch
-    ./cmake-without-plugin-auth-pam.patch
   ];
 
   cmakeFlags = common.cmakeFlags ++ [
+    "-DPLUGIN_AUTH_PAM=OFF"
     "-DWITHOUT_SERVER=ON"
     "-DWITH_WSREP=OFF"
     "-DINSTALL_MYSQLSHAREDIR=share/mysql-client"
@@ -128,7 +128,7 @@ client = stdenv.mkDerivation (common // {
 
   postInstall = common.postInstall + ''
     rm -r "$out"/share/doc
-    rm "$out"/bin/{mysqltest,mytop,wsrep_sst_rsync_wan}
+    rm "$out"/bin/{mysqltest,mytop}
     libmysqlclient_path=$(readlink -f $out/lib/libmysqlclient${libExt})
     rm "$out"/lib/{libmariadb${libExt},libmysqlclient${libExt},libmysqlclient_r${libExt}}
     mv "$libmysqlclient_path" "$out"/lib/libmysqlclient${libExt}
@@ -151,9 +151,7 @@ server = stdenv.mkDerivation (common // {
     ++ optional stdenv.hostPlatform.isLinux linux-pam
     ++ optional (!stdenv.hostPlatform.isDarwin) mytopEnv;
 
-  patches = common.patches ++ optionals stdenv.hostPlatform.isDarwin [
-    ./cmake-without-plugin-auth-pam.patch
-  ];
+  patches = common.patches;
 
   cmakeFlags = common.cmakeFlags ++ [
     "-DMYSQL_DATADIR=/var/lib/mysql"
@@ -178,6 +176,7 @@ server = stdenv.mkDerivation (common // {
   ] ++ optional (!stdenv.hostPlatform.isDarwin) [
     "-DWITH_JEMALLOC=yes"
   ] ++ optionals stdenv.hostPlatform.isDarwin [
+    "-DPLUGIN_AUTH_PAM=OFF"
     "-DWITHOUT_OQGRAPH=1"
     "-DWITHOUT_PLUGIN_S3=1"
   ];
