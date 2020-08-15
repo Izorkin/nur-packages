@@ -517,12 +517,12 @@ let
   };
 
   phpcs = mkDerivation rec {
-    version = "3.5.5";
+    version = "3.5.6";
     pname = "phpcs";
 
     src = pkgs.fetchurl {
       url = "https://github.com/squizlabs/PHP_CodeSniffer/releases/download/${version}/phpcs.phar";
-      sha256 = "0jl038l55cmzn5ml61qkv4z1w4ri0h3v7h00pcb04xhz3gznlbsa";
+      sha256 = "151x3fck72r1vw4899n1niqqmbsfr8z31isvr2922kj8ldc32jb0";
     };
 
     phases = [ "installPhase" ];
