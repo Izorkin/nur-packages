@@ -369,6 +369,7 @@ in {
       ./patch/php56/php5640-79329.patch
       ./patch/php56/php5640-79330.patch
       ./patch/php56/php5640-79465.patch
+      ./patch/php56/php5640-79699.patch
       ./patch/php56/php5640-79797.patch
       ./patch/php56/php5640-79877.patch
     ];
