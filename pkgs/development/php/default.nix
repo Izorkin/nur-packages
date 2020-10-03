@@ -403,6 +403,8 @@ in {
       ./patch/php71/php7133-79329.patch
       ./patch/php71/php7133-79330.patch
       ./patch/php71/php7133-79465.patch
+      ./patch/php71/php7133-79601.patch
+      ./patch/php71/php7133-79699.patch
       ./patch/php71/php7133-79797.patch
       ./patch/php71/php7133-79877.patch
     ] 
