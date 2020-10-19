@@ -380,9 +380,9 @@ let
 
   mongodb18 = buildPecl {
     pname = "mongodb";
-    version = "1.8.0";
+    version = "1.8.1";
 
-    sha256 = "1c93k8a8ydnx5yn9kbssm341f19ywn9wvd69pf6i1izi83r04vq9";
+    sha256 = "0xxrll17c7nz146g9gww4cg41xc3qg41n73syb06546q9skqabyl";
 
     nativeBuildInputs = with pkgs; [ pkgconfig ];
     buildInputs = with pkgs; [
