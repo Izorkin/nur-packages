@@ -34,10 +34,10 @@ let
   };
 
   apcu51 = buildPecl {
-    version = "5.1.18";
+    version = "5.1.19";
     pname = "apcu";
 
-    sha256 = "0ayykd4hfvdzk7qnr5k6yq5scwf6rb2i05xscfv76q5dmkkynvfl";
+    sha256 = "1q3c4y9jqh1yz5vps2iiz2x04vn0y1g5ibxg1x8zp7n7sncvqzw3";
 
     buildInputs = with pkgs; [ (if isPhp73 then pcre2.dev else pcre.dev) ];
     doCheck = true;
@@ -46,7 +46,7 @@ let
     makeFlags = [ "phpincludedir=$(dev)/include" ];
     outputs = [ "out" "dev" ];
 
-    meta.broken = (isPhp56 || isPhp80);
+    meta.broken = isPhp56;
   };
 
   apcu_bc = buildPecl {
