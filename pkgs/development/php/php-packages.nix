@@ -488,12 +488,12 @@ let
   };
 
   phpcbf = mkDerivation rec {
-    version = "3.5.6";
+    version = "3.5.8";
     pname = "phpcbf";
 
     src = pkgs.fetchurl {
       url = "https://github.com/squizlabs/PHP_CodeSniffer/releases/download/${version}/phpcbf.phar";
-      sha256 = "0a0vi8mzbv73p59y3ygqx6dj2c7awlpahx3v9jqr317q1l0fd4gr";
+      sha256 = "15ci30yvw3p9zlmzsk9s4mxzb3wax3gl9p55slhf1bzwn1xxwyb0";
     };
 
     phases = [ "installPhase" ];
