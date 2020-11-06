@@ -184,10 +184,10 @@ let
   };
 
   event = buildPecl {
-    version = "2.5.7";
+    version = "3.0.0";
     pname = "event";
 
-    sha256 = "0jkzcm5mmbg101jc7p3aws9qb6l6xbxkfff82mrf7s5fn7xd44im";
+    sha256 = "1k35qwcf4qz8617b4riy7bp0vna1j3ds0k9j52hlm7qrhww2yxqn";
 
     configureFlags = with pkgs; [
       "--with-event-libevent-dir=${libevent.dev}"
@@ -206,8 +206,6 @@ let
       '';
       license = licenses.php301;
       homepage = "https://bitbucket.org/osmanov/pecl-event/";
-
-      broken = isPhp80;
     };
   };
 
