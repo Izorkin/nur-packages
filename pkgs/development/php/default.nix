@@ -51,7 +51,7 @@ let
   , gettextSupport ? config.php.gettext or true
   , gmpSupport ? config.php.gmp or true
   , mhashSupport ? config.php.mhash or true
-  , iconvSupport ? (config.php.iconv or true) && (versionOlder version "8.0")
+  , iconvSupport ? config.php.iconv or true
   , imapSupport ? config.php.imap or (!stdenv.isDarwin)
   , intlSupport ? config.php.intl or true
   , ldapSupport ? config.php.ldap or true
@@ -258,10 +258,7 @@ let
       ++ optional zlibSupport "--with-zlib=${zlib.dev}"
 
       # Enable extensions in 7.2 and higher
-      ++ optional sodiumSupport "--with-sodium=${libsodium.dev}"
-
-      # Disable extensions in 8.0
-      ++ optional (versionAtLeast version "8.0") "--without-iconv";
+      ++ optional sodiumSupport "--with-sodium=${libsodium.dev}";
 
       hardeningDisable = [ "bindnow" ];
 
