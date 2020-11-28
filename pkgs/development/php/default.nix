@@ -425,8 +425,8 @@ in {
   };
 
   php73 = generic {
-    version = "7.3.24";
-    sha256 = "1khnv5znxgvhwl7fbh2238nwmcdk5nyjg8b5m9xk3xdzxi1pvbyk";
+    version = "7.3.25";
+    sha256 = "039r41zdi97jsxk4chgc87f7rj8ndzg48l2rqj9dpkwly7s16idh";
 
     extraPatches = [
       # PKG_CONFIG need not be a relative path
