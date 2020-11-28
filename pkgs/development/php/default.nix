@@ -446,9 +446,9 @@ in {
   };
 
   php80 = generic {
-    version = "8.0.0-rc-5";
-    rev = "php-8.0.0RC5";
-    sha256 = "1y1s61c7zryy85sipqa42xl5f8v2qal65pcdcz07zqkd8aqgi8yg";
+    version = "8.0.0";
+    rev = "php-8.0.0";
+    sha256 = "0fhn9dfgczf4g8p3ilw3c38nwdvkbnvz6sa92k8z7gszyjvd5rzv";
     extraPatches = [
       # Fix build with LibreSSL
       ./patch/php80-revert-support-for-OCB-mode-in-OpenSSL.patch
