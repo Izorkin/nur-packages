@@ -334,6 +334,8 @@ in {
     extraPatches = [
       # PKG_CONFIG need not be a relative path
       ./patch/fix-paths-pkgconfig-php56.patch
+      # mysqlnd fix patch for MariaDB
+      ./patch/php56/php5640-mysqlnd-fix.patch
       # Added sqlite3.defensive INI directive
       ./patch/php56/php5640-sqlite3-defensive.patch
       # Openssl cert updates
