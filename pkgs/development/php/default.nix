@@ -451,7 +451,7 @@ in {
     sha256 = "0fhn9dfgczf4g8p3ilw3c38nwdvkbnvz6sa92k8z7gszyjvd5rzv";
     extraPatches = [
       # Fix build with LibreSSL
-      ./patch/php80-revert-support-for-OCB-mode-in-OpenSSL.patch
+      ./patch/php80-fix-check-OCB-mode.patch
     ];
   };
 }
