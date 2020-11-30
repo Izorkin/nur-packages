@@ -385,6 +385,8 @@ in {
     extraPatches = [
       # PKG_CONFIG need not be a relative path
       ./patch/fix-paths-pkgconfig-php71.patch
+      # mysqlnd fix patch for MariaDB
+      ./patch/php71/php7133-mysqlnd-fix.patch
       # Openssl cert updates
       ./patch/php71/php7133-php-openssl-cert.patch
       # Backport security bug patches
