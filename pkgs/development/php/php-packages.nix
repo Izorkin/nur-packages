@@ -269,10 +269,10 @@ let
   };
 
   mcrypt = buildPecl {
-    version = "1.0.3";
+    version = "1.0.4";
     pname = "mcrypt";
 
-    sha256 = "0d5hmmgdspmfw99sl5b3j6qbrmbd50izghlsskpyjyd08dc6gzdg";
+    sha256 = "03d09rzfx06jfg1dgchc3898gjbfq71izznws3f4hyldjmw3w5cq";
 
     configureFlags = with pkgs; [
       "--with-mcrypt=${libmcrypt}"
@@ -280,7 +280,7 @@ let
 
     buildInputs = with pkgs; [ libmcrypt ];
 
-    meta.broken = (!isPhp72 || isPhp80);
+    meta.broken = !isPhp72;
   };
 
   memcache = if isPhp56 then memcache30 else memcache40;
