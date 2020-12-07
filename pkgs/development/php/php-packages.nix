@@ -312,7 +312,7 @@ let
     meta.broken = !isPhp72;
   };
 
-  memcache = if isPhp56 then memcache30 else memcache40;
+  memcache = if isPhp56 then memcache30 else (if isPhp80 then memcache80 else memcache40);
 
   memcache30 = buildPecl {
     version = "3.0.8";
@@ -342,6 +342,21 @@ let
     buildInputs = with pkgs; [ zlib ];
 
     meta.broken = (isPhp56 || isPhp80);
+  };
+
+  memcache80 = buildPecl {
+    version = "8.0";
+    pname = "memcache";
+
+    sha256 = "159krw2ha1fpy3rph4pjrcd56w0had5f359v52vq47c3yzk37zny";
+
+    configureFlags = with pkgs; [
+      "--with-zlib-dir=${zlib.dev}"
+    ];
+
+    buildInputs = with pkgs; [ zlib ];
+
+    meta.broken = !isPhp80;
   };
 
   memcached = if isPhp56 then memcached22 else memcached31;
