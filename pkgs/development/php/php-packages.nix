@@ -471,12 +471,12 @@ let
   };
 
   php-cs-fixer = mkDerivation rec {
-    version = "2.17.1";
+    version = "2.17.3";
     pname = "php-cs-fixer";
 
     src = pkgs.fetchurl {
       url = "https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v${version}/php-cs-fixer.phar";
-      sha256 = "04zbrsvizifb13vrgsy8znl8px1clnpcmbb1qb673bl9cg1a1na7";
+      sha256 = "0fv3q9v5g8l7ckza1wag984gng69p5im7739k3d066jy7vyni7kb";
     };
 
     phases = [ "installPhase" ];
