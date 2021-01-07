@@ -959,10 +959,10 @@ let
   };
 
   xdebug30 = buildPecl {
-    version = "3.0.1";
+    version = "3.0.2";
     pname = "xdebug";
 
-    sha256 = "1da983crnk7ci3hfvqrb4gn9w364zzyi147wl4yly9d2adqk358b";
+    sha256 = "05sfgkw55ym7mg0b54l9x3i9598kf2bkp4z3sdl1hd31q3g4cv89";
 
     doCheck = true;
     checkTarget = "test";
