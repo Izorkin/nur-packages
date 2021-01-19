@@ -1,4 +1,4 @@
-{ stdenv, fetchFromGitHub, buildEnv
+{ lib, stdenv, fetchFromGitHub, buildEnv
 , asio, boost, check, openssl, scons
 }:
 
@@ -50,7 +50,7 @@ in stdenv.mkDerivation rec {
     install -m 444 "chromium/LICENSE"                 "$out/$GALERA_LICENSE_DIR/LICENSE.chromium"
   '';
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "Galera 3 wsrep provider library";
     homepage = "https://galeracluster.com/";
     license = licenses.lgpl2;

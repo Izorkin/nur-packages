@@ -1,4 +1,4 @@
-{ stdenv, fetchFromGitHub, buildEnv
+{ lib, stdenv, fetchFromGitHub, buildEnv
 , asio, boost, check, openssl, scons
 }:
 
@@ -49,7 +49,7 @@ in stdenv.mkDerivation rec {
     install -m 444 "asio/LICENSE_1_0.txt"             "$out/$GALERA_LICENSE_DIR/LICENSE.asio"
   '';
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "Galera 3 wsrep provider library";
     homepage = "https://galeracluster.com/";
     license = licenses.lgpl2;
