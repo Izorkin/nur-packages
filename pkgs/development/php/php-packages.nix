@@ -257,10 +257,10 @@ let
   };
 
   igbinary30 = buildPecl {
-    version = "3.1.6";
+    version = "3.2.1";
     pname = "igbinary";
 
-    sha256 = "1spx6581ly2r8pn9b632bi8429sy762v04ramrlnf7469pf8ggxr";
+    sha256 = "1nskazizh9mz0q1dr2n1kq17y964p1lhb70942b5agivzp7j05k0";
 
     configureFlags = [
       "--enable-igbinary"
