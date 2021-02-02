@@ -343,6 +343,7 @@ in {
       # Backport security bug patches
       ./patch/php56/php5640-75457.patch
       ./patch/php56/php5640-76846.patch
+      ./patch/php56/php5640-77423.patch
       ./patch/php56/php5640-77540.patch
       ./patch/php56/php5640-77563.patch
       ./patch/php56/php5640-77630.patch
