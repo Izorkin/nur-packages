@@ -391,6 +391,7 @@ in {
       # Openssl cert updates
       ./patch/php71/php7133-php-openssl-cert.patch
       # Backport security bug patches
+      ./patch/php71/php7133-77423.patch
       ./patch/php71/php7133-77569.patch
       ./patch/php71/php7133-78793.patch
       ./patch/php71/php7133-78862.patch
