@@ -425,6 +425,10 @@ in {
     extraPatches = [
       # PKG_CONFIG need not be a relative path
       ./patch/fix-paths-pkgconfig-php72.patch
+      # mysqlnd fix patch for MariaDB
+      ./patch/php72/php72-mysqlnd-fix.patch
+      # Backport security bug patches
+      ./patch/php72/php7234-77423.patch
     ]
       # https://bugs.php.net/bug.php?id=76826
       ++ optional stdenv.isDarwin ./patch/php72-darwin-isfinite.patch;
