@@ -306,7 +306,7 @@ let
         name = "php-src-${version}";
         owner = "php";
         repo = "php-src";
-        rev = (if (versionAtLeast version "8.0") then "${rev}" else "php-${version}");
+        rev = "php-${version}";
         inherit sha256;
       };
 
@@ -452,8 +452,7 @@ in {
   };
 
   php80 = generic {
-    version = "8.0.1";
-    rev = "php-8.0.1";
-    sha256 = "1w6xd1bl1mp82nzjlihsvs5a5zv3a9mc1p91wm76qnirn5hqr884";
+    version = "8.0.2";
+    sha256 = "0ai0zslsdzn8lvkw1c56jdr9s6ia1vcwf7zp7cz7msx5vmx1h8a8";
   };
 }
