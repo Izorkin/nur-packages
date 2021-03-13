@@ -375,6 +375,7 @@ in {
       ./patch/php56/php5640-79699.patch
       ./patch/php56/php5640-79797.patch
       ./patch/php56/php5640-79877.patch
+      ./patch/php56/php5640-80672.patch
     ];
   };
 
