@@ -1,4 +1,4 @@
-{ pkgs, fetchgit, php, openssl, libevent, libcouchbase }:
+{ pkgs, fetchgit, fetchpatch, php, openssl, libevent, libcouchbase }:
 
 let
   self = with self; {
@@ -282,10 +282,16 @@ let
       "--with-imagick=${imagemagick.dev}"
     ];
 
+    patches = [
+      # Fix compatibility with PHP 8.
+      (fetchpatch {
+        url = "https://github.com/Imagick/imagick/pull/336.patch";
+        sha256 = "nuRdh02qaMx0s/5OzlfWjyYgZG1zgrYnAjsZ/UVIrUM=";
+      })
+    ];
+
     nativeBuildInputs = with pkgs; [ pkg-config ];
     buildInputs = with pkgs; [ (if isPhp73 then pcre2.dev else pcre.dev) ];
-
-    meta.broken = isPhp80;
   };
 
   mailparse = buildPecl {
