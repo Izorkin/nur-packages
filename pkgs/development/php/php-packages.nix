@@ -714,7 +714,7 @@ let
     };
   };
 
-  protobuf = if isPhp56 then protobuf312 else protobuf314;
+  protobuf = if isPhp56 then protobuf312 else protobuf315;
 
   protobuf312 = buildPecl {
     version = "3.12.4";
@@ -735,11 +735,11 @@ let
     };
   };
 
-  protobuf314 = buildPecl {
-    version = "3.14.0";
+  protobuf315 = buildPecl {
+    version = "3.15.6";
     pname = "protobuf";
 
-    sha256 = "1ldc4s28hq61cfg8l4c06pgicj0ng7k37f28a0dnnbs7xkr7cibd";
+    sha256 = "0ar6zdk4zp5s6f320n7slrqnjjc27j46fsa435wgyjflglj71alw";
 
     buildInputs = with pkgs; [ (if isPhp73 then pcre2.dev else pcre.dev) ];
 
@@ -750,7 +750,7 @@ let
       license = licenses.bsd3;
       homepage = "https://developers.google.com/protocol-buffers";
 
-      broken = (isPhp56 || isPhp80);
+      broken = isPhp56;
     };
   };
 
