@@ -755,12 +755,12 @@ let
   };
 
   psalm = mkDerivation rec {
-    version = "4.6.2";
+    version = "4.6.3";
     pname = "psalm";
 
     src = pkgs.fetchurl {
       url = "https://github.com/vimeo/psalm/releases/download/${version}/psalm.phar";
-      sha256 = "1fm2jmzl1wifiglv2r5ndn1q18k1rwjv8iq59zcg5nx4gjm8s35g";
+      sha256 = "068rqj3yc38n4kwh9v5845b3f35vsn0cwz8pp3pk6fnihl22yi4b";
     };
 
     phases = [ "installPhase" ];
