@@ -32,8 +32,6 @@ stdenv.mkDerivation rec {
     sha256 = "1cjyk8fhlrfrqa81b955ky6gwd0fp6w0nhl4q65f7r1cl59rbi10";
   };
 
-  patches = [ ./fix_php56.patch ];
-
   nativeBuildInputs = [ which ];
 
   buildInputs = [ pcre2.dev ]
