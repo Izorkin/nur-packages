@@ -61,12 +61,12 @@ let
   };
 
   ast = buildPecl {
-    version = "1.0.10";
+    version = "1.0.11";
     pname = "ast";
 
-    sha256 = "13s5r1szd80g1mqickghdd38mvjkwss221322mmbrykcfgp4fs30";
+    sha256 = "07kx8lh840f5b1y6kszrlv6c9kqz094ppk7pfdk9w0k91z1gcx2a";
 
-    meta.broken = (isPhp56 || isPhp80);
+    meta.broken = isPhp56;
   };
 
   box = mkDerivation rec {
