@@ -1,4 +1,4 @@
-{ pkgs, fetchgit, fetchpatch, php, openssl, libevent, libcouchbase }:
+{ pkgs, fetchgit, fetchpatch, php, openssl, libevent, libcouchbase, spidermonkey_1_8_5 }:
 
 let
   self = with self; {
