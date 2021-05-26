@@ -61,10 +61,10 @@ let
   };
 
   ast = buildPecl {
-    version = "1.0.11";
+    version = "1.0.12";
     pname = "ast";
 
-    sha256 = "07kx8lh840f5b1y6kszrlv6c9kqz094ppk7pfdk9w0k91z1gcx2a";
+    sha256 = "1mcfx989yrakixlsx2d8v6kyxawfwhig4mra9ccpjasfhad0d31x";
 
     meta.broken = isPhp56;
   };
