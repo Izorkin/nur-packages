@@ -1,4 +1,4 @@
-{ pkgs, fetchgit, fetchpatch, php, openssl, libevent, libcouchbase, spidermonkey_1_8_5 }:
+{ pkgs, fetchgit, fetchpatch, php, openssl, libevent, libcouchbase_2_10_4, spidermonkey_1_8_5 }:
 
 let
   self = with self; {
@@ -158,7 +158,7 @@ let
     version = "2.6.2";
     pname = "couchbase";
 
-    buildInputs = with pkgs; [ libcouchbase zlib igbinary pcs ];
+    buildInputs = with pkgs; [ libcouchbase_2_10_4 zlib igbinary pcs ];
 
     src = pkgs.fetchFromGitHub {
       owner = "couchbase";
@@ -178,7 +178,7 @@ let
            else
              AC_MSG_CHECKING(for libcouchbase in default path)
         -    for i in /usr/local /usr; do
-        +    for i in ${libcouchbase}; do
+        +    for i in ${libcouchbase_2_10_4}; do
                if test -r $i/include/libcouchbase/couchbase.h; then
                  LIBCOUCHBASE_DIR=$i
                  AC_MSG_RESULT(found in $i)
