@@ -416,6 +416,7 @@ in {
       ./patch/php71/php7133-79797.patch
       ./patch/php71/php7133-79877.patch
       ./patch/php71/php7133-80672.patch
+      ./patch/php71/php7133-80710.patch
     ] 
       # https://bugs.php.net/bug.php?id=76826
       ++ optional stdenv.isDarwin ./patch/php71-darwin-isfinite.patch;
