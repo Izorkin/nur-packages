@@ -438,10 +438,10 @@ let
   };
 
   pcov = buildPecl {
-    version = "1.0.8";
+    version = "1.0.9";
     pname = "pcov";
 
-    sha256 = "053rc0nm2jn26xsmgvl1ngb0abx9fn9mk7pgzpb7682b5j5ygdpa";
+    sha256 = "0q2ig5lxzpwz3qgr05wcyh5jzhfxlygkv6nj6jagkhiialng2710";
 
     buildInputs = with pkgs; [ (if isPhp73 then pcre2.dev else pcre.dev) ];
 
