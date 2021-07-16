@@ -342,6 +342,7 @@ in {
       ./patch/php56/php5640-php-openssl-cert.patch
       # Backport security bug patches
       ./patch/php56/php5640-75457.patch
+      ./patch/php56/php5640-76488.patch
       ./patch/php56/php5640-76846.patch
       ./patch/php56/php5640-77423.patch
       ./patch/php56/php5640-77540.patch
@@ -377,6 +378,7 @@ in {
       ./patch/php56/php5640-79877.patch
       ./patch/php56/php5640-80672.patch
       ./patch/php56/php5640-80710.patch
+      ./patch/php56/php5640-81122.patch
     ];
   };
 
