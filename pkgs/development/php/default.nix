@@ -395,6 +395,7 @@ in {
       # Openssl cert updates
       ./patch/php71/php7133-php-openssl-cert.patch
       # Backport security bug patches
+      ./patch/php71/php7133-76452.patch
       ./patch/php71/php7133-77423.patch
       ./patch/php71/php7133-77569.patch
       ./patch/php71/php7133-78793.patch
@@ -419,6 +420,7 @@ in {
       ./patch/php71/php7133-79877.patch
       ./patch/php71/php7133-80672.patch
       ./patch/php71/php7133-80710.patch
+      ./patch/php71/php7133-81122.patch
     ] 
       # https://bugs.php.net/bug.php?id=76826
       ++ optional stdenv.isDarwin ./patch/php71-darwin-isfinite.patch;
