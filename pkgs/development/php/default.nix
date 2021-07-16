@@ -436,9 +436,11 @@ in {
       # mysqlnd fix patch for MariaDB
       ./patch/php72/php72-mysqlnd-fix.patch
       # Backport security bug patches
+      ./patch/php72/php7234-76452.patch
       ./patch/php72/php7234-77423.patch
       ./patch/php72/php7234-80672.patch
       ./patch/php72/php7234-80710.patch
+      ./patch/php72/php7234-81122.patch
     ]
       # https://bugs.php.net/bug.php?id=76826
       ++ optional stdenv.isDarwin ./patch/php72-darwin-isfinite.patch;
