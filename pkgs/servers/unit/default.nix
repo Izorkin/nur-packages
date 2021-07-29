@@ -11,7 +11,6 @@
 , withPerl532 ? false, perl532
 , withPerl534 ? true, perl534
 , withPerldevel ? false, perldevel
-, withRuby_2_5 ? false, ruby_2_5
 , withRuby_2_6 ? true, ruby_2_6
 , withSSL ? true, openssl ? null
 , withIPv6 ? true
@@ -45,7 +44,6 @@ stdenv.mkDerivation rec {
     ++ optional withPerl532 perl532
     ++ optional withPerl534 perl534
     ++ optional withPerldevel perldevel
-    ++ optional withRuby_2_5 ruby_2_5
     ++ optional withRuby_2_6 ruby_2_6
     ++ optional withSSL openssl;
 
@@ -70,7 +68,6 @@ stdenv.mkDerivation rec {
     ${optionalString withPerl532    "./configure perl   --module=perl532  --perl=${perl532}/bin/perl"}
     ${optionalString withPerl534    "./configure perl   --module=perl534  --perl=${perl534}/bin/perl"}
     ${optionalString withPerldevel  "./configure perl   --module=perldev  --perl=${perldevel}/bin/perl"}
-    ${optionalString withRuby_2_5   "./configure ruby   --module=ruby25   --ruby=${ruby_2_5}/bin/ruby"}
     ${optionalString withRuby_2_6   "./configure ruby   --module=ruby26   --ruby=${ruby_2_6}/bin/ruby"}
   '';
 
