@@ -900,12 +900,12 @@ let
   };
 
   snuffleupagus = buildPecl rec {
-    version = "0.7.0";
+    version = "0.7.1";
     pname = "snuffleupagus";
 
     src = pkgs.fetchurl {
       url = "https://github.com/jvoisin/snuffleupagus/archive/v${version}.tar.gz";
-      sha256 = "17qiy2c9bqrb0fk236mawd1vy47n3z8jv7iz031366nvb032y49a";
+      sha256 = "10crdlhs5d6nz91dp1396wa1s24as8irrspvz3bgf83xsy13pz0d";
     };
 
     sourceRoot = "snuffleupagus-${version}/src";
