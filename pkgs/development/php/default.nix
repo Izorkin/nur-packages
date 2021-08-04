@@ -8,6 +8,7 @@
 , openldap, cyrus_sasl, libxml2, libmcrypt, pcre, pcre2
 , unixODBC, postgresql, sqlite, readline, html-tidy
 , libxslt, zlib, libzip, libsodium, oniguruma
+, fetchpatch
 }:
 
 with lib;
@@ -461,6 +462,13 @@ in {
   php74 = generic {
     version = "7.4.22";
     sha256 = "140rxjn9bb8zi8c8c8k3whn92k8qigfy1ja9lrjjc7r0n7mgr647";
+
+    extraPatches = [
+      (fetchpatch {
+        url = "https://github.com/php/php-src/commit/6724d5d4c2c502b098e708bd85b43f2a52848093.patch";
+        sha256 = "0zr14n4l269vnn3a4ri6q6nz6q1dg9nwk8jqcpm80m3fwdvxm2ch";
+      })
+    ];
   };
 
   php80 = generic {
