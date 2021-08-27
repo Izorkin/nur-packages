@@ -126,12 +126,12 @@ let
   };
 
   composer2 = mkDerivation rec {
-    version = "2.1.5";
+    version = "2.1.6";
     pname = "composer";
 
     src = pkgs.fetchurl {
       url = "https://getcomposer.org/download/${version}/composer.phar";
-      sha256 = "1v4hjwbv1y5jvj91i2fj8bvmfsymp9ls8h231zd85svfqdy5b5dy";
+      sha256 = "0wkbmjlwhxix6czjp6vi4gr5kfpx4mr5111jp279cwdhpk74qlkj";
     };
 
     dontUnpack = true;
