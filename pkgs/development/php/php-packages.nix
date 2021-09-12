@@ -287,10 +287,10 @@ let
   };
 
   mailparse = buildPecl {
-    version = "3.1.1";
+    version = "3.1.2";
     pname = "mailparse";
 
-    sha256 = "02nfjbgyjbr48rw6r46gd713hkxh7nghg2rcbr726zhzz182c3y7";
+    sha256 = "04209w56fak5j3y6bkhdsd2vpx5lzlw8wdik6p0zr054gsq7lr5h";
 
     meta.broken = isPhp56;
   };
