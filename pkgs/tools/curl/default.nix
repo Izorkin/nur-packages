@@ -58,6 +58,8 @@ stdenv.mkDerivation rec {
 
   enableParallelBuilding = true;
 
+  strictDeps = true;
+
   nativeBuildInputs = [ pkg-config perl ];
 
   # Zlib and OpenSSL must be propagated because `libcurl.la' contains
