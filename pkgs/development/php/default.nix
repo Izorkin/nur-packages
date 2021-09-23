@@ -443,6 +443,7 @@ in {
       ./patch/php72/php7234-80672.patch
       ./patch/php72/php7234-80710.patch
       ./patch/php72/php7234-81122.patch
+      ./patch/php72/php7234-81211.patch
     ]
       # https://bugs.php.net/bug.php?id=76826
       ++ optional stdenv.isDarwin ./patch/php72-darwin-isfinite.patch;
