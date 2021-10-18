@@ -54,6 +54,10 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-3mLEq5qTFjk5Yui5R3elcLufcf61gPtEdeQS8vk4eFE=";
   };
 
+  patches = [
+    ./7.79.1-darwin-no-systemconfiguration.patch
+  ];
+
   outputs = [ "bin" "dev" "out" "man" "devdoc" ];
   separateDebugInfo = stdenv.isLinux;
 
