@@ -1012,10 +1012,10 @@ let
   };
 
   yaml22 = buildPecl {
-    version = "2.2.1";
+    version = "2.2.2";
     pname = "yaml";
 
-    sha256 = "06bqgp4y38npr6digi00ily1ivyz4sfxzlnxkc4zs99ffm7d0yp1";
+    sha256 = "sha256-EZBS8EYdV9hvRMJS+cmy3XQ0hscBwaCroK6+zdDYuCo=";
 
     configureFlags = with pkgs; [
       "--with-yaml=${libyaml}"
