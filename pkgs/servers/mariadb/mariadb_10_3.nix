@@ -153,6 +153,11 @@ server = stdenv.mkDerivation (common // {
 
   patches = common.patches;
 
+  postPatch = ''
+    substituteInPlace scripts/galera_new_cluster.sh \
+      --replace ":-mariadb" ":-mysql"
+  '';
+
   cmakeFlags = common.cmakeFlags ++ [
     "-DMYSQL_DATADIR=/var/lib/mysql"
     "-DENABLED_LOCAL_INFILE=OFF"
@@ -191,8 +196,6 @@ server = stdenv.mkDerivation (common // {
     rm -r "$out"/data # Don't need testing data
   '' + optionalString withStorageMroonga ''
     mv "$out"/share/{groonga,groonga-normalizer-mysql} "$out"/share/doc/mysql
-  '' + optionalString (!stdenv.hostPlatform.isDarwin) ''
-    sed -i 's/-mariadb/-mysql/' "$out"/bin/galera_new_cluster
   '';
 
   # perlPackages.DBDmysql is broken on darwin
