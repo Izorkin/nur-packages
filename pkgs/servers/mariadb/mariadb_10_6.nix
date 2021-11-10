@@ -22,14 +22,11 @@ mariadb = server // {
 };
 
 common = rec { # attributes common to both builds
-  version = "10.6.4";
+  version = "10.6.5";
 
   src = fetchurl {
-    urls = [
-      "https://downloads.mariadb.org/f/mariadb-${version}/source/mariadb-${version}.tar.gz"
-      "https://downloads.mariadb.com/MariaDB/mariadb-${version}/source/mariadb-${version}.tar.gz"
-    ];
-    sha256 = "0g34k56zdzvib4inmla67db6068asncb0wqss1h83lwmg8a9pgvm";
+    url = "https://downloads.mariadb.com/MariaDB/mariadb-${version}/source/mariadb-${version}.tar.gz";
+    sha256 = "sha256-4L4EBCjZpCqLtL0iG1Z/8lIs1vqJBjhic9pPA8XCCo8=";
     name   = "mariadb-${version}.tar.gz";
   };
 
@@ -48,7 +45,10 @@ common = rec { # attributes common to both builds
 
   patches = [
     ./cmake-includedir.patch
-  ];
+  ]
+  # Fixes a build issue as documented on
+  # https://jira.mariadb.org/browse/MDEV-26769?focusedCommentId=206073&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-206073
+  ++ lib.optional (!stdenv.isLinux) ./macos-MDEV-26769-regression-fix.patch;
 
   cmakeFlags = [
     "-DBUILD_CONFIG=mysql_release"
@@ -95,7 +95,6 @@ common = rec { # attributes common to both builds
     rm "$out"/bin/{mariadb-config,mariadb_config,mysql_config}
     rm -r $out/include
     rm -r $out/lib/pkgconfig
-    rm -r $out/share/aclocal
   '';
 
   enableParallelBuilding = true;
@@ -128,8 +127,7 @@ client = stdenv.mkDerivation (common // {
   ];
 
   postInstall = common.postInstall + ''
-    rm -r "$out"/share/doc
-    rm "$out"/bin/{mysqltest,mytop}
+    rm "$out"/bin/{mariadb-test,mysqltest}
     libmysqlclient_path=$(readlink -f $out/lib/libmysqlclient${libExt})
     rm "$out"/lib/{libmariadb${libExt},libmysqlclient${libExt},libmysqlclient_r${libExt}}
     mv "$libmysqlclient_path" "$out"/lib/libmysqlclient${libExt}
@@ -187,6 +185,7 @@ server = stdenv.mkDerivation (common // {
   '';
 
   postInstall = common.postInstall + ''
+    rm -r "$out"/share/aclocal
     chmod +x "$out"/bin/wsrep_sst_common
     rm "$out"/bin/{mariadb-client-test,mariadb-test,mysql_client_test,mysqltest}
   '' + optionalString withStorageMroonga ''
