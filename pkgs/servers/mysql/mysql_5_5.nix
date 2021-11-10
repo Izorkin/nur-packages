@@ -33,8 +33,6 @@ self = stdenv.mkDerivation rec {
   buildInputs = [ cmake bison ncurses openssl readline zlib ]
      ++ lib.optionals stdenv.isDarwin [ perl cctools CoreServices ];
 
-  enableParallelBuilding = true;
-
   cmakeFlags = [
     "-DWITH_SSL=yes"
     "-DWITH_READLINE=yes"
