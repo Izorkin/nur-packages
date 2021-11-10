@@ -23,14 +23,11 @@ mariadb = server // {
 };
 
 common = rec { # attributes common to both builds
-  version = "10.3.31";
+  version = "10.3.32";
 
   src = fetchurl {
-    urls = [
-      "https://downloads.mariadb.org/f/mariadb-${version}/source/mariadb-${version}.tar.gz"
-      "https://downloads.mariadb.com/MariaDB/mariadb-${version}/source/mariadb-${version}.tar.gz"
-    ];
-    sha256 = "0wdpdsazl7c4w8r178wgsff7krijfcrj0d721smi1xahazz1shi0";
+    url = "https://downloads.mariadb.com/MariaDB/mariadb-${version}/source/mariadb-${version}.tar.gz";
+    sha256 = "sha256-lI0M3y+Sxgz/QjKvnXJOCku+r7s1di+kKee6XDgRwGQ=";
     name   = "mariadb-${version}.tar.gz";
   };
 
@@ -131,7 +128,7 @@ client = stdenv.mkDerivation (common // {
 
   postInstall = common.postInstall + ''
     rm -r "$out"/share/doc
-    rm "$out"/bin/{mysqltest,mytop}
+    rm "$out"/bin/mysqltest
     libmysqlclient_path=$(readlink -f $out/lib/libmysqlclient${libExt})
     rm "$out"/lib/{libmariadb${libExt},libmysqlclient${libExt},libmysqlclient_r${libExt}}
     mv "$libmysqlclient_path" "$out"/lib/libmysqlclient${libExt}
