@@ -32,7 +32,8 @@ common = rec { # attributes common to both builds
   };
 
   nativeBuildInputs = [ cmake pkg-config ]
-    ++ optional stdenv.hostPlatform.isDarwin fixDarwinDylibNames;
+    ++ optional stdenv.hostPlatform.isDarwin fixDarwinDylibNames
+    ++ optional (!stdenv.hostPlatform.isDarwin) makeWrapper;
 
   buildInputs = [
     ncurses openssl zlib pcre libiconv curl
@@ -97,6 +98,11 @@ common = rec { # attributes common to both builds
     rm -r $out/share/aclocal
   '';
 
+  # perlPackages.DBDmysql is broken on darwin
+  postFixup = optionalString (!stdenv.hostPlatform.isDarwin) ''
+    wrapProgram $out/bin/mytop --set PATH ${makeBinPath [ less ncurses ]}
+  '';
+
   passthru.mysqlVersion = "5.7";
 
   meta = {
@@ -139,7 +145,7 @@ server = stdenv.mkDerivation (common // {
 
   outputs = [ "out" "man" ];
 
-  nativeBuildInputs = common.nativeBuildInputs ++ [ bison boost.dev ] ++ optional (!stdenv.hostPlatform.isDarwin) makeWrapper;
+  nativeBuildInputs = common.nativeBuildInputs ++ [ bison boost.dev ];
 
   buildInputs = common.buildInputs ++ [
     bzip2 lz4 lzo snappy xz zstd
@@ -194,11 +200,6 @@ server = stdenv.mkDerivation (common // {
     rm -r "$out"/data # Don't need testing data
   '' + optionalString withStorageMroonga ''
     mv "$out"/share/{groonga,groonga-normalizer-mysql} "$out"/share/doc/mysql
-  '';
-
-  # perlPackages.DBDmysql is broken on darwin
-  postFixup = optionalString (!stdenv.hostPlatform.isDarwin) ''
-    wrapProgram $out/bin/mytop --set PATH ${makeBinPath [ less ncurses ]}
   '';
 
   CXXFLAGS = optionalString stdenv.hostPlatform.isi686 "-fpermissive";
