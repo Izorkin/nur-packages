@@ -4,7 +4,8 @@
 , apacheHttpd, libargon2, systemd, system-sendmail, valgrind
 , freetds, bzip2, curl, openssl
 , gd, freetype, libXpm, libjpeg, libpng, libwebp
-, gettext, gmp, libiconv, uwimap, pam, icu67, icu60, icu
+, gettext, gmp, libiconv, uwimap, pam
+, icu60, icu67, icu69
 , openldap, cyrus_sasl, libxml2, libmcrypt, pcre, pcre2
 , unixODBC, postgresql, sqlite, readline, html-tidy
 , libxslt, zlib, libzip, libsodium, oniguruma
@@ -85,7 +86,7 @@ let
     let
       libmcrypt' = libmcrypt.override { disablePosixThreads = true; };
       pcre' = if (versionAtLeast version "7.3") then pcre2 else pcre;
-      icu' = if (versionAtLeast version "7.0") then (if versionAtLeast version "7.3" then icu else icu67) else icu60;
+      icu' = if (versionOlder version "7.0") then icu60 else (if versionAtLeast version "8.0" then icu69 else (if versionAtLeast version "7.3" then icu69 else icu67));
 
     in stdenv.mkDerivation {
 
