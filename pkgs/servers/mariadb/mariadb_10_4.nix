@@ -1,9 +1,15 @@
-{ lib, stdenv, fetchurl, fetchFromGitHub, cmake, pkg-config, makeWrapper, ncurses
-, libiconv, openssl, pcre, boost, judy, bison, libxml2, libkrb5, linux-pam, curl
-, libaio, libevent, jemalloc450, jemalloc, cracklib, systemd, perl
+{ lib, stdenv, fetchurl
+# Native buildInputs components
+, bison, boost, cmake, fixDarwinDylibNames, makeWrapper, pkg-config
+# Common components
+, curl, libiconv, ncurses, openssl, pcre
+, libaio, libkrb5, systemd
+, CoreServices, cctools, perl
+, jemalloc450, jemalloc, less
+# Server components
 , bzip2, lz4, lzo, snappy, xz, zlib, zstd
-, fixDarwinDylibNames, cctools, CoreServices, less
-, numactl # NUMA Support
+, cracklib, judy, libevent, libxml2
+, linux-pam, numactl
 , withStorageMroonga ? true, kytea, libsodium, msgpack, zeromq
 , withStorageRocks ? true
 , withStorageToku ? true
@@ -36,9 +42,9 @@ common = rec { # attributes common to both builds
     ++ optional (!stdenv.hostPlatform.isDarwin) makeWrapper;
 
   buildInputs = [
-    ncurses openssl zlib pcre libiconv curl
-  ] ++ optionals stdenv.hostPlatform.isLinux [ libaio systemd libkrb5 ]
-    ++ optionals stdenv.hostPlatform.isDarwin [ perl cctools CoreServices ]
+    curl libiconv ncurses openssl pcre zlib
+  ] ++ optionals stdenv.hostPlatform.isLinux [ libaio libkrb5 systemd ]
+    ++ optionals stdenv.hostPlatform.isDarwin [ CoreServices cctools perl ]
     ++ optional (!stdenv.hostPlatform.isDarwin && withStorageToku) [ jemalloc450 ]
     ++ optional (!stdenv.hostPlatform.isDarwin && !withStorageToku) [ jemalloc ];
 
@@ -149,11 +155,11 @@ server = stdenv.mkDerivation (common // {
 
   buildInputs = common.buildInputs ++ [
     bzip2 lz4 lzo snappy xz zstd
-    libxml2 judy libevent cracklib
+    cracklib judy libevent libxml2
   ] ++ optional (stdenv.hostPlatform.isLinux && !stdenv.hostPlatform.isAarch32) numactl
-    ++ optionals withStorageMroonga [ kytea libsodium msgpack zeromq ]
     ++ optional stdenv.hostPlatform.isLinux linux-pam
-    ++ optional (!stdenv.hostPlatform.isDarwin) mytopEnv;
+    ++ optional (!stdenv.hostPlatform.isDarwin) mytopEnv
+    ++ optionals withStorageMroonga [ kytea libsodium msgpack zeromq ];
 
   patches = common.patches;
 
