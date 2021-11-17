@@ -273,10 +273,10 @@ let
   };
 
   imagick = buildPecl {
-    version = "3.5.1";
+    version = "3.6.0";
     pname = "imagick";
 
-    sha256 = "10bz1znwp6317c15j7x7lqk4y2m672glsfpf8spb5b6w9q4z4gr4";
+    sha256 = "sha256-Till8tcN1ZpA55V9VuWQ5zHK0maen4ng/KFZ10jSlH4=";
 
     configureFlags = with pkgs; [
       "--with-imagick=${imagemagick.dev}"
