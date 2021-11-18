@@ -55,7 +55,7 @@ stdenv.mkDerivation rec {
   };
 
   patches = [
-    ./7.79.1-darwin-no-systemconfiguration.patch
+    ./patch/7.79.1-darwin-no-systemconfiguration.patch
   ];
 
   outputs = [ "bin" "dev" "out" "man" "devdoc" ];

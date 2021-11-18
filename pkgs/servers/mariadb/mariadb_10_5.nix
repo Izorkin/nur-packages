@@ -51,7 +51,7 @@ common = rec { # attributes common to both builds
   '';
 
   patches = [
-    ./cmake-includedir.patch
+    ./patch/cmake-includedir.patch
   ];
 
   cmakeFlags = [
@@ -124,7 +124,7 @@ client = stdenv.mkDerivation (common // {
   outputs = [ "out" "man" ];
 
   patches = common.patches ++ [
-    ./cmake-plugin-includedir.patch
+    ./patch/cmake-plugin-includedir.patch
   ];
 
   cmakeFlags = common.cmakeFlags ++ [
