@@ -445,6 +445,7 @@ in {
       ./patch/php72/php7234-77423.patch
       ./patch/php72/php7234-80672.patch
       ./patch/php72/php7234-80710.patch
+      ./patch/php72/php7234-81026.patch
       ./patch/php72/php7234-81122.patch
       ./patch/php72/php7234-81211.patch
     ]
