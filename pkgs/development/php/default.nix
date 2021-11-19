@@ -423,6 +423,7 @@ in {
       ./patch/php71/php7133-79877.patch
       ./patch/php71/php7133-80672.patch
       ./patch/php71/php7133-80710.patch
+      ./patch/php71/php7133-81026.patch
       ./patch/php71/php7133-81122.patch
       ./patch/php71/php7133-81211.patch
     ] 
