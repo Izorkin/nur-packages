@@ -422,6 +422,7 @@ in {
       ./patch/php71/php7133-79699.patch
       ./patch/php71/php7133-79797.patch
       ./patch/php71/php7133-79877.patch
+      ./patch/php71/php7133-79971.patch
       ./patch/php71/php7133-80672.patch
       ./patch/php71/php7133-80710.patch
       ./patch/php71/php7133-81026.patch
