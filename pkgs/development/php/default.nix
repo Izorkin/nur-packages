@@ -445,6 +445,7 @@ in {
       # Backport security bug patches
       ./patch/php72/php7234-76452.patch
       ./patch/php72/php7234-77423.patch
+      ./patch/php72/php7234-79971.patch
       ./patch/php72/php7234-80672.patch
       ./patch/php72/php7234-80710.patch
       ./patch/php72/php7234-81026.patch
