@@ -19,6 +19,7 @@ let
     isPhp73 = pkgs.lib.versionAtLeast php.version "7.3";
     isPhp74 = pkgs.lib.versionAtLeast php.version "7.4";
     isPhp80 = pkgs.lib.versionAtLeast php.version "8.0";
+    isPhp81 = pkgs.lib.versionAtLeast php.version "8.1";
 
   apcu = if isPhp56 then apcu40 else apcu51;
 
@@ -497,7 +498,7 @@ let
 
     buildInputs = with pkgs; [ unixODBC ];
 
-    meta.broken = !isPhp73;
+    meta.broken = (!isPhp73 || isPhp81);
   };
 
   php-cs-fixer = mkDerivation rec {
@@ -558,6 +559,8 @@ let
       license = licenses.bsd2;
       homepage = "https://github.com/JakubOnderka/PHP-Parallel-Lint";
       maintainers = with maintainers; [ jtojnar ];
+
+      broken = isPhp81;
     };
   };
 
@@ -915,7 +918,7 @@ let
 
     buildInputs = with pkgs; [ unixODBC ];
 
-    meta.broken = !isPhp73;
+    meta.broken = (!isPhp73 || isPhp81);
   };
 
   snuffleupagus = buildPecl rec {
