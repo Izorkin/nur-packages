@@ -397,7 +397,7 @@ let
     meta.broken = isPhp56;
   };
 
-  mongodb = if isPhp56 then mongodb17 else mongodb111;
+  mongodb = if isPhp56 then mongodb17 else (if isPhp72 then mongodb1112 else mongodb1111);
 
   mongodb17 = buildPecl {
     pname = "mongodb";
@@ -412,13 +412,13 @@ let
       openssl
       snappy
       zlib
-      (if isPhp73 then pcre2.dev else pcre.dev)
+      pcre.dev
     ] ++ lib.optional (stdenv.isDarwin) darwin.apple_sdk.frameworks.Security;
 
-    meta.broken = isPhp71;
+    meta.broken = !isPhp56;
   };
 
-  mongodb111 = buildPecl {
+  mongodb1111 = buildPecl {
     pname = "mongodb";
     version = "1.11.1";
 
@@ -431,10 +431,29 @@ let
       openssl
       snappy
       zlib
+      pcre.dev
+    ] ++ lib.optional (stdenv.isDarwin) darwin.apple_sdk.frameworks.Security;
+
+    meta.broken = (isPhp56 || isPhp72);
+  };
+
+  mongodb1112 = buildPecl {
+    pname = "mongodb";
+    version = "1.12.0";
+
+    sha256 = "sha256-DZ9nCwISiLtsmwYJefGR8dp3PXKRAGcxZvOLYX4kMX4=";
+
+    nativeBuildInputs = with pkgs; [ pkg-config ];
+    buildInputs = with pkgs; [
+      cyrus_sasl
+      icu
+      openssl
+      snappy
+      zlib
       (if isPhp73 then pcre2.dev else pcre.dev)
     ] ++ lib.optional (stdenv.isDarwin) darwin.apple_sdk.frameworks.Security;
 
-    meta.broken = isPhp56;
+    meta.broken = !isPhp72;
   };
 
   pcov = buildPecl {
