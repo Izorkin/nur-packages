@@ -3,7 +3,7 @@
 , bison2, bison, php-pearweb-phars
 , apacheHttpd, libargon2, systemd, system-sendmail, valgrind
 , freetds, bzip2, curl, openssl
-, gd, freetype, libXpm, libjpeg, libpng, libwebp
+, gd, freetype, libXpm, libavif, libjpeg, libpng, libwebp
 , gettext, gmp, libiconv, uwimap, pam
 , icu60, icu67, icu69
 , openldap, cyrus_sasl, libxml2, libmcrypt, pcre, pcre2
@@ -202,6 +202,7 @@ let
       ++ optionals (gdSupport && versionAtLeast version "7.4") [
         "--enable-gd"
         "--with-external-gd=${gd.dev}"
+        (if (versionAtLeast version "8.1") then "--with-avif=${libavif}" else null)
         "--with-webp=${libwebp}"
         "--with-jpeg=${libjpeg.dev}"
         "--with-xpm=${libXpm.dev}"
@@ -476,5 +477,10 @@ in {
   php80 = generic {
     version = "8.0.14";
     sha256 = "sha256-SwxxfRm2YwbAZ+uf5RTRjg/P4Kw3nx38NFe6I1+1iuM=";
+  };
+
+  php81 = generic {
+    version = "8.1.0";
+    sha256 = "sha256-OYlZpWSzzq6YjqSAob9kzS+H1MvH1oYhExtYTcz/dVI=";
   };
 }
