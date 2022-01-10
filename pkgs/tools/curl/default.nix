@@ -22,6 +22,7 @@
 , c-aresSupport ? false, c-ares ? null
 , brotliSupport ? false, brotli ? null
 , rtmpSupport ? false, rtmpdump ? null
+, pslSupport ? false, libpsl ? null
 , ipv6Support ? true
 }:
 
@@ -47,6 +48,7 @@ assert brotliSupport -> brotli != null;
 assert gsaslSupport -> gsasl != null;
 assert gssSupport -> libkrb5 != null;
 assert rtmpSupport -> rtmpdump !=null;
+assert pslSupport -> libpsl !=null;
 
 stdenv.mkDerivation rec {
   pname = "curl";
@@ -90,7 +92,8 @@ stdenv.mkDerivation rec {
     optional wolfsslSupport wolfssl ++
     optional scpSupport libssh2 ++
     optional brotliSupport brotli ++
-    optional rtmpSupport rtmpdump;
+    optional rtmpSupport rtmpdump ++
+    optional pslSupport libpsl;
 
   # for the second line see https://curl.haxx.se/mail/tracker-2014-03/0087.html
   preConfigure = ''
