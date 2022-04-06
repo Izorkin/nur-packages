@@ -897,7 +897,7 @@ let
     meta.broken = isPhp56;
   };
 
-  sqlsrv = if !isPhp73 then sqlsrv58 else sqlsrv59;
+  sqlsrv = if !isPhp73 then sqlsrv58 else sqlsrv510;
 
   sqlsrv58 = buildPecl {
     version = "5.8.1";
@@ -910,15 +910,15 @@ let
     meta.broken = (isPhp56 || isPhp73);
   };
 
-  sqlsrv59 = buildPecl {
-    version = "5.9.0";
+  sqlsrv510 = buildPecl {
+    version = "5.10.0";
     pname = "sqlsrv";
 
-    sha256 = "1css440b4qrbblmcswd5wdr2v1rjxlj2iicbmvjq9fg81028w40a";
+    sha256 = "sha256-drPwg6Go8QNYHCG6OkbWyiV76uZyjNFYpkpGq1miJrQ=";
 
     buildInputs = with pkgs; [ unixODBC ];
 
-    meta.broken = (!isPhp73 || isPhp81);
+    meta.broken = !isPhp73;
   };
 
   snuffleupagus = buildPecl rec {
