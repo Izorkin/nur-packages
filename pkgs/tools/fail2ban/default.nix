@@ -45,11 +45,14 @@ python3.pkgs.buildPythonApplication rec {
       sitePackages = "$out/${python3.sitePackages}";
     in
     ''
-      # see https://github.com/NixOS/nixpkgs/issues/4968
-      rm -rf ${sitePackages}/etc ${sitePackages}/usr;
-
       # Add custom filters
       cd ${./filter.d} && cp * $out/etc/fail2ban/filter.d
+
+      # see https://github.com/NixOS/nixpkgs/issues/4968
+      rm -r ${sitePackages}/etc;
+    '' + lib.optionalString stdenv.isLinux ''
+      # see https://github.com/NixOS/nixpkgs/issues/4968
+      rm -r "${sitePackages}/usr"
     '';
 
   meta = with lib; {
