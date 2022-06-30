@@ -297,10 +297,10 @@ let
   };
 
   mcrypt = buildPecl {
-    version = "1.0.4";
+    version = "1.0.5";
     pname = "mcrypt";
 
-    sha256 = "03d09rzfx06jfg1dgchc3898gjbfq71izznws3f4hyldjmw3w5cq";
+    sha256 = "sha256-yfUeIRZAoV0qmD9dgOJmYGVjUWUdb2gtZXvfHPoH2KM=";
 
     configureFlags = with pkgs; [
       "--with-mcrypt=${libmcrypt}"
