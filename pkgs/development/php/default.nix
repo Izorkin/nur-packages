@@ -469,6 +469,9 @@ in {
     extraPatches = [
       # PKG_CONFIG need not be a relative path
       ./patch/fix-paths-pkgconfig-php73.patch
+      # Backport security bug patches
+      ./patch/php73/php7331-81719.patch
+      ./patch/php73/php7331-81720.patch
     ]
       # https://bugs.php.net/bug.php?id=76826
       ++ optional stdenv.isDarwin ./patch/php73-darwin-isfinite.patch;
