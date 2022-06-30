@@ -911,10 +911,10 @@ let
   };
 
   sqlsrv510 = buildPecl {
-    version = "5.10.0";
+    version = "5.10.1";
     pname = "sqlsrv";
 
-    sha256 = "sha256-drPwg6Go8QNYHCG6OkbWyiV76uZyjNFYpkpGq1miJrQ=";
+    sha256 = "sha256-XNrttNiihjQ+azuZmS2fy0So+2ndAqpde8IOsupeWdI=";
 
     buildInputs = with pkgs; [ unixODBC ];
 
