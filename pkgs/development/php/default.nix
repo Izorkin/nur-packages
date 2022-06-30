@@ -469,6 +469,8 @@ in {
     extraPatches = [
       # PKG_CONFIG need not be a relative path
       ./patch/fix-paths-pkgconfig-php73.patch
+      # Fix for pcre2 10.38
+      ./patch/php73/php7331-pcre1038.patch
       # Backport security bug patches
       ./patch/php73/php7331-81719.patch
       ./patch/php73/php7331-81720.patch
