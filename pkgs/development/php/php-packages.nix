@@ -491,10 +491,10 @@ let
   };
 
   pdo_sqlsrv510 = buildPecl {
-    version = "5.10.0";
+    version = "5.10.1";
     pname = "pdo_sqlsrv";
 
-    sha256 = "sha256-BEa7i/8egvz9mT69dl0dxWcVo+dURT9Dzo6f6EdlESo=";
+    sha256 = "sha256-x4VBlqI2vINQijRvjG7x35mbwh7rvYOL2wUTIV4GKK0=";
 
     buildInputs = with pkgs; [ unixODBC ];
 
