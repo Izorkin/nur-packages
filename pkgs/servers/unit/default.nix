@@ -22,14 +22,14 @@
 with lib;
 
 stdenv.mkDerivation rec {
-  version = "1.26.1";
+  version = "1.27.0";
   pname = "unit";
 
   src = fetchFromGitHub {
     owner = "nginx";
     repo = pname;
     rev = "${version}";
-    sha256 = "sha256-rTT7EJSHepGOwNXVqlOBOhZayZQXyNo3B2Oa1oLf2FI=";
+    sha256 = "sha256-H/WIrCyocEO/HZfVMyI9IwD565JsUIzC8n1qUYmCvWc=";
   };
 
   nativeBuildInputs = [ which ];
@@ -75,6 +75,10 @@ stdenv.mkDerivation rec {
     ${optionalString withPerldevel  "./configure perl   --module=perldev  --perl=${perldevel}/bin/perl"}
     ${optionalString withRuby_2_7   "./configure ruby   --module=ruby27   --ruby=${ruby_2_7}/bin/ruby"}
     ${optionalString withRuby_3_0   "./configure ruby   --module=ruby30   --ruby=${ruby_3_0}/bin/ruby"}
+  '';
+
+  postInstall = ''
+    rmdir $out/state
   '';
 
   meta = {
