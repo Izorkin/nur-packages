@@ -455,6 +455,8 @@ in {
       ./patch/php72/php7234-81026.patch
       ./patch/php72/php7234-81122.patch
       ./patch/php72/php7234-81211.patch
+      ./patch/php72/php7234-81719.patch
+      ./patch/php72/php7234-81720.patch
     ]
       # https://bugs.php.net/bug.php?id=76826
       ++ optional stdenv.isDarwin ./patch/php72-darwin-isfinite.patch;
