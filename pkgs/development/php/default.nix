@@ -393,7 +393,6 @@ in {
     version = "7.1.33";
     sha256 = "1lz90pyvqxwmi7z2pgr8zc05hss11m61xaqy4d86wh80yra3m5rg";
 
-    # https://bugs.php.net/bug.php?id=76826
     extraPatches = [
       # PKG_CONFIG need not be a relative path
       ./patch/fix-paths-pkgconfig-php71.patch
@@ -431,6 +430,8 @@ in {
       ./patch/php71/php7133-81026.patch
       ./patch/php71/php7133-81122.patch
       ./patch/php71/php7133-81211.patch
+      ./patch/php71/php7133-81719.patch
+      ./patch/php71/php7133-81720.patch
     ] 
       # https://bugs.php.net/bug.php?id=76826
       ++ optional stdenv.isDarwin ./patch/php71-darwin-isfinite.patch;
