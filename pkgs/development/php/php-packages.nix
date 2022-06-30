@@ -723,7 +723,7 @@ let
     };
   };
 
-  protobuf = if isPhp56 then protobuf312 else protobuf320;
+  protobuf = if isPhp56 then protobuf312 else protobuf321;
 
   protobuf312 = buildPecl {
     version = "3.12.4";
@@ -744,11 +744,11 @@ let
     };
   };
 
-  protobuf320 = buildPecl {
-    version = "3.20.0";
+  protobuf321 = buildPecl {
+    version = "3.21.2";
     pname = "protobuf";
 
-    sha256 = "sha256-Ejr1ukCIukaQrRJ0LybKLlycxn0Nts+oP37I0Oetm68=";
+    sha256 = "sha256-Csi4OjDLKtJAF8eU3ByUM2BxSDA6SWy5ZgExrkhVrPg=";
 
     buildInputs = with pkgs; [ (if isPhp73 then pcre2.dev else pcre.dev) ];
 
