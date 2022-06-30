@@ -384,6 +384,8 @@ in {
       ./patch/php56/php5640-81026.patch
       ./patch/php56/php5640-81122.patch
       ./patch/php56/php5640-81211.patch
+      ./patch/php56/php5640-81719.patch
+      ./patch/php56/php5640-81720.patch
     ];
   };
 
