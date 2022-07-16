@@ -342,6 +342,8 @@ in {
       ./patch/php56/php5640-sqlite3-defensive.patch
       # Openssl cert updates
       ./patch/php56/php5640-php-openssl-cert.patch
+      # Openssl 1.1.0 compatibility
+      ./patch/php56/php5640-php-openssl110-compatibility.patch
       # Backport security bug patches
       ./patch/php56/php5640-75457.patch
       ./patch/php56/php5640-76488.patch
