@@ -61,13 +61,24 @@ let
     meta.broken = (isPhp56 || isPhp80);
   };
 
-  ast = buildPecl {
+  ast = if isPhp72 then ast11 else ast10;
+
+  ast10 = buildPecl {
     pname = "ast";
     version = "1.0.16";
 
     sha256 = "sha256-Rb2jS3gMRmHOd89lzYpQT7VlJtS0Vu3Ml9eRyG84ec4=";
 
     meta.broken = isPhp56;
+  };
+
+  ast11 = buildPecl {
+    pname = "ast";
+    version = "1.1.0";
+
+    sha256 = "sha256-7j1PZ+JNguTTQIBqJAUgEuSVTSIxIpSTd2ZUJ0Q+bRM=";
+
+    meta.broken = !isPhp72;
   };
 
   box = mkDerivation rec {
