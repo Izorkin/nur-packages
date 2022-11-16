@@ -36,9 +36,9 @@ let
 
   apcu51 = buildPecl {
     pname = "apcu";
-    version = "5.1.21";
+    version = "5.1.22";
 
-    sha256 = "1hgvxk7jlfb98nkz4bh7609zndaivzv50l68vv5ffvk990256cqh";
+    sha256 = "sha256-AQoNj9ES4e16UqNWGR2jaWprdjGUI/ew396u6vy0Gh4=";
 
     buildInputs = with pkgs; [ (if isPhp73 then pcre2.dev else pcre.dev) ];
     doCheck = true;
