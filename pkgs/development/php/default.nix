@@ -6,7 +6,7 @@
 , gd, freetype, libXpm, libavif, libjpeg, libpng, libwebp
 , gettext, gmp, libiconv, uwimap, pam
 , icu60, icu67, icu69
-, openldap, cyrus_sasl, libxml2, libmcrypt, pcre, pcre2
+, openldap, cyrus_sasl, libxml2, libmcrypt, libxcrypt, pcre, pcre2
 , unixODBC, postgresql, sqlite, readline, html-tidy
 , libxslt, zlib, libzip, libsodium, oniguruma
 }:
@@ -102,6 +102,9 @@ let
         ++ optional (versionAtLeast version "7.0") bison;
 
       buildInputs =
+        # Extended crypt library
+        [ libxcrypt ] ++
+
         # PCRE extension
         [ pcre' ]
 
