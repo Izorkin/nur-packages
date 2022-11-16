@@ -36,14 +36,14 @@ assert !(gnutlsSupport && opensslSupport);
 assert !(gnutlsSupport && wolfsslSupport);
 assert !(opensslSupport && wolfsslSupport);
 
-stdenv.mkDerivation rec {
+stdenv.mkDerivation (finalAttrs: {
   pname = "curl";
   version = "7.86.0";
 
   src = fetchurl {
     urls = [
-      "https://curl.haxx.se/download/${pname}-${version}.tar.bz2"
-      "https://github.com/curl/curl/releases/download/${lib.replaceStrings ["."] ["_"] pname}-${version}/${pname}-${version}.tar.bz2"
+      "https://curl.haxx.se/download/curl-${finalAttrs.version}.tar.bz2"
+      "https://github.com/curl/curl/releases/download/curl-${finalAttrs.version}/curl-${finalAttrs.version}.tar.bz2"
     ];
     sha256 = "sha256-9cpp2wPuoX+ocFvfsan1jXakbJAQUYEJuzjzExN+Cig=";
   };
@@ -140,7 +140,9 @@ stdenv.mkDerivation rec {
     ln $out/lib/libcurl${stdenv.hostPlatform.extensions.sharedLibrary} $out/lib/libcurl-gnutls${stdenv.hostPlatform.extensions.sharedLibrary}.4.4.0
   '';
 
-  passthru = {
+  passthru = let
+    useThisCurl = attr: attr.override { curl = finalAttrs.finalPackage; };
+  in {
     inherit opensslSupport openssl;
   };
 
@@ -153,4 +155,4 @@ stdenv.mkDerivation rec {
     # Fails to link against static brotli or gss
     broken = stdenv.hostPlatform.isStatic && (brotliSupport || gssSupport);
   };
-}
+})
