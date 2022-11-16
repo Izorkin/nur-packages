@@ -1,6 +1,6 @@
 { lib, stdenv, fetchurl, pkg-config, perl
 , brotliSupport ? false, brotli
-, c-aresSupport ? false, c-ares
+, c-aresSupport ? false, c-aresMinimal
 , gnutlsSupport ? false, gnutls
 , gsaslSupport ? false, gsasl
 , gssSupport ? with stdenv.hostPlatform; (
@@ -66,7 +66,7 @@ stdenv.mkDerivation rec {
   # applications that use Curl.
   propagatedBuildInputs = with lib;
     optional brotliSupport brotli ++
-    optional c-aresSupport c-ares ++
+    optional c-aresSupport c-aresMinimal ++
     optional gnutlsSupport gnutls ++
     optional gsaslSupport gsasl ++
     optional gssSupport libkrb5 ++
