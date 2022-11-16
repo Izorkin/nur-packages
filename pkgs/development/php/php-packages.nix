@@ -139,11 +139,11 @@ let
 
   composer2 = mkDerivation rec {
     pname = "composer";
-    version = "2.4.0";
+    version = "2.4.4";
 
     src = pkgs.fetchurl {
       url = "https://getcomposer.org/download/${version}/composer.phar";
-      sha256 = "sha256-HNx090llkI0OmNAP7so3wjuG2lEXCjoRoVONif9E1N0=";
+      sha256 = "sha256-wlLCoiGZVviAif/CQrQsjLkwCjaP04kNY5QOT8llI0U=";
     };
 
     dontUnpack = true;
