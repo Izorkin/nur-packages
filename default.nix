@@ -45,6 +45,7 @@ rec {
   php74Packages       = pkgs.recurseIntoAttrs (pkgs.callPackage ./pkgs/development/php/php-packages.nix { php = php74;      openssl = pkgs.libressl; libevent = pkgs.libevent.override ({ openssl = pkgs.libressl; }); inherit libcouchbase_2_10_4; });
   php80Packages       = pkgs.recurseIntoAttrs (pkgs.callPackage ./pkgs/development/php/php-packages.nix { php = php80;      openssl = pkgs.libressl; libevent = pkgs.libevent.override ({ openssl = pkgs.libressl; }); inherit libcouchbase_2_10_4; });
   php81Packages       = pkgs.recurseIntoAttrs (pkgs.callPackage ./pkgs/development/php/php-packages.nix { php = php81;      openssl = pkgs.libressl; libevent = pkgs.libevent.override ({ openssl = pkgs.libressl; }); inherit libcouchbase_2_10_4; });
+  php82Packages       = pkgs.recurseIntoAttrs (pkgs.callPackage ./pkgs/development/php/php-packages.nix { php = php82;      openssl = pkgs.libressl; libevent = pkgs.libevent.override ({ openssl = pkgs.libressl; }); inherit libcouchbase_2_10_4; });
   php56Packages-unit  = pkgs.recurseIntoAttrs (pkgs.callPackage ./pkgs/development/php/php-packages.nix { php = php56-unit; openssl = pkgs.libressl; libevent = pkgs.libevent.override ({ openssl = pkgs.libressl; }); inherit libcouchbase_2_10_4; inherit spidermonkey_1_8_5; });
   php71Packages-unit  = pkgs.recurseIntoAttrs (pkgs.callPackage ./pkgs/development/php/php-packages.nix { php = php71-unit; openssl = pkgs.libressl; libevent = pkgs.libevent.override ({ openssl = pkgs.libressl; }); inherit libcouchbase_2_10_4; });
   php72Packages-unit  = pkgs.recurseIntoAttrs (pkgs.callPackage ./pkgs/development/php/php-packages.nix { php = php72-unit; openssl = pkgs.libressl; libevent = pkgs.libevent.override ({ openssl = pkgs.libressl; }); inherit libcouchbase_2_10_4; });
@@ -52,6 +53,7 @@ rec {
   php74Packages-unit  = pkgs.recurseIntoAttrs (pkgs.callPackage ./pkgs/development/php/php-packages.nix { php = php74-unit; openssl = pkgs.libressl; libevent = pkgs.libevent.override ({ openssl = pkgs.libressl; }); inherit libcouchbase_2_10_4; });
   php80Packages-unit  = pkgs.recurseIntoAttrs (pkgs.callPackage ./pkgs/development/php/php-packages.nix { php = php80-unit; openssl = pkgs.libressl; libevent = pkgs.libevent.override ({ openssl = pkgs.libressl; }); inherit libcouchbase_2_10_4; });
   php81Packages-unit  = pkgs.recurseIntoAttrs (pkgs.callPackage ./pkgs/development/php/php-packages.nix { php = php81-unit; openssl = pkgs.libressl; libevent = pkgs.libevent.override ({ openssl = pkgs.libressl; }); inherit libcouchbase_2_10_4; });
+  php82Packages-unit  = pkgs.recurseIntoAttrs (pkgs.callPackage ./pkgs/development/php/php-packages.nix { php = php82-unit; openssl = pkgs.libressl; libevent = pkgs.libevent.override ({ openssl = pkgs.libressl; }); inherit libcouchbase_2_10_4; });
 
   php-bench           = pkgs.callPackage  ./pkgs/web/php-bench { };
   php-info            = pkgs.callPackage  ./pkgs/web/php-info { };
