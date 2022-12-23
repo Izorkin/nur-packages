@@ -20,6 +20,7 @@ let
     isPhp74 = pkgs.lib.versionAtLeast php.version "7.4";
     isPhp80 = pkgs.lib.versionAtLeast php.version "8.0";
     isPhp81 = pkgs.lib.versionAtLeast php.version "8.1";
+    isPhp82 = pkgs.lib.versionAtLeast php.version "8.2";
 
   apcu = if isPhp56 then apcu40 else apcu51;
 
@@ -956,7 +957,7 @@ let
 
     buildInputs = with pkgs; [ pcre.dev pcre2.dev ];
 
-    meta.broken = isPhp56;
+    meta.broken = (isPhp56 || isPhp82);
   };
 
   spidermonkey = buildPecl {
@@ -1035,7 +1036,7 @@ let
     doCheck = true;
     checkTarget = "test";
 
-    meta.broken = !isPhp72;
+    meta.broken = (!isPhp72 || isPhp82);
   };
 
   yaml = if isPhp56 then yaml13 else yaml22;
