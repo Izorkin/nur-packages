@@ -498,4 +498,9 @@ in {
     version = "8.1.13";
     sha256 = "sha256-iHtur7ig7z584syMk1DmSTM2tHzpZ6xymV/ROICoq4U=";
   };
+
+  php82 = generic {
+    version = "8.2.0";
+    sha256 = "sha256-tR/sAhPuv2+OxIB9FZcVfOX5AEJk/Gz0T9+jglnl3DA=";
+  };
 }
