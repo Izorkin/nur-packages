@@ -946,18 +946,18 @@ let
 
   snuffleupagus = buildPecl rec {
     pname = "snuffleupagus";
-    version = "0.8.2";
+    version = "0.9.0";
 
     src = pkgs.fetchurl {
       url = "https://github.com/jvoisin/snuffleupagus/archive/v${version}.tar.gz";
-      sha256 = "sha256-o5dntvJojGBaCrgEyZN5rl2AzuH8c/Ruc2gH/tAbE14=";
+      sha256 = "sha256-Nsmd2VQERKtskxxoclVSLaxnBSdc3CkbTiWh1Ba3pC4=";
     };
 
     sourceRoot = "snuffleupagus-${version}/src";
 
     buildInputs = with pkgs; [ pcre.dev pcre2.dev ];
 
-    meta.broken = (isPhp56 || isPhp82);
+    meta.broken = isPhp56;
   };
 
   spidermonkey = buildPecl {
