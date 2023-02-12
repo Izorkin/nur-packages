@@ -526,11 +526,11 @@ let
 
   php-cs-fixer = mkDerivation rec {
     pname = "php-cs-fixer";
-    version = "3.13.2";
+    version = "3.14.4";
 
     src = pkgs.fetchurl {
       url = "https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v${version}/php-cs-fixer.phar";
-      sha256 = "sha256-XL1heRIvS83MmIIJqhkBnsswCJBYntiyb6RS79YwRrw=";
+      sha256 = "sha256-wKAjYW5srGKGu0eCR+5j4HDl8xoKDIW/I+hyCpZo8UI=";
     };
 
     phases = [ "installPhase" ];
