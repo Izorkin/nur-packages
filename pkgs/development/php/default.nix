@@ -495,8 +495,8 @@ in {
   };
 
   php81 = generic {
-    version = "8.1.14";
-    sha256 = "sha256-YGyrlCm0jTYTIhTet9G6n+dlgsD2NDarUcSXtZupI/g=";
+    version = "8.1.15";
+    sha256 = "sha256-N3gXbvOC05oaIjri8Ox+RpinrA3CiOFuKtfElS8KFf0=";
   };
 
   php82 = generic {
