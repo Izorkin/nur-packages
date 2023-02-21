@@ -643,11 +643,11 @@ let
 
   phpstan = mkDerivation rec {
     pname = "phpstan";
-    version = "1.9.17";
+    version = "1.9.18";
 
     src = pkgs.fetchurl {
       url = "https://github.com/phpstan/phpstan/releases/download/${version}/phpstan.phar";
-      sha256 = "sha256-7NHPz6ROVjGyqhnTDkhGr1/eqkydXLPpv28Kh/0QWIg=";
+      sha256 = "sha256-z1WpeX/3gF5+yAtt+Z0ribGosozVy4JFSp0HQ1iOVPo=";
     };
 
     phases = [ "installPhase" ];
