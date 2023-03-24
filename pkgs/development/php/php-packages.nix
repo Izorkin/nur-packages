@@ -616,11 +616,11 @@ let
 
   phpcs = mkDerivation rec {
     pname = "phpcs";
-    version = "3.7.1";
+    version = "3.7.2";
 
     src = pkgs.fetchurl {
       url = "https://github.com/squizlabs/PHP_CodeSniffer/releases/download/${version}/phpcs.phar";
-      sha256 = "sha256-ehQyOhSvn1gwLRVEJJLuEHaozXLAGKgWy0SWW/OpsBU=";
+      sha256 = "sha256-IEIUwepbqBT7CyYIwZzKLBC/X/zJ8OPUw0qtwBeVF7c=";
     };
 
     phases = [ "installPhase" ];
