@@ -500,7 +500,7 @@ let
     meta.broken = isPhp80;
   };
 
-  pdo_sqlsrv = if !isPhp73 then pdo_sqlsrv58 else pdo_sqlsrv510;
+  pdo_sqlsrv = if !isPhp73 then pdo_sqlsrv58 else pdo_sqlsrv511;
 
   pdo_sqlsrv58 = buildPecl {
     pname = "pdo_sqlsrv";
@@ -513,11 +513,11 @@ let
     meta.broken = (isPhp56 || isPhp73);
   };
 
-  pdo_sqlsrv510 = buildPecl {
+  pdo_sqlsrv511 = buildPecl {
     pname = "pdo_sqlsrv";
-    version = "5.10.1";
+    version = "5.11.0";
 
-    sha256 = "sha256-x4VBlqI2vINQijRvjG7x35mbwh7rvYOL2wUTIV4GKK0=";
+    sha256 = "sha256-wwfZvK2gK9wh9ZufCZAxuQswcndXvKUP1C/TYVmBLoo=";
 
     buildInputs = with pkgs; [ unixODBC ];
 
