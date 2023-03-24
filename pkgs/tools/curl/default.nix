@@ -35,6 +35,7 @@
 , phpExtensions
 , python3
 , tests
+, testers
 , fetchpatch
 }:
 
@@ -181,6 +182,7 @@ stdenv.mkDerivation (finalAttrs: {
       # Additional checking with support http3 protocol.
       # nginx-http3 = useThisCurl nixosTests.nginx-http3;
       nginx-http3 = nixosTests.nginx-http3;
+      pkg-config = testers.testMetaPkgConfig finalAttrs.finalPackage;
     };
   };
 
@@ -193,5 +195,6 @@ stdenv.mkDerivation (finalAttrs: {
     platforms = platforms.all;
     # Fails to link against static brotli or gss
     broken = stdenv.hostPlatform.isStatic && (brotliSupport || gssSupport);
+    pkgConfigModules = [ "libcurl" ];
   };
 })
