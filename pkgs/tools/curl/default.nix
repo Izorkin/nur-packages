@@ -34,6 +34,8 @@
 , ocamlPackages
 , phpExtensions
 , python3
+, tests
+, fetchpatch
 }:
 
 # Note: this package is used for bootstrapping fetchurl, and thus
@@ -134,7 +136,10 @@ stdenv.mkDerivation (finalAttrs: {
   CXX = "${stdenv.cc.targetPrefix}c++";
   CXXCPP = "${stdenv.cc.targetPrefix}c++ -E";
 
-  doCheck = true;
+  # takes 14 minutes on a 24 core and because many other packages depend on curl
+  # they cannot be run concurrently and are a bottleneck
+  # tests are available in passthru.tests.withCheck
+  doCheck = false;
   preCheck = ''
     patchShebangs tests/
   '' + lib.optionalString stdenv.isDarwin ''
@@ -164,6 +169,8 @@ stdenv.mkDerivation (finalAttrs: {
   in {
     inherit opensslSupport openssl;
     tests = {
+      withCheck = finalAttrs.finalPackage.overrideAttrs (_: { doCheck = true; });
+      fetchpatch = tests.fetchpatch.simple.override { fetchpatch = fetchpatch.override { fetchurl = useThisCurl fetchurl; }; };
       curlpp = useThisCurl curlpp;
       coeurl = useThisCurl coeurl;
       haskell-curl = useThisCurl haskellPackages.curl;
