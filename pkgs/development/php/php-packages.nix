@@ -589,11 +589,11 @@ let
 
   phpcbf = mkDerivation rec {
     pname = "phpcbf";
-    version = "3.7.1";
+    version = "3.7.2";
 
     src = pkgs.fetchurl {
       url = "https://github.com/squizlabs/PHP_CodeSniffer/releases/download/${version}/phpcbf.phar";
-      sha256 = "sha256-yTwOg8vaIcIfhJzPD0tCl50gAEpaYXLtDqJw7Keub6g=";
+      sha256 = "sha256-TspzKpl98IpMl+QyZuuBIvkW05uwAqAAYA/dU5P07+E=";
     };
 
     phases = [ "installPhase" ];
