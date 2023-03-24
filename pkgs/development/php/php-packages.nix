@@ -1070,9 +1070,9 @@ let
 
   yaml22 = buildPecl {
     pname = "yaml";
-    version = "2.2.2";
+    version = "2.2.3";
 
-    sha256 = "sha256-EZBS8EYdV9hvRMJS+cmy3XQ0hscBwaCroK6+zdDYuCo=";
+    sha256 = "sha256-WTfrlyLd9tZGJnmc+gJFmP8kUuoVeZLk5nMxolP5AjY=";
 
     configureFlags = with pkgs; [
       "--with-yaml=${libyaml}"
