@@ -1,4 +1,4 @@
-{ lib, stdenv, fetchFromGitHub, python3, fetchpatch }:
+{ lib, stdenv, fetchFromGitHub, python3, fetchpatch, installShellFiles }:
 
 python3.pkgs.buildPythonApplication rec {
   pname = "fail2ban";
@@ -10,6 +10,10 @@ python3.pkgs.buildPythonApplication rec {
     rev = version;
     sha256 = "00d9q8m284q2wy6q462nipzszplfbvrs9fhgn0y3imwsc24kv1db";
   };
+
+  outputs = [ "out" "man" ];
+
+  nativeBuildInputs = [ installShellFiles ];
 
   pythonPath = with python3.pkgs;
     lib.optionals stdenv.isLinux [
@@ -71,6 +75,8 @@ python3.pkgs.buildPythonApplication rec {
 
       # see https://github.com/NixOS/nixpkgs/issues/4968
       rm -r "${sitePackages}/etc"
+
+      installManPage man/*.[1-9]
     '' + lib.optionalString stdenv.isLinux ''
       # see https://github.com/NixOS/nixpkgs/issues/4968
       rm -r "${sitePackages}/usr"
