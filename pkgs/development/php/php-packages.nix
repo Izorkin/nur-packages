@@ -1041,9 +1041,9 @@ let
 
   xdebug32 = buildPecl {
     pname = "xdebug";
-    version = "3.2.0";
+    version = "3.2.1";
 
-    sha256 = "sha256-d2myDuza31++n1glEsELOU+1dbb3qMOjqC22iD4AMrc=";
+    sha256 = "sha256-70yzwigZJ5iHTkUwzMzu52hAzICCGQl0AIih4ajwBEU=";
 
     doCheck = true;
     checkTarget = "test";
