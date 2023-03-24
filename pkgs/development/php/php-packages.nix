@@ -321,9 +321,9 @@ let
 
   mcrypt = buildPecl {
     pname = "mcrypt";
-    version = "1.0.5";
+    version = "1.0.6";
 
-    sha256 = "sha256-yfUeIRZAoV0qmD9dgOJmYGVjUWUdb2gtZXvfHPoH2KM=";
+    sha256 = "sha256-vm79Uqdu0Bqr3aDOQmrtCpPbTsBpCMFqVGAXXDWw0Io=";
 
     configureFlags = with pkgs; [
       "--with-mcrypt=${libmcrypt}"
