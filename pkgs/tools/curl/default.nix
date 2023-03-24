@@ -1,4 +1,4 @@
-{ lib, stdenv, fetchurl, pkg-config, perl
+{ lib, stdenv, fetchurl, pkg-config, perl, nixosTests
 , brotliSupport ? false, brotli
 , c-aresSupport ? false, c-aresMinimal
 , gnutlsSupport ? false, gnutls
@@ -25,6 +25,15 @@
 , wolfsslSupport ? false, wolfssl
 , zlibSupport ? true, zlib
 , zstdSupport ? false, zstd
+
+# for passthru.tests
+, coeurl
+, curlcpp
+, curlpp
+, haskellPackages
+, ocamlPackages
+, phpExtensions
+, python3
 }:
 
 # Note: this package is used for bootstrapping fetchurl, and thus
@@ -144,6 +153,18 @@ stdenv.mkDerivation (finalAttrs: {
     useThisCurl = attr: attr.override { curl = finalAttrs.finalPackage; };
   in {
     inherit opensslSupport openssl;
+    tests = {
+      curlpp = useThisCurl curlpp;
+      coeurl = useThisCurl coeurl;
+      haskell-curl = useThisCurl haskellPackages.curl;
+      ocaml-curly = useThisCurl ocamlPackages.curly;
+      pycurl = useThisCurl python3.pkgs.pycurl;
+      php-curl = useThisCurl phpExtensions.curl;
+      # error: attribute 'override' missing
+      # Additional checking with support http3 protocol.
+      # nginx-http3 = useThisCurl nixosTests.nginx-http3;
+      nginx-http3 = nixosTests.nginx-http3;
+    };
   };
 
   meta = with lib; {
