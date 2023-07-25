@@ -25,13 +25,13 @@ with lib;
 
 stdenv.mkDerivation rec {
   pname = "unit";
-  version = "1.29.1";
+  version = "1.30.0";
 
   src = fetchFromGitHub {
     owner = "nginx";
     repo = pname;
     rev = "${version}";
-    hash = "sha256-Jk/rzPJq1FWWTe31Fa2Ah+MoWP5mh6XNSmiYIY42vvk=";
+    hash = "sha256-QLTzlW1OsU+gwaPKozLcBKfuTXbYg1ONqTVZpGX6mrQ=";
   };
 
   nativeBuildInputs = [ which ];
@@ -84,7 +84,7 @@ stdenv.mkDerivation rec {
   '';
 
   postInstall = ''
-    rmdir $out/state
+    rm -rd $out/var
   '';
 
   meta = {
