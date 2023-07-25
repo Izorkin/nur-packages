@@ -23,6 +23,7 @@
 , rtmpSupport ? false, rtmpdump
 , scpSupport ? zlibSupport && !stdenv.isSunOS && !stdenv.isCygwin, libssh2
 , wolfsslSupport ? false, wolfssl
+, rustlsSupport ? false, rustls-ffi
 , zlibSupport ? true, zlib
 , zstdSupport ? false, zstd
 
@@ -43,9 +44,7 @@
 # cgit) that are needed here should be included directly in Nixpkgs as
 # files.
 
-assert !(gnutlsSupport && opensslSupport);
-assert !(gnutlsSupport && wolfsslSupport);
-assert !(opensslSupport && wolfsslSupport);
+assert !((lib.count (x: x) [ gnutlsSupport opensslSupport wolfsslSupport rustlsSupport ]) > 1);
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "curl";
@@ -90,6 +89,7 @@ stdenv.mkDerivation (finalAttrs: {
     optional rtmpSupport rtmpdump ++
     optional scpSupport libssh2 ++
     optional wolfsslSupport wolfssl ++
+    optional rustlsSupport rustls-ffi ++
     optional zlibSupport zlib ++
     optional zstdSupport zstd;
 
@@ -105,11 +105,12 @@ stdenv.mkDerivation (finalAttrs: {
       (lib.enableFeature c-aresSupport "ares")
       (lib.enableFeature ldapSupport "ldap")
       (lib.enableFeature ldapSupport "ldaps")
-      # The build fails when using wolfssl with --with-ca-fallback
-      (lib.withFeature (!wolfsslSupport) "ca-fallback")
+      # --with-ca-fallback is only supported for openssl and gnutls https://github.com/curl/curl/blame/curl-8_0_1/acinclude.m4#L1640
+      (lib.withFeature (opensslSupport || gnutlsSupport) "ca-fallback")
       (lib.withFeature http3Support "nghttp3")
       (lib.withFeature http3Support "ngtcp2")
       (lib.withFeature rtmpSupport "librtmp")
+      (lib.withFeature rustlsSupport "rustls")
       (lib.withFeature zstdSupport "zstd")
       (lib.withFeatureAs brotliSupport "brotli" (lib.getDev brotli))
       (lib.withFeatureAs gnutlsSupport "gnutls" (lib.getDev gnutls))
@@ -131,7 +132,7 @@ stdenv.mkDerivation (finalAttrs: {
       # Without this curl might detect /etc/ssl/cert.pem at build time on macOS, causing curl to ignore NIX_SSL_CERT_FILE.
       "--without-ca-bundle"
       "--without-ca-path"
-    ] ++ lib.optionals (!gnutlsSupport && !opensslSupport && !wolfsslSupport) [
+    ] ++ lib.optionals (!gnutlsSupport && !opensslSupport && !wolfsslSupport && !rustlsSupport) [
       "--without-ssl"
     ];
 
