@@ -973,9 +973,9 @@ let
 
   sqlsrv511 = buildPecl {
     pname = "sqlsrv";
-    version = "5.11.0";
+    version = "5.11.1";
 
-    sha256 = "sha256-bkN69NtzCrmVxZf5YOmLrAYPwiCo1R7iSHfrfzkJCgk=";
+    sha256 = "sha256-Z4q2AXS+VrCcaRYwdwDnFqT/JmrVPkOZCp2XQNRyhGM=";
 
     buildInputs = with pkgs; [ unixODBC ];
 
