@@ -938,7 +938,7 @@ let
     meta.broken = (!isPhp73 || isPhp74);
   };
 
-  redis = if isPhp56 then redis43 else redis53;
+  redis = if isPhp56 then redis43 else redis60;
 
   redis43 = buildPecl {
     pname = "redis";
@@ -949,11 +949,11 @@ let
     meta.broken = !isPhp56;
   };
 
-  redis53 = buildPecl {
+  redis60 = buildPecl {
     pname = "redis";
-    version = "5.3.7";
+    version = "6.0.2";
 
-    sha256 = "sha256-uVgWbM2k9AvRfGmY+eIjkCGuZERnzYrVwV3vQgqtZbA=";
+    sha256 = "sha256-Aa7MsOFPiX/lbwUJvm5pkf8K1Fn5006V5FVtAmmbmgM=";
 
     meta.broken = isPhp56;
   };
