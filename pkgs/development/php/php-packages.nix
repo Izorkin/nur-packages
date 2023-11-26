@@ -421,7 +421,7 @@ let
     meta.broken = isPhp56;
   };
 
-  mongodb = if isPhp56 then mongodb175 else (if isPhp72 then mongodb115 else mongodb111);
+  mongodb = if isPhp56 then mongodb175 else (if isPhp72 then mongodb116 else mongodb111);
 
   mongodb175 = buildPecl {
     pname = "mongodb";
@@ -461,11 +461,11 @@ let
     meta.broken = (isPhp56 || isPhp72);
   };
 
-  mongodb115 = buildPecl {
+  mongodb116 = buildPecl {
     pname = "mongodb";
-    version = "1.15.1";
+    version = "1.16.2";
 
-    sha256 = "sha256-sgOOd41x9FytuMk6MOtUjlwsHk+DKAende1Ra3gWt0k=";
+    sha256 = "sha256-1jDPMqc7bl4F0oBngtNeBtJLfVyDz+wII5VJ5ramALI=";
 
     nativeBuildInputs = with pkgs; [ pkg-config ];
     buildInputs = with pkgs; [
