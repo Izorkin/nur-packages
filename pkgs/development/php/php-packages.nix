@@ -765,7 +765,7 @@ let
     };
   };
 
-  protobuf = if isPhp56 then protobuf312 else protobuf324;
+  protobuf = if isPhp56 then protobuf312 else (if isPhp72 then protobuf325 else protobuf324);
 
   protobuf312 = buildPecl {
     pname = "protobuf";
@@ -801,7 +801,26 @@ let
       license = licenses.bsd3;
       homepage = "https://developers.google.com/protocol-buffers";
 
-      broken = isPhp56;
+      broken = (isPhp56 || isPhp72);
+    };
+  };
+
+  protobuf325 = buildPecl {
+    pname = "protobuf";
+    version = "3.25.1";
+
+    sha256 = "sha256-wby9JnHLNQNVv1t/h/B6aBPxFEesYpXMUxYHVqnzhaY=";
+
+    buildInputs = with pkgs; [ (if isPhp73 then pcre2.dev else pcre.dev) ];
+
+    meta = with pkgs.lib; {
+      description = ''
+        Google's language-neutral, platform-neutral, extensible mechanism for serializing structured data.
+      '';
+      license = licenses.bsd3;
+      homepage = "https://developers.google.com/protocol-buffers";
+
+      broken = !isPhp72;
     };
   };
 
