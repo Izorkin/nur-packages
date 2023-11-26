@@ -534,9 +534,9 @@ let
 
   pdo_sqlsrv511 = buildPecl {
     pname = "pdo_sqlsrv";
-    version = "5.11.0";
+    version = "5.11.1";
 
-    sha256 = "sha256-wwfZvK2gK9wh9ZufCZAxuQswcndXvKUP1C/TYVmBLoo=";
+    sha256 = "sha256-VJhVqZKhNj5O3vezG+arD5zW3ZzERmV4V3UAZermr4k=";
 
     buildInputs = with pkgs; [ unixODBC ];
 
