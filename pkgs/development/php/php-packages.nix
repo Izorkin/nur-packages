@@ -299,7 +299,7 @@ let
     buildInputs = with pkgs; [ (if isPhp73 then pcre2.dev else pcre.dev) ];
   };
 
-  mailparse = if !isPhp73 then mailparse313 else mailparse314;
+  mailparse = if !isPhp73 then mailparse313 else mailparse316;
 
   mailparse313 = buildPecl {
     pname = "mailparse";
@@ -310,11 +310,11 @@ let
     meta.broken = (isPhp56 || isPhp73);
   };
 
-  mailparse314 = buildPecl {
+  mailparse316 = buildPecl {
     pname = "mailparse";
-    version = "3.1.4";
+    version = "3.1.6";
 
-    sha256 = "sha256-FHSSGzLH7vglFE4r4ZsenUdQWtQJcpgz/VDCXqzflXc=";
+    sha256 = "sha256-pp8WBVg+q9tZws1MFzNLMmc5ih1H4f1+25LYvvne4Ag=";
 
     meta.broken = !isPhp73;
   };
