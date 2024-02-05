@@ -1,4 +1,4 @@
-{ lib, stdenv, fetchurl, pkg-config, perl, nixosTests
+{ lib, stdenv, fetchurl, darwin, pkg-config, perl, nixosTests
 , brotliSupport ? false, brotli
 , c-aresSupport ? false, c-aresMinimal
 , gnutlsSupport ? false, gnutls
@@ -59,10 +59,6 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-zktqZlVDEUdiSq9YJjKjb+Gt4mLV+rOFxg94lC3Y2Hs=";
   };
 
-  patches = [
-    ./patch/7.79.1-darwin-no-systemconfiguration.patch
-  ];
-
   outputs = [ "bin" "dev" "out" "man" "devdoc" ];
   separateDebugInfo = stdenv.isLinux;
 
@@ -70,6 +66,11 @@ stdenv.mkDerivation (finalAttrs: {
 
   strictDeps = true;
 
+  buildInputs = lib.optionals stdenv.isDarwin (with darwin.apple_sdk.frameworks; [
+    CoreFoundation
+    CoreServices
+    SystemConfiguration
+  ]);
   nativeBuildInputs = [ pkg-config perl ];
 
   # Zlib and OpenSSL must be propagated because `libcurl.la' contains
