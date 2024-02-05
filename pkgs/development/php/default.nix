@@ -1,5 +1,5 @@
 { config, lib, stdenv, fetchFromGitHub
-, autoconf, automake, file, flex, libtool, pkg-config, re2c
+, autoconf, autoconf271, automake, file, flex, libtool, pkg-config, re2c
 , bison2, bison, php-pearweb-phars
 , apacheHttpd, libargon2, systemd, system-sendmail, valgrind
 , freetds, bzip2, curl, openssl
@@ -84,6 +84,7 @@ let
   }:
 
     let
+      autoconf' =  if (versionOlder version "7.0") then autoconf271 else autoconf;
       libmcrypt' = libmcrypt.override { disablePosixThreads = true; };
       pcre' = if (versionAtLeast version "7.3") then pcre2 else pcre;
       icu' = if (versionOlder version "7.0") then icu60 else (if versionAtLeast version "8.0" then icu69 else (if versionAtLeast version "7.3" then icu69 else icu67));
@@ -97,7 +98,7 @@ let
       enableParallelBuilding = true;
 
       nativeBuildInputs = [
-        autoconf automake file flex libtool pkg-config re2c
+        autoconf' automake file flex libtool pkg-config re2c
       ] ++ optional (versionOlder version "7.0") bison2
         ++ optional (versionAtLeast version "7.0") bison;
 
