@@ -60,7 +60,10 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-PM1V2Rr5UWU534BiX4GMc03G8uz5utozx2dl6ZEh2xU=";
   };
 
+  # this could be accomplished by updateAutotoolsGnuConfigScriptsHook, but that causes infinite recursion
+  # necessary for FreeBSD code path in configure
   postPatch = ''
+    substituteInPlace ./config.guess --replace-fail /usr/bin/uname uname
     patchShebangs scripts
   '';
 
