@@ -502,7 +502,7 @@ in {
   };
 
   php82 = generic {
-    version = "8.2.22";
-    sha256 = "sha256-4xYb5VrXfzYr+XKETkjFhX41VL1rgYs3OfkhSRwAf0A=";
+    version = "8.2.23";
+    sha256 = "sha256-QlcXaRA0B4lf54fK9ufZPxLpmFGFqWsowIsrXg0Bkco=";
   };
 }
