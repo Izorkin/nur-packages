@@ -75,9 +75,9 @@ let
 
   ast11 = buildPecl {
     pname = "ast";
-    version = "1.1.1";
+    version = "1.1.2";
 
-    sha256 = "sha256-DFXgmk2kO5zB2nLstK6JKUH3PhV7c9RjJrxqXtf8RLE=";
+    sha256 = "sha256-h0JCf/fAe6k/lAlo9zY5cuoEDZfYR9o7ebQoPCo2neo=";
 
     meta.broken = !isPhp72;
   };
