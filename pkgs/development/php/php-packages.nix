@@ -818,9 +818,9 @@ let
 
   protobuf325 = buildPecl {
     pname = "protobuf";
-    version = "3.25.1";
+    version = "3.25.5";
 
-    sha256 = "sha256-wby9JnHLNQNVv1t/h/B6aBPxFEesYpXMUxYHVqnzhaY=";
+    sha256 = "sha256-XuOPJbr3ifvnHFXey9t+olDq4OX2GRDj6RgHlKo40YU=";
 
     buildInputs = with pkgs; [ (if isPhp73 then pcre2.dev else pcre.dev) ];
 
