@@ -519,7 +519,7 @@ let
     meta.broken = isPhp80;
   };
 
-  pdo_sqlsrv = if !isPhp73 then pdo_sqlsrv58 else pdo_sqlsrv511;
+  pdo_sqlsrv = if !isPhp73 then pdo_sqlsrv58 else (if isPhp81 then pdo_sqlsrv512 else pdo_sqlsrv511);
 
   pdo_sqlsrv58 = buildPecl {
     pname = "pdo_sqlsrv";
@@ -540,7 +540,18 @@ let
 
     buildInputs = with pkgs; [ unixODBC ];
 
-    meta.broken = !isPhp73;
+    meta.broken = (!isPhp73 || isPhp81);
+  };
+
+  pdo_sqlsrv512 = buildPecl {
+    pname = "pdo_sqlsrv";
+    version = "5.12.0";
+
+    sha256 = "sha256-IvDLF7RfDezNC7oHLuAIX/QJTNbuKswm9/kkl172UsY=";
+
+    buildInputs = with pkgs; [ unixODBC ];
+
+    meta.broken = !isPhp81;
   };
 
   php-cs-fixer = mkDerivation rec {
