@@ -67,12 +67,12 @@ stdenv.mkDerivation {
     rm jit-test/tests/sunspider/check-date-format-tofte.js    # https://bugzil.la/600522
   '';
 
-  meta = with lib; {
+  meta = {
     description = "Mozilla's JavaScript engine written in C/C++";
     homepage = "https://developer.mozilla.org/en/SpiderMonkey";
     # TODO: MPL/GPL/LGPL tri-license.
-    maintainers = [ maintainers.goibhniu ];
-    platforms = platforms.linux;
+    maintainers = with lib.maaintainers; [ goibhniu ];
+    platforms = lib.platforms.linux;
     broken = stdenv.isAarch64; # 2018-08-21, broken since 2017-03-08
   };
 }

@@ -83,14 +83,14 @@ self = stdenv.mkDerivation rec {
     mysqlVersion = "5.5";
   };
 
-  meta = with lib; {
+  meta = {
     homepage = "https://www.mysql.com/";
     description = "The world's most popular open source database";
-    platforms = platforms.unix;
+    platforms = lib.platforms.unix;
     # See https://downloads.mysql.com/docs/licenses/mysqld-5.5-gpl-en.pdf
-    license = with licenses; [
+    license = with lib.licenses; [
       artistic1 bsd0 bsd2 bsd3 bsdOriginal
-      gpl2 lgpl2 lgpl21 mit publicDomain  licenses.zlib
+      gpl2 lgpl2 lgpl21 mit publicDomain zlib
     ];
     broken = stdenv.isAarch64;
   };

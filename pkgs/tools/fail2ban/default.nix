@@ -74,10 +74,10 @@ python3.pkgs.buildPythonApplication rec {
       rm -r "${sitePackages}/usr"
     '';
 
-  meta = with lib; {
+  meta = {
     homepage = "https://www.fail2ban.org/";
     description = "A program that scans log files for repeated failing login attempts and bans IP addresses";
-    license = licenses.gpl2Plus;
-    maintainers = with maintainers; [ eelco lovek323 ];
+    license = lib.licenses.gpl2Plus;
+    maintainers = with lib.maintainers; [ eelco lovek323 ];
   };
 }
