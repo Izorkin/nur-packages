@@ -53,7 +53,7 @@ common = rec { # attributes common to both builds
   ]
   # Fixes a build issue as documented on
   # https://jira.mariadb.org/browse/MDEV-26769?focusedCommentId=206073&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-206073
-  ++ lib.optional (!stdenv.isLinux) ./patch/macos-MDEV-26769-regression-fix.patch;
+  ++ lib.optional (!stdenv.hostPlatform.isLinux) ./patch/macos-MDEV-26769-regression-fix.patch;
 
   cmakeFlags = [
     "-DBUILD_CONFIG=mysql_release"

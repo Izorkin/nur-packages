@@ -20,7 +20,7 @@ stdenv.mkDerivation rec {
 
   patches = [
     ./patch/fix_fseterr_c.patch
-  ] ++ lib.optional stdenv.isDarwin ./patch/darwin-vasnprintf.patch;
+  ] ++ lib.optional stdenv.hostPlatform.isDarwin ./patch/darwin-vasnprintf.patch;
 
   doCheck = true;
   # M4 = "${m4}/bin/m4";

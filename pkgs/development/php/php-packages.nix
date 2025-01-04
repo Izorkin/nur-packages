@@ -437,7 +437,7 @@ let
       snappy
       zlib
       pcre.dev
-    ] ++ lib.optional (stdenv.isDarwin) darwin.apple_sdk.frameworks.Security;
+    ] ++ lib.optional (stdenv.hostPlatform.isDarwin) darwin.apple_sdk.frameworks.Security;
 
     meta.broken = !isPhp56;
   };
@@ -456,7 +456,7 @@ let
       snappy
       zlib
       pcre.dev
-    ] ++ lib.optional (stdenv.isDarwin) darwin.apple_sdk.frameworks.Security;
+    ] ++ lib.optional (stdenv.hostPlatform.isDarwin) darwin.apple_sdk.frameworks.Security;
 
     meta.broken = (isPhp56 || isPhp72);
   };
@@ -475,7 +475,7 @@ let
       snappy
       zlib
       (if isPhp73 then pcre2.dev else pcre.dev)
-    ] ++ lib.optional (stdenv.isDarwin) darwin.apple_sdk.frameworks.Security;
+    ] ++ lib.optional (stdenv.hostPlatform.isDarwin) darwin.apple_sdk.frameworks.Security;
 
     meta.broken = (!isPhp72 || isPhp74);
   };
@@ -494,7 +494,7 @@ let
       snappy
       zlib
       (if isPhp73 then pcre2.dev else pcre.dev)
-    ] ++ lib.optional (stdenv.isDarwin) darwin.apple_sdk.frameworks.Security;
+    ] ++ lib.optional (stdenv.hostPlatform.isDarwin) darwin.apple_sdk.frameworks.Security;
 
     meta.broken = !isPhp74;
   };

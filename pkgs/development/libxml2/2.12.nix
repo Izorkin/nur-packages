@@ -34,7 +34,7 @@ stdenv.mkDerivation (finalAttrs: rec {
   propagatedBuildInputs = [
     zlib
     findXMLCatalogs
-  ] ++ lib.optionals stdenv.isDarwin [
+  ] ++ lib.optionals stdenv.hostPlatform.isDarwin [
     libiconv
   ];
 
@@ -51,7 +51,7 @@ stdenv.mkDerivation (finalAttrs: rec {
   doCheck =
     (stdenv.hostPlatform == stdenv.buildPlatform) &&
     stdenv.hostPlatform.libc != "musl";
-  preCheck = lib.optional stdenv.isDarwin ''
+  preCheck = lib.optional stdenv.hostPlatform.isDarwin ''
     export DYLD_LIBRARY_PATH="$PWD/.libs:$DYLD_LIBRARY_PATH"
   '';
 
