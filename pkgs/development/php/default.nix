@@ -20,7 +20,7 @@ let
   , extraPatches ? []
 
   # Sapi flags
-  , apxs2Support ? config.php.apxs2 or (!stdenv.isDarwin)
+  , apxs2Support ? config.php.apxs2 or (!stdenv.hostPlatform.isDarwin)
   , cgiSupport ? config.php.cgi or true
   , cliSupport ? config.php.cli or true
   , embedSupport ? config.php.embed or false
@@ -32,12 +32,12 @@ let
   , cgotoSupport ? config.php.cgoto or false
   , ipv6Support ? config.php.ipv6 or true
   , pearSupport ? (config.php.pear or true) && (libxml2Support)
-  , systemdSupport ? config.php.systemd or stdenv.isLinux
+  , systemdSupport ? config.php.systemd or stdenv.hostPlatform.isLinux
   , valgrindSupport ? (config.php.valgrind or true) && (lib.versionAtLeast version "7.2")
   , ztsSupport ? (config.php.zts or false) || (apxs2Support)
 
   # Extension flags only in 5.6
-  , mssqlSupport ? (config.php.mssql or (!stdenv.isDarwin)) && (!php7)
+  , mssqlSupport ? (config.php.mssql or (!stdenv.hostPlatform.isDarwin)) && (!php7)
 
   # Extension flags in 5.6 and higher
   , bcmathSupport ? config.php.bcmath or true
@@ -51,7 +51,7 @@ let
   , gmpSupport ? config.php.gmp or true
   , mhashSupport ? config.php.mhash or true
   , iconvSupport ? config.php.iconv or true
-  , imapSupport ? config.php.imap or (!stdenv.isDarwin)
+  , imapSupport ? config.php.imap or (!stdenv.hostPlatform.isDarwin)
   , intlSupport ? config.php.intl or true
   , ldapSupport ? config.php.ldap or true
   , libxml2Support ? config.php.libxml2 or true
@@ -117,7 +117,7 @@ let
         ++ lib.optional valgrindSupport valgrind
 
         # Extension flags only in 5.6
-        ++ lib.optional (mssqlSupport && !stdenv.isDarwin) freetds
+        ++ lib.optional (mssqlSupport && !stdenv.hostPlatform.isDarwin) freetds
 
         # Extension flags in 5.6 and higher
         ++ lib.optional bz2Support bzip2
@@ -129,7 +129,7 @@ let
         ++ lib.optionals imapSupport [ uwimap openssl pam ]
         ++ lib.optional intlSupport icu'
         ++ lib.optionals ldapSupport [ openldap openssl ]
-        ++ lib.optional (ldapSupport && stdenv.isLinux) cyrus_sasl
+        ++ lib.optional (ldapSupport && stdenv.hostPlatform.isLinux) cyrus_sasl
         ++ lib.optional libxml2Support libxml2'
         ++ lib.optional mcryptSupport libmcrypt'
         ++ lib.optionals opensslSupport [ openssl openssl.dev ]
@@ -184,7 +184,7 @@ let
       ++ [ "PROG_SENDMAIL=${system-sendmail}/bin/sendmail" ]
 
       # Enable extensions only in 5.6
-      ++ lib.optional (mssqlSupport && !stdenv.isDarwin) "--with-mssql=${freetds}"
+      ++ lib.optional (mssqlSupport && !stdenv.hostPlatform.isDarwin) "--with-mssql=${freetds}"
 
       # Enable Extensions in 5.6 and higher
       ++ lib.optional bcmathSupport "--enable-bcmath"
@@ -215,7 +215,7 @@ let
       ++ lib.optional gettextSupport "--with-gettext=${gettext}"
       ++ lib.optional gmpSupport "--with-gmp=${gmp.dev}"
       ++ lib.optional mhashSupport "--with-mhash"
-      ++ lib.optional (iconvSupport && stdenv.isDarwin) "--with-iconv=${libiconv}"
+      ++ lib.optional (iconvSupport && stdenv.hostPlatform.isDarwin) "--with-iconv=${libiconv}"
       ++ lib.optional (!iconvSupport) "--without-iconv"
       ++ lib.optionals imapSupport [
         "--with-imap=${uwimap}"
@@ -228,7 +228,7 @@ let
         "LDAP_INCDIR=${openldap.dev}/include"
         "LDAP_LIBDIR=${openldap.out}/lib"
       ]
-      ++ lib.optional (ldapSupport && stdenv.isLinux) "--with-ldap-sasl=${cyrus_sasl.dev}"
+      ++ lib.optional (ldapSupport && stdenv.hostPlatform.isLinux) "--with-ldap-sasl=${cyrus_sasl.dev}"
       ++ lib.optional (libxml2Support && (lib.versionOlder version "7.4")) "--with-libxml-dir=${libxml2'.dev}"
       ++ lib.optional (!libxml2Support) [
         "--disable-dom"
@@ -280,7 +280,7 @@ let
       '' + lib.optionalString (lib.versionOlder version "7.4") ''
         # https://bugs.php.net/bug.php?id=79159
         substituteInPlace ./acinclude.m4 --replace "AC_PROG_YACC" "AC_CHECK_PROG(YACC, bison, bison)"
-      '' + lib.optionalString stdenv.isDarwin ''
+      '' + lib.optionalString stdenv.hostPlatform.isDarwin ''
         substituteInPlace ./configure --replace "-lstdc++" "-lc++"
       '';
 
@@ -439,7 +439,7 @@ in {
       ./patch/php71/php7133-81720.patch
     ] 
       # https://bugs.php.net/bug.php?id=76826
-      ++ lib.optional stdenv.isDarwin ./patch/php71-darwin-isfinite.patch;
+      ++ lib.optional stdenv.hostPlatform.isDarwin ./patch/php71-darwin-isfinite.patch;
   };
 
   php72 = generic {
@@ -464,7 +464,7 @@ in {
       ./patch/php72/php7234-81720.patch
     ]
       # https://bugs.php.net/bug.php?id=76826
-      ++ lib.optional stdenv.isDarwin ./patch/php72-darwin-isfinite.patch;
+      ++ lib.optional stdenv.hostPlatform.isDarwin ./patch/php72-darwin-isfinite.patch;
   };
 
   php73 = generic {
@@ -481,7 +481,7 @@ in {
       ./patch/php73/php7331-81720.patch
     ]
       # https://bugs.php.net/bug.php?id=76826
-      ++ lib.optional stdenv.isDarwin ./patch/php73-darwin-isfinite.patch;
+      ++ lib.optional stdenv.hostPlatform.isDarwin ./patch/php73-darwin-isfinite.patch;
   };
 
   php74 = generic {
