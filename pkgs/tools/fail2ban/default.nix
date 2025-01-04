@@ -19,7 +19,7 @@ python3.pkgs.buildPythonApplication rec {
   nativeBuildInputs = [ installShellFiles ];
 
   pythonPath = with python3.pkgs;
-    lib.optionals stdenv.isLinux [
+    lib.optionals stdenv.hostPlatform.isLinux [
       systemd
       pyinotify
 
@@ -69,7 +69,7 @@ python3.pkgs.buildPythonApplication rec {
       rm $out/bin/fail2ban-python
       ln -s ${python3.interpreter} $out/bin/fail2ban-python
 
-    '' + lib.optionalString stdenv.isLinux ''
+    '' + lib.optionalString stdenv.hostPlatform.isLinux ''
       # see https://github.com/NixOS/nixpkgs/issues/4968
       rm -r "${sitePackages}/usr"
     '';
