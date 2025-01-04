@@ -1,4 +1,4 @@
-{ lib, stdenv, fetchurl, fetchpatch, pam, openssl }:
+{ lib, stdenv, fetchurl, fetchpatch, pam, openssl, libkrb5 }:
 
 stdenv.mkDerivation rec {
   pname = "uw-imap";
@@ -18,8 +18,10 @@ stdenv.mkDerivation rec {
 
   hardeningDisable = [ "format" ];
 
-  buildInputs = [ openssl ]
-    ++ lib.optional (!stdenv.hostPlatform.isDarwin) pam;
+  buildInputs = [
+    openssl
+    (if stdenv.isDarwin then libkrb5 else pam)  # Matches the make target.
+  ];
 
   patches = [ (fetchpatch {
     url = "https://salsa.debian.org/holmgren/uw-imap/raw/dcb42981201ea14c2d71c01ebb4a61691b6f68b3/debian/patches/1006_openssl1.1_autoverify.patch";
@@ -47,7 +49,7 @@ stdenv.mkDerivation rec {
     homepage = "https://www.washington.edu/imap/";
     description = "UW IMAP toolkit - IMAP-supporting software developed by the UW";
     license = lib.licenses.asl20;
-    platforms = lib.platforms.linux;
+    platforms = lib.platforms.unix;
   };
 
   passthru = {
