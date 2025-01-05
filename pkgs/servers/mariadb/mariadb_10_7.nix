@@ -2,7 +2,7 @@
 # Native buildInputs components
 , bison, boost, cmake, fixDarwinDylibNames, flex, makeWrapper, pkg-config
 # Common components
-, curl, fmt_8, libiconv, ncurses, openssl, pcre2
+, curl, fmt_9, libiconv, ncurses, openssl, pcre2
 , libaio, libkrb5, systemd
 , CoreServices, cctools, perl
 , jemalloc, less
@@ -29,7 +29,7 @@ common = rec { # attributes common to both builds
   version = "10.7.8";
 
   src = fetchurl {
-    url = "https://downloads.mariadb.com/MariaDB/mariadb-${version}/source/mariadb-${version}.tar.gz";
+    url = "https://archive.mariadb.org//mariadb-${version}/source/mariadb-${version}.tar.gz";
     sha256 = "sha256-+MadkIDYXq+z46hIN7+lZqf1UnqK9vmggUKdTeDeR3g=";
     name   = "mariadb-${version}.tar.gz";
   };
@@ -39,7 +39,7 @@ common = rec { # attributes common to both builds
     ++ lib.optional (!stdenv.hostPlatform.isDarwin) makeWrapper;
 
   buildInputs = [
-    curl fmt_8 libiconv ncurses openssl pcre2 zlib
+    curl fmt_9 libiconv ncurses openssl pcre2 zlib
   ] ++ lib.optionals stdenv.hostPlatform.isLinux [ libaio libkrb5 systemd ]
     ++ lib.optionals stdenv.hostPlatform.isDarwin [ CoreServices cctools perl ]
     ++ lib.optional (!stdenv.hostPlatform.isDarwin) [ jemalloc ];

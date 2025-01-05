@@ -107,6 +107,10 @@ common = rec { # attributes common to both builds
 
   passthru.mysqlVersion = "5.7";
 
+  env.NIX_CFLAGS_COMPILE = toString [
+    "-Wno-error=incompatible-pointer-types"
+  ];
+
   meta = {
     description = "An enhanced, drop-in replacement for MySQL";
     homepage = "https://mariadb.org/";
