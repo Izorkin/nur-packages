@@ -109,9 +109,14 @@ common = rec { # attributes common to both builds
 
   passthru.mysqlVersion = "5.7";
 
-  env.CXXFLAGS = toString (lib.optional stdenv.hostPlatform.isi686 [
-    "-fpermissive"
-  ]);
+  env = {
+    NIX_CFLAGS_COMPILE = toString [
+      "-Wno-error=incompatible-pointer-types"
+    ];
+    CXXFLAGS = toString (lib.optional stdenv.hostPlatform.isi686 [
+      "-fpermissive"
+    ]);
+  };
 
   meta = {
     description = "An enhanced, drop-in replacement for MySQL";
