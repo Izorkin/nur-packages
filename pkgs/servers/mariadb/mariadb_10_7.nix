@@ -110,7 +110,9 @@ common = rec { # attributes common to both builds
 
   passthru.mysqlVersion = "5.7";
 
-  env.CXXFLAGS = toString (lib.optional stdenv.hostPlatform.isi686 [
+  env.CXXFLAGS = toString ([
+    "-include cstdio"
+  ] ++ lib.optional stdenv.hostPlatform.isi686 [
     "-fpermissive"
   ]);
 
