@@ -112,6 +112,8 @@ common = rec { # attributes common to both builds
 
   env.CXXFLAGS = toString ([
     "-include cstdio"
+  ] ++ lib.optional withStorageRocks [
+    "-include cstdint"
   ] ++ lib.optional stdenv.hostPlatform.isi686 [
     "-fpermissive"
   ]);
