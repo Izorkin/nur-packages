@@ -62,10 +62,6 @@ self = stdenv.mkDerivation rec {
     "-DINSTALL_SQLBENCHDIR="
   ];
 
-  NIX_CFLAGS_COMPILE =
-    lib.optionals stdenv.cc.isGNU [ "-fpermissive" ] # since gcc-7
-    ++ lib.optionals stdenv.cc.isClang [ "-Wno-c++11-narrowing" ]; # since clang 6
-
   NIX_LDFLAGS = lib.optionalString stdenv.hostPlatform.isLinux "-lgcc_s";
 
   prePatch = ''
@@ -81,6 +77,14 @@ self = stdenv.mkDerivation rec {
     connector-c = self;
     server = self;
     mysqlVersion = "5.5";
+  };
+
+  env = {
+    NIX_CFLAGS_COMPILE = toString (lib.optional stdenv.cc.isGNU [
+      "-fpermissive"
+    ] ++ lib.optional stdenv.cc.isClang [
+      "-Wno-c++11-narrowing"
+    ]);
   };
 
   meta = {
