@@ -149,8 +149,6 @@ let
         # Extension flags in 7.4 and higher
         ++ lib.optional (lib.versionAtLeast version "7.4") oniguruma;
 
-      CXXFLAGS = lib.optionalString stdenv.cc.isClang "-std=c++11";
-
       configureFlags = [
         "--with-config-file-scan-dir=/etc/php.d"
       ]
@@ -320,6 +318,10 @@ let
       separateDebugInfo = true;
 
       outputs = [ "out" "dev" ];
+
+      env.CXXFLAGS = toString (lib.optional stdenv.cc.isClang [
+        "-std=c++11"
+      ]);
 
       meta = with lib; {
         description = "An HTML-embedded scripting language";

@@ -109,6 +109,10 @@ common = rec { # attributes common to both builds
 
   passthru.mysqlVersion = "5.7";
 
+  env.CXXFLAGS = toString (lib.optional stdenv.hostPlatform.isi686 [
+    "-fpermissive"
+  ]);
+
   meta = {
     description = "An enhanced, drop-in replacement for MySQL";
     homepage = "https://mariadb.org/";
@@ -208,7 +212,5 @@ server = stdenv.mkDerivation (common // {
     mv "$out"/OFF/suite/plugins/pam/mariadb_mtr "$out"/share/pam/etc/security
     rm -r "$out"/OFF
   '';
-
-  CXXFLAGS = lib.optionalString stdenv.hostPlatform.isi686 "-fpermissive";
 });
 in mariadb

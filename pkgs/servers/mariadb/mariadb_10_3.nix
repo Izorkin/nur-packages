@@ -110,6 +110,10 @@ common = rec { # attributes common to both builds
 
   passthru.mysqlVersion = "5.7";
 
+  env.CXXFLAGS = toString (lib.optional stdenv.hostPlatform.isi686 [
+    "-fpermissive"
+  ]);
+
   meta = {
     description = "An enhanced, drop-in replacement for MySQL";
     homepage = "https://mariadb.org/";
@@ -206,7 +210,5 @@ server = stdenv.mkDerivation (common // {
   '' + lib.optionalString withStorageMroonga ''
     mv "$out"/share/{groonga,groonga-normalizer-mysql} "$out"/share/doc/mysql
   '';
-
-  CXXFLAGS = lib.optionalString stdenv.hostPlatform.isi686 "-fpermissive";
 });
 in mariadb
