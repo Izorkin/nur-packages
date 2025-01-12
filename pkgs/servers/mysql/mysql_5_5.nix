@@ -62,8 +62,6 @@ self = stdenv.mkDerivation rec {
     "-DINSTALL_SQLBENCHDIR="
   ];
 
-  NIX_LDFLAGS = lib.optionalString stdenv.hostPlatform.isLinux "-lgcc_s";
-
   prePatch = ''
     sed -i -e "s|/usr/bin/libtool|libtool|" cmake/libutils.cmake
   '';
@@ -84,6 +82,9 @@ self = stdenv.mkDerivation rec {
       "-fpermissive"
     ] ++ lib.optional stdenv.cc.isClang [
       "-Wno-c++11-narrowing"
+    ]);
+    NIX_LDFLAGS = toString (lib.optional stdenv.hostPlatform.isLinux [
+      "-lgcc_s"
     ]);
   };
 
