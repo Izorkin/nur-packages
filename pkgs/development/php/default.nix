@@ -323,7 +323,7 @@ let
         CXXFLAGS = toString (lib.optional stdenv.cc.isClang [
           "-std=c++11"
         ]);
-        NIX_CFLAGS_COMPILE = toString (lib.optionals (lib.versions.majorMinor version <= "7.1") [
+        NIX_CFLAGS_COMPILE = toString (lib.optionals (lib.versions.majorMinor version <= "7.2") [
           "-Wno-error=incompatible-pointer-types"
           "-Wno-error=implicit-function-declaration"
           "-Wno-error=implicit-int"
