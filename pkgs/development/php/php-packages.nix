@@ -1051,6 +1051,10 @@ let
 
     buildInputs = with pkgs; [ spidermonkey_1_8_5 ];
 
+    env.NIX_CFLAGS_COMPILE = toString [
+      "-Wno-error=implicit-function-declaration"
+    ];
+
     meta.broken = !isPhp56;
   };
 
