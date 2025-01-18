@@ -207,6 +207,10 @@ let
       '')
     ];
 
+    env.NIX_CFLAGS_COMPILE = toString [
+      "-Wno-error=incompatible-pointer-types"
+    ];
+
     meta.broken = isPhp74;
   };
 
