@@ -10,7 +10,7 @@ rec {
   libcouchbase_2_10_4 = pkgs.callPackage  ./pkgs/development/libcouchbase/2.10.4.nix { openssl = pkgs.libressl; };
   libssh2             = pkgs.callPackage  ./pkgs/development/libssh2 { openssl = pkgs.libressl; };
   libxml2_2_12        = pkgs.callPackage  ./pkgs/development/libxml2/2.12.nix { };
-  spidermonkey_1_8_5  = pkgs.callPackage  ./pkgs/development/spidermonkey/1.8.5.nix { };
+  spidermonkey_1_8_5  = pkgs.callPackage  ./pkgs/development/spidermonkey/1.8.5.nix { stdenv = pkgs.gcc13Stdenv; };
   mariadb_10_3        = pkgs.callPackage  ./pkgs/servers/mariadb/mariadb_10_3.nix { openssl = pkgs.libressl; inherit curl; inherit (pkgs.darwin) cctools; inherit (pkgs.darwin.apple_sdk.frameworks) CoreServices; jemalloc450 = jemalloc450.override ({ disableInitExecTls = true; }); };
   mariadb_10_4        = pkgs.callPackage  ./pkgs/servers/mariadb/mariadb_10_4.nix { openssl = pkgs.libressl; inherit curl; inherit (pkgs.darwin) cctools; inherit (pkgs.darwin.apple_sdk.frameworks) CoreServices; jemalloc450 = jemalloc450.override ({ disableInitExecTls = true; }); };
   mariadb_10_5        = pkgs.callPackage  ./pkgs/servers/mariadb/mariadb_10_5.nix { openssl = pkgs.libressl; inherit curl; inherit (pkgs.darwin) cctools; inherit (pkgs.darwin.apple_sdk.frameworks) CoreServices; };
