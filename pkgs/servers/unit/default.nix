@@ -10,7 +10,6 @@
 , withPHP80 ? false, php80
 , withPHP81 ? false, php81
 , withPHP82 ? false, php82
-, withPerl536 ? false, perl536
 , withPerl538 ? true, perl538
 , withRuby_3_1 ? true, ruby_3_1
 , withRuby_3_2 ? false, ruby_3_2
@@ -44,7 +43,6 @@ stdenv.mkDerivation rec {
     ++ lib.optional withPHP80 php80
     ++ lib.optional withPHP81 php81
     ++ lib.optional withPHP82 php82
-    ++ lib.optional withPerl536 perl536
     ++ lib.optional withPerl538 perl538
     ++ lib.optional withRuby_3_1 ruby_3_1
     ++ lib.optional withRuby_3_2 ruby_3_2
@@ -71,7 +69,6 @@ stdenv.mkDerivation rec {
     ${lib.optionalString withPHP80 "./configure php --module=php80 --config=${php80.dev}/bin/php-config --lib-path=${php80}/lib"}
     ${lib.optionalString withPHP81 "./configure php --module=php81 --config=${php81.dev}/bin/php-config --lib-path=${php81}/lib"}
     ${lib.optionalString withPHP82 "./configure php --module=php82 --config=${php82.dev}/bin/php-config --lib-path=${php82}/lib"}
-    ${lib.optionalString withPerl536 "./configure perl --module=perl536 --perl=${perl536}/bin/perl"}
     ${lib.optionalString withPerl538 "./configure perl --module=perl538 --perl=${perl538}/bin/perl"}
     ${lib.optionalString withRuby_3_1 "./configure ruby --module=ruby31 --ruby=${ruby_3_1}/bin/ruby"}
     ${lib.optionalString withRuby_3_2 "./configure ruby --module=ruby32 --ruby=${ruby_3_2}/bin/ruby"}
