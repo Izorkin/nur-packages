@@ -301,6 +301,11 @@ let
 
     nativeBuildInputs = with pkgs; [ pkg-config ];
     buildInputs = with pkgs; [ (if isPhp73 then pcre2.dev else pcre.dev) ];
+
+    env.NIX_CFLAGS_COMPILE = toString (lib.optionals isPhp56 [
+      "-Wno-error=incompatible-pointer-types"
+      "-Wno-error=int-conversion"
+    ]);
   };
 
   mailparse = if !isPhp73 then mailparse313 else mailparse316;
