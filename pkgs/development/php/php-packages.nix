@@ -1002,6 +1002,11 @@ let
 
     sha256 = "sha256-Aa7MsOFPiX/lbwUJvm5pkf8K1Fn5006V5FVtAmmbmgM=";
 
+    env.NIX_CFLAGS_COMPILE = toString (lib.optionals (!isPhp72) [
+      "-Wno-error=implicit-function-declaration"
+      "-Wno-error=int-conversion"
+    ]);
+
     meta.broken = isPhp56;
   };
 
