@@ -1107,6 +1107,10 @@ let
 
     buildInputs = with pkgs; [ m4 ];
 
+    env.NIX_CFLAGS_COMPILE = toString [
+      "-Wno-error=incompatible-pointer-types"
+    ];
+
     meta.broken = !isPhp56;
   };
 
