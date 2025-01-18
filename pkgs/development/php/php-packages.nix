@@ -950,6 +950,10 @@ let
 
     buildInputs = with pkgs; [ pcre.dev ];
 
+    env.NIX_CFLAGS_COMPILE = toString (lib.optional (!isPhp72) [
+      "-Wno-error=implicit-int"
+    ]);
+
     meta.broken = (!isPhp71 || isPhp72 || isPhp73);
   };
 
