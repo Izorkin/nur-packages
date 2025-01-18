@@ -319,9 +319,17 @@ let
 
       outputs = [ "out" "dev" ];
 
-      env.CXXFLAGS = toString (lib.optional stdenv.cc.isClang [
-        "-std=c++11"
-      ]);
+      env = {
+        CXXFLAGS = toString (lib.optional stdenv.cc.isClang [
+          "-std=c++11"
+        ]);
+        NIX_CFLAGS_COMPILE = toString (lib.optionals (lib.versions.majorMinor version == "5.6") [
+          "-Wno-error=incompatible-pointer-types"
+          "-Wno-error=implicit-function-declaration"
+          "-Wno-error=implicit-int"
+          "-Wno-error=int-conversion"
+        ]);
+      };
 
       meta = with lib; {
         description = "An HTML-embedded scripting language";
