@@ -768,6 +768,10 @@ let
       sha256 = "0wqcqq6sb51wiawa37hbd1h9dbvmyyndzdvz87xqji7lpr9vn8jy";
     };
 
+    env.NIX_CFLAGS_COMPILE = toString [
+      "-Wno-error=incompatible-pointer-types"
+    ];
+
     meta = {
       description = "PHP extension for Pinba";
       longDescription = ''
