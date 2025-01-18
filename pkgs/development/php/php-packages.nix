@@ -836,6 +836,11 @@ let
 
     buildInputs = with pkgs; [ (if isPhp73 then pcre2.dev else pcre.dev) ];
 
+    env.NIX_CFLAGS_COMPILE = toString [
+      "-Wno-error=incompatible-pointer-types"
+      "-Wno-error=implicit-function-declaration"
+    ];
+
     meta = {
       description = ''
         Google's language-neutral, platform-neutral, extensible mechanism for serializing structured data.
