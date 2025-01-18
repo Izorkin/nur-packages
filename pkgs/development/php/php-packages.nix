@@ -516,6 +516,10 @@ let
 
     sha256 = "097676akx2p6wvc58py2fjc3bv2x760z1g6mv0kh4wx5wr4n9zdx";
 
+    env.NIX_CFLAGS_COMPILE = toString [
+      "-Wno-error=incompatible-pointer-types"
+    ];
+
     meta.broken = isPhp80;
   };
 
