@@ -308,7 +308,7 @@ let
     ]);
   };
 
-  mailparse = if !isPhp73 then mailparse313 else mailparse316;
+  mailparse = if !isPhp73 then mailparse313 else mailparse318;
 
   mailparse313 = buildPecl {
     pname = "mailparse";
@@ -319,11 +319,11 @@ let
     meta.broken = (isPhp56 || isPhp73);
   };
 
-  mailparse316 = buildPecl {
+  mailparse318 = buildPecl {
     pname = "mailparse";
-    version = "3.1.6";
+    version = "3.1.8";
 
-    sha256 = "sha256-pp8WBVg+q9tZws1MFzNLMmc5ih1H4f1+25LYvvne4Ag=";
+    sha256 = "sha256-Wb6rTvhRdwxJW6egcmq0DgmBNUaaEdnI5mWwiclu/C8=";
 
     meta.broken = !isPhp73;
   };
