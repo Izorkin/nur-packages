@@ -793,7 +793,7 @@ let
     };
   };
 
-  protobuf = if isPhp56 then protobuf312 else (if isPhp72 then (if isPhp81 then protobuf427 else protobuf325) else protobuf324);
+  protobuf = if isPhp56 then protobuf312 else (if isPhp72 then (if isPhp81 then protobuf429 else protobuf325) else protobuf324);
 
   protobuf312 = buildPecl {
     pname = "protobuf";
@@ -857,11 +857,11 @@ let
     };
   };
 
-  protobuf427 = buildPecl {
+  protobuf429 = buildPecl {
     pname = "protobuf";
-    version = "4.27.5";
+    version = "4.29.3";
 
-    sha256 = "sha256-oRXikMl3orBDPQewp35L48UW5G2LCkAV2GDJNKlJ7fc=";
+    sha256 = "sha256-VShaMLBeUqlK/LYmEYpPgsM+Gy11v1Br8cvFHFOTfv0=";
 
     buildInputs = with pkgs; [ pcre2.dev ];
 
