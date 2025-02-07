@@ -1119,7 +1119,7 @@ let
     meta.broken = !isPhp56;
   };
 
-  xdebug = if isPhp56 then xdebug25 else (if isPhp80 then xdebug33 else (if isPhp72 then xdebug31 else xdebug29));
+  xdebug = if isPhp56 then xdebug25 else (if isPhp80 then xdebug34 else (if isPhp72 then xdebug31 else xdebug29));
 
   xdebug25 = buildPecl {
     pname = "xdebug";
@@ -1157,11 +1157,11 @@ let
     meta.broken = (!isPhp72 || isPhp80);
   };
 
-  xdebug33 = buildPecl {
+  xdebug34 = buildPecl {
     pname = "xdebug";
-    version = "3.3.2";
+    version = "3.4.1";
 
-    sha256 = "sha256-FVRbgxG+21598I/ZDWZT2b8zYpeR6BGecDUEdd+TLFU=";
+    sha256 = "sha256-TZa83teNvScfs0TBGRcbYlqFl81n/GiZ7F4BlUnxu4c=";
 
     doCheck = true;
     checkTarget = "test";
