@@ -904,11 +904,11 @@ let
 
   psysh = mkDerivation rec {
     pname = "psysh";
-    version = "0.12.4";
+    version = "0.12.7";
 
     src = pkgs.fetchurl {
       url = "https://github.com/bobthecow/psysh/releases/download/v${version}/psysh-v${version}.tar.gz";
-      sha256 = "sha256-eFvd1WUGlNm00FGGmhdTkvn6rDJ2h+6Kga8DBQgwct8=";
+      sha256 = "sha256-qtd8O2njkom4ozCa7atLXuP4v7vRV6K5PUKEViHHLys=";
     };
 
     phases = [ "installPhase" ];
