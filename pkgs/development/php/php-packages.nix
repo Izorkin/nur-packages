@@ -390,7 +390,7 @@ let
     meta.broken = !isPhp80;
   };
 
-  memcached = if isPhp56 then memcached22 else memcached32;
+  memcached = if isPhp56 then memcached22 else memcached33;
 
   memcached22 = buildPecl {
     pname = "memcached";
@@ -409,14 +409,14 @@ let
     meta.broken = !isPhp56;
   };
 
-  memcached32 = buildPecl rec {
+  memcached33 = buildPecl rec {
     pname = "memcached";
-    version = "3.2.0";
+    version = "3.3.0";
 
     src = fetchgit {
       url = "https://github.com/php-memcached-dev/php-memcached";
       rev = "v${version}";
-      sha256 = "sha256-g9IzGSZUxLlOE32o9ZJOa3erb5Qs1ntR8nzS3kRd/EU=";
+      sha256 = "sha256-V4d6bY0m1nuEfjZjt3qio4/HOBcSlD9+XMEl1GPfbhs=";
     };
 
     configureFlags = with pkgs; [
