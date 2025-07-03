@@ -6,7 +6,6 @@ rec {
   overlays            = import ./overlays;
 
   bison2              = pkgs.callPackage  ./pkgs/development/bison2 { };
-  jemalloc450         = pkgs.callPackage  ./pkgs/development/jemalloc/4.5.0.nix { };
   libcouchbase_2_10_4 = pkgs.callPackage  ./pkgs/development/libcouchbase/2.10.4.nix { openssl = pkgs.libressl; };
   libssh2             = pkgs.callPackage  ./pkgs/development/libssh2 { openssl = pkgs.libressl; };
   libxml2_2_12        = pkgs.callPackage  ./pkgs/development/libxml2/2.12.nix { };
