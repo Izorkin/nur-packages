@@ -2,11 +2,11 @@
 
 stdenv.mkDerivation rec {
   pname = "libssh2";
-  version = "1.11.0";
+  version = "1.11.1";
 
   src = fetchurl {
     url = "${meta.homepage}/download/${pname}-${version}.tar.gz";
-    sha256 = "sha256-NzYWHkHiaTMk3rOMJs/cPv5iCdY0ukJY2xzs/2pa1GE=";
+    sha256 = "sha256-2ex2y+NNuY7sNTn+LImdJrDIN8s+tGalaw8QnKv2WPc=";
   };
 
   outputs = [ "out" "dev" "devdoc" ];
