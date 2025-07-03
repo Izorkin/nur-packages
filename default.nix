@@ -13,7 +13,6 @@ rec {
   spidermonkey_1_8_5  = pkgs.callPackage  ./pkgs/development/spidermonkey/1.8.5.nix { stdenv = pkgs.gcc13Stdenv; };
   mariadb_10_5        = pkgs.callPackage  ./pkgs/servers/mariadb/mariadb_10_5.nix { openssl = pkgs.libressl; inherit curl; inherit (pkgs.darwin) cctools; inherit (pkgs.darwin.apple_sdk.frameworks) CoreServices; };
   mariadb_10_6        = pkgs.callPackage  ./pkgs/servers/mariadb/mariadb_10_6.nix { openssl = pkgs.libressl; inherit curl; inherit (pkgs.darwin) cctools; inherit (pkgs.darwin.apple_sdk.frameworks) CoreServices; };
-  mariadb_10_7        = pkgs.callPackage  ./pkgs/servers/mariadb/mariadb_10_7.nix { openssl = pkgs.libressl; inherit curl; inherit (pkgs.darwin) cctools; inherit (pkgs.darwin.apple_sdk.frameworks) CoreServices; };
   mariadb-galera_25   = pkgs.callPackage  ./pkgs/servers/mariadb/galera_25.nix { asio = pkgs.asio_1_10; };
   mariadb-galera_26   = pkgs.callPackage  ./pkgs/servers/mariadb/galera_26.nix { };
   mysql_5_5           = pkgs.callPackage  ./pkgs/servers/mysql/mysql_5_5.nix { openssl = pkgs.libressl; inherit (pkgs.darwin) cctools; inherit (pkgs.darwin.apple_sdk.frameworks) CoreServices; };
