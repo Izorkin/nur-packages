@@ -6,6 +6,7 @@
 python3.pkgs.buildPythonApplication rec {
   pname = "fail2ban";
   version = "1.1.0";
+  format = "setuptools";
 
   src = fetchFromGitHub {
     owner = "fail2ban";
