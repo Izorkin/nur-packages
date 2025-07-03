@@ -16,6 +16,12 @@ stdenv.mkDerivation rec {
   buildInputs = [ zlib ]
     ++ lib.optional stdenv.hostPlatform.isMinGW windows.mingw_w64;
 
+  # this could be accomplished by updateAutotoolsGnuConfigScriptsHook, but that causes infinite recursion
+  # necessary for FreeBSD code path in configure
+  postPatch = ''
+    substituteInPlace ./config.guess --replace-fail /usr/bin/uname uname
+  '';
+
   meta = {
     description = "A client-side C library implementing the SSH2 protocol";
     homepage = "https://www.libssh2.org/";
