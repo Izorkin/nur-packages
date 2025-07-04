@@ -23,6 +23,8 @@ rec {
   fail2ban            = pkgs.callPackage  ./pkgs/tools/fail2ban { };
   uwimap              = pkgs.callPackage  ./pkgs/tools/uwimap { openssl = pkgs.libressl; };
 
+  inherit              (pkgs.callPackages ./pkgs/development/libressl { }) libressl_3_8;
+
   php-pearweb-phars   = pkgs.callPackage  ./pkgs/development/php/pearweb-phars.nix { };
   inherit              (pkgs.callPackages ./pkgs/development/php { openssl = pkgs.libressl; inherit bison2; inherit libxml2_2_12; inherit curl; inherit uwimap; inherit php-pearweb-phars; config.php.ldap = false; config.php.pdo_odbc = false; config.php.pgsql = false; config.php.pdo_pgsql = false; config.php.mssql = false; config.php.zts = true; }) php56 php71 php72 php73 php74 php80 php81 php82;
 
