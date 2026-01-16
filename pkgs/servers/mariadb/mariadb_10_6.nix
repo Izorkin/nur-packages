@@ -85,6 +85,8 @@ common = rec { # attributes common to both builds
     "-DWITH_SAFEMALLOC=OFF"
     "-DWITH_UNIT_TESTS=OFF"
     "-DEMBEDDED_LIBRARY=OFF"
+
+    "-DCMAKE_POLICY_VERSION_MINIMUM=3.5"
   ] ++ lib.optionals stdenv.hostPlatform.isDarwin [
     # On Darwin without sandbox, CMake will find the system java and attempt to build with java support, but
     # then it will fail during the actual build. Let's just disable the flag explicitly until someone decides
