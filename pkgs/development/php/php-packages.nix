@@ -32,6 +32,10 @@ let
 
     buildInputs = with pkgs; [ pcre.dev ];
 
+    env.NIX_CFLAGS_COMPILE = toString [
+      "-std=gnu17"
+    ];
+
     meta.broken = !isPhp56;
   };
 
