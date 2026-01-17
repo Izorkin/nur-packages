@@ -329,10 +329,11 @@ let
           "-Wno-error=implicit-function-declaration"
         ] ++ lib.optional (lib.versions.majorMinor version <= "7.2") [
           "-Wno-error=implicit-int"
+        ] ++ lib.optional (lib.versions.majorMinor version <= "7.1") [
+          "-std=gnu17"
         ] ++ lib.optional ((lib.versions.majorMinor version == "5.6") || (lib.versions.majorMinor version == "7.3")) [
           "-Wno-error=int-conversion"
          ] ++ lib.optional (lib.versions.majorMinor version == "5.6") [
-          "-std=gnu17"
            "-DCMAKE_POLICY_VERSION_MINIMUM=3.5"
         ]);
       };
