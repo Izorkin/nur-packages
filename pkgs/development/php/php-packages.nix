@@ -1231,6 +1231,10 @@ let
 
     buildInputs = with pkgs; [ zeromq ];
 
+    env.NIX_CFLAGS_COMPILE = toString [
+      "-std=gnu17"
+    ];
+
     meta.broken = isPhp73;
   };
 }; in self
