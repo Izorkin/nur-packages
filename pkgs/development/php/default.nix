@@ -325,8 +325,9 @@ let
         ]);
         NIX_CFLAGS_COMPILE = toString (lib.optional (lib.versions.majorMinor version <= "8.1") [
           "-Wno-error=incompatible-pointer-types"
-        ] ++ lib.optional (lib.versions.majorMinor version <= "7.3") [
+        ] ++ lib.optional (lib.versions.majorMinor version <= "7.4") [
           "-std=gnu17"
+        ] ++ lib.optional (lib.versions.majorMinor version <= "7.3") [
           "-Wno-error=implicit-function-declaration"
         ] ++ lib.optional (lib.versions.majorMinor version <= "7.2") [
           "-Wno-error=implicit-int"
